@@ -12,7 +12,8 @@ void usage(char* argv[])
                                          "[-a Length penalization (default:0.01)]\n"
                                          "[-O Optimization band (default:2)]\n"
                                          "[-n Maximum number of threads (default:4)]\n"
-                                         "[-N Neighborhood size (default:2)]" << std::endl;
+                                         "[-N Neighborhood size (default:2)]\n"
+                                         "[-P Pixel mask filepath]" << std::endl;
 }
 
 
@@ -22,7 +23,7 @@ InputData readInput(int argc, char* argv[])
     InputData id;
 
     int opt;
-    while( (opt=getopt(argc,argv,"S:i:r:e:h:a:O:n:N:"))!=-1)
+    while( (opt=getopt(argc,argv,"S:i:r:e:h:a:O:n:N:P:"))!=-1)
     {
         switch(opt)
         {
@@ -73,6 +74,11 @@ InputData readInput(int argc, char* argv[])
                 id.neighborhoodSize = std::atoi(optarg);
                 break;
             }
+            case 'P':
+            {
+                id.pixelMaskFilepath = optarg;
+                break;
+            }
             default:
             {
                 usage(argv);
@@ -103,5 +109,6 @@ void writeInputData(const InputData& id, std::ostream& os)
     << "Iterations:" << id.iterations  << "\n"
     << "Neighborhood size:" << id.neighborhoodSize  << "\n"
     << "Max number of threads:" << id.nThreads  << "\n"
-    << "Output folder:" << id.outputFolder  << "\n";
+    << "Output folder:" << id.outputFolder  << "\n"
+    << "Pixel mask filepath:" << id.pixelMaskFilepath << "\n";
 }

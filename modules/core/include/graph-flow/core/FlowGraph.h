@@ -15,12 +15,13 @@
 #include <graph-flow/utils/digital.h>
 #include <graph-flow/utils/timer.h>
 #include "WeightFunctionInterface.h"
+#include "ArcPenalizationInterface.h"
 
 namespace GraphFlow::Core
 {
     class FlowGraph
     {
-    private:
+    public:
         typedef DGtal::Z2i::DigitalSet DigitalSet;
 
         typedef lemon::ListDigraph ListDigraph;
@@ -29,23 +30,31 @@ namespace GraphFlow::Core
         typedef lemon::Preflow <ListDigraph,ListDigraph::ArcMap<double> > FlowComputer;
 
         typedef std::map<DGtal::Z2i::Point,Node> PointToNode;
+        typedef ListDigraph::NodeMap<DGtal::Z2i::Point> NodeToPoint;
 
     public:
         typedef DGtal::Z2i::Point Point;
-        typedef std::set<Point> PointSet;
-        typedef std::function<double(const DigitalSet& ds,const Point& p,bool sourceTarget)> NodeWeightEvaluation;
 
     private:
+        void addNode(const Point& p);
         void connectNodes(ArcWeightMap& arcWeightMap, const DigitalSet& ds,const DigitalSet& allPoints);
 
     public:
-        FlowGraph(const DigitalSet& ds,int optBand,WeightFunctionInterface* nwe);
+        FlowGraph(const DigitalSet& ds,int optBand,WeightFunctionInterface* nwe, ArcPenalizationInterface* api);
 
 
-    private:
+    public:
         ListDigraph digraph;
+        ArcWeightMap arcWeightMap;
+
+        ListDigraph::Node terminalSource;
+        ListDigraph::Node terminalTarget;
+
         PointToNode ptn;
+        NodeToPoint ntp;
+
         WeightFunctionInterface* nwe;
+        ArcPenalizationInterface* api;
 
     public:
         DigitalSet sourceNodes;

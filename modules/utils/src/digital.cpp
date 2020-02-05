@@ -13,7 +13,14 @@ namespace GraphFlow::Utils::Digital
         else if(shape=="ellipse") return DIPaCUS::Shapes::ellipse(gridStep,0,0,radius,radius/2);
         else if(shape=="wave") return DIPaCUS::Shapes::wave(gridStep,1200,radius*3,radius*6,0.01);
         else if(shape=="bean") return DIPaCUS::Shapes::bean(gridStep,0,0,0.1);
-        else return DIPaCUS::Shapes::triangle(gridStep,0,0,radius);
+        else
+        {
+            cv::Mat img = cv::imread(shape,CV_8UC1);
+            Domain domain( DGtal::Z2i::Point(0,0), DGtal::Z2i::Point(img.cols-1,img.rows-1) );
+            DigitalSet ds(domain);
+            DIPaCUS::Representation::CVMatToDigitalSet(ds,img,1);
+            return ds;
+        }
 
     }
 

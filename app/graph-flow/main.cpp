@@ -10,8 +10,8 @@
 
 #include <graph-flow/core/FlowGraph.h>
 #include <graph-flow/core/Neighborhood/MorphologyNeighborhood.h>
-#include <graph-flow/core/Neighborhood/RandomNeighborhood.h>
 #include <graph-flow/core/WeightFunctionInterface.h>
+#include <graph-flow/core/ArcPenalizationInterface.h>
 
 #include <graph-flow/utils/digital.h>
 #include <graph-flow/utils/display.h>
@@ -69,6 +69,50 @@ public:
     DigitalSet* intersectionSet;
 };
 
+class ArcPenalization:public ArcPenalizationInterface
+{
+public:
+    typedef ArcPenalizationInterface::ArcPenalizationIterator ArcPenalizationIterator;
+
+    ArcPenalization(double radius, const DigitalSet& ds, const DigitalSet& pixelMask)
+    {
+        using namespace DGtal::Z2i;
+        double maxPenal = pow( M_PI*pow(radius,2),2)*1000;
+
+        Point neighborhood[4] = {Point(0,1),Point(1,0),Point(-1,0),Point(0,-1)};
+        Curve curve;
+        DIPaCUS::Misc::computeBoundaryCurve(curve,ds);
+
+        const Domain& domain = ds.domain();
+        KSpace kspace;
+        kspace.init(domain.lowerBound(),domain.upperBound(),true);
+        for(auto c:curve)
+        {
+            auto pixels = kspace.sUpperIncident(c);
+            Point pOut,pInn;
+            for(auto _p:pixels)
+            {
+                Point originalCoords = kspace.sCoords(_p);
+                if(ds(originalCoords)) pInn=originalCoords;
+                else pOut = originalCoords;
+            }
+
+            if(pixelMask(pInn))
+            {
+                arcPenVector.push_back( ArcPenalizationElement( ArcPenalizationElement::FromSource, pInn,pInn,maxPenal) );
+                arcPenVector.push_back( ArcPenalizationElement( ArcPenalizationElement::ToTarget, pOut,pOut,maxPenal) );
+            }
+
+        }
+    }
+
+    ArcPenalizationIterator begin(){ return arcPenVector.begin(); }
+    ArcPenalizationIterator end(){ return arcPenVector.end(); }
+
+private:
+    std::vector<ArcPenalizationElement> arcPenVector;
+};
+
 struct EnergyIteration
 {
     EnergyIteration(int iteration, double value) : iteration(iteration), value(value) {}
@@ -97,6 +141,16 @@ double evaluateEnergy(InputData& id, const DigitalSet& ds)
     else throw std::runtime_error("Unrecognized energy!");
 }
 
+DigitalSet getPixelMask(const std::string& pixelMaskFilepath, const Domain& domain, const Point& shift)
+{
+    DigitalSet _dsOutput(domain);
+    DIPaCUS::Representation::imageAsDigitalSet(_dsOutput,pixelMaskFilepath,1);
+
+    DigitalSet dsOutput(domain);
+    for(auto p:_dsOutput) dsOutput.insert(p+shift);
+    return dsOutput;
+}
+
 int main(int argc, char* argv[])
 {
     InputData id = readInput(argc,argv);
@@ -104,9 +158,17 @@ int main(int argc, char* argv[])
     boost::filesystem::create_directories(id.outputFolder);
 
     DigitalSet _ds = Digital::resolveShape(id.shapeName,id.h);
-    DigitalSet ds = DIPaCUS::Transform::bottomLeftBoundingBoxAtOrigin(_ds,Point(20/id.h,20/id.h));
+    Point lb,ub;
+    _ds.computeBoundingBox(lb,ub);
+    Point border(20/id.h,20/id.h);
+
+    DigitalSet ds = DIPaCUS::Transform::bottomLeftBoundingBoxAtOrigin(_ds,border);
+    Point shift = -lb+border;
 
     Neighborhood::Morphology morphologyNeighborhood(Neighborhood::Morphology::MorphologyElement::CIRCLE, id.neighborhoodSize);
+
+    DigitalSet pixelMask = getPixelMask(id.pixelMaskFilepath,ds.domain(),shift);
+    ArcPenalization api(id.radius,ds,pixelMask);
 
     std::vector<EnergyIteration> eiVector;
     Timer T;
@@ -131,7 +193,7 @@ int main(int argc, char* argv[])
         typedef magLac::Core::MultiThread::ThreadControl ThreadControl;
 
 
-        MyThreadTrigger::CallbackFunction cbf = [&id,&ds,&morphologyNeighborhood](MyResolver& resolver,MyThreadInput& ti, ThreadControl& tc) mutable
+        MyThreadTrigger::CallbackFunction cbf = [&id,&ds,&morphologyNeighborhood,&api](MyResolver& resolver,MyThreadInput& ti, ThreadControl& tc) mutable
         {
             Neighborhood::Morphology::VectorOfCandidates c1(1);
             resolver >> c1;
@@ -143,7 +205,7 @@ int main(int argc, char* argv[])
             morphologyNeighborhood.evaluateCandidate(candidateDS,candidate,ds);
 
             WeightFunction nwe(id.radius,candidateDS);
-            fg = new FlowGraph(candidateDS,id.optBand,&nwe);
+            fg = new FlowGraph(candidateDS,id.optBand,&nwe,&api);
 
 
             double energyValue = evaluateEnergy(id,fg->sourceNodes);

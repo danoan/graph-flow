@@ -23,6 +23,7 @@ struct InputData
         neighborhoodSize=2;
 
         outputFolder="";
+        pixelMaskFilepath="";
     }
 
     std::string shapeName;
@@ -39,6 +40,7 @@ struct InputData
     int neighborhoodSize;
 
     std::string outputFolder;
+    std::string pixelMaskFilepath;
 };
 
 #endif //GRAPH_FLOW_APP_INPUTDATA_H
