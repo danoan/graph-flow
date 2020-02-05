@@ -1,0 +1,9 @@
+.idea
+cmake-build-debug
+cmake-build-release
+output
+data
+__pycache__
+source
+temp-out
+ext-projects
