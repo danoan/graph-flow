@@ -9,7 +9,8 @@ add_library(graph-flow-utils ${LIBRARY_ACTION}
         src/timer.cpp
         src/digital.cpp
         src/energy.cpp
-        src/display.cpp)
+        src/display.cpp
+        src/string.cpp)
 
 if(${USE_REMOTE_REPOSITORIES})
     add_dependencies(graph-flow-utils dipacus geoc)

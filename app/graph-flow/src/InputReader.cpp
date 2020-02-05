@@ -1,3 +1,4 @@
+#include <cstring>
 #include "InputReader.h"
 
 void usage(char* argv[])
@@ -6,6 +7,7 @@ void usage(char* argv[])
                                          "[-S Shape name(triangle, square, pentagon, heptagon, ball, ellipse, flower, bean, wave. default: square)]\n"
                                          "[-i Number of iterations (default: 10)]\n"
                                          "[-r Estimation ball radius (default: 5)]\n"
+                                         "[-e Energy (elastica, selastica. default: elastica)]\n"
                                          "[-h Grid step (default:0.25)]\n"
                                          "[-a Length penalization (default:0.01)]\n"
                                          "[-O Optimization band (default:2)]\n"
@@ -20,7 +22,7 @@ InputData readInput(int argc, char* argv[])
     InputData id;
 
     int opt;
-    while( (opt=getopt(argc,argv,"S:i:r:h:a:O:n:N:"))!=-1)
+    while( (opt=getopt(argc,argv,"S:i:r:e:h:a:O:n:N:"))!=-1)
     {
         switch(opt)
         {
@@ -37,6 +39,13 @@ InputData readInput(int argc, char* argv[])
             case 'r':
             {
                 id.radius= std::atof(optarg);
+                break;
+            }
+            case 'e':
+            {
+                if(strcmp(optarg,"elastica")==0) id.energy=InputData::EnergyType::Elastica;
+                else if(strcmp(optarg,"selastica")==0) id.energy=InputData::EnergyType::SElastica;
+                else throw std::runtime_error("Unrecognized energy!");
                 break;
             }
             case 'h':
@@ -74,4 +83,25 @@ InputData readInput(int argc, char* argv[])
 
     id.outputFolder = argv[optind++];
     return id;
+}
+
+std::string resolveEnergyName(InputData::EnergyType et)
+{
+    if(et==InputData::EnergyType::Elastica) return "elastica";
+    else if(et==InputData::EnergyType::SElastica) return "selastica";
+    else return "unknown";
+}
+
+void writeInputData(const InputData& id, std::ostream& os)
+{
+    os << "Shape name:" << id.shapeName << "\n"
+    << "Ball radius:" << id.radius << "\n"
+    << "Grid step:" << id.h  << "\n"
+    << "Opt band:" << id.optBand  << "\n"
+    << "Energy:" << resolveEnergyName(id.energy) << "\n"
+    << "Length penalization:" << id.alpha  << "\n"
+    << "Iterations:" << id.iterations  << "\n"
+    << "Neighborhood size:" << id.neighborhoodSize  << "\n"
+    << "Max number of threads:" << id.nThreads  << "\n"
+    << "Output folder:" << id.outputFolder  << "\n";
 }

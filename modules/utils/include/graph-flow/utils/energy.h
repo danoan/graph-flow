@@ -16,8 +16,8 @@ namespace GraphFlow::Utils::Energy
     typedef DGtal::Z2i::Point Point;
     typedef std::set<Point> PointSet;
 
-    double elastica(const Domain& domain, const PointSet& ps,double ballRadius,double h,double alpha);
     double elastica(const DigitalSet& ds,double ballRadius,double h,double alpha);
+    double sElastica(const DigitalSet& ds,double ballRadius,double h,double alpha);
 }
 
 #endif //GRAPH_FLOW_UTILS_ENERGY_H

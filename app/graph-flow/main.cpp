@@ -17,6 +17,7 @@
 #include <graph-flow/utils/display.h>
 #include <graph-flow/utils/timer.h>
 #include <graph-flow/utils/energy.h>
+#include <graph-flow/utils/string.h>
 
 #include "InputData.h"
 #include "InputReader.h"
@@ -68,6 +69,34 @@ public:
     DigitalSet* intersectionSet;
 };
 
+struct EnergyIteration
+{
+    EnergyIteration(int iteration, double value) : iteration(iteration), value(value) {}
+
+    int iteration;
+    double value;
+};
+
+void writeEnergyData(std::vector<EnergyIteration>& eiVector,std::ofstream& ofs)
+{
+    int colLength=20;
+    ofs << String::fixedStrLength(colLength,"#Iteration")
+    << String::fixedStrLength(colLength,"Energy value") << "\n";
+
+    for(auto ei:eiVector)
+    {
+        ofs << String::fixedStrLength(colLength,ei.iteration)
+        << String::fixedStrLength(colLength,ei.value) << "\n";
+    }
+}
+
+double evaluateEnergy(InputData& id, const DigitalSet& ds)
+{
+    if(id.energy==InputData::EnergyType::Elastica) return Energy::elastica(ds,id.radius,id.h,id.alpha);
+    else if(id.energy==InputData::EnergyType::SElastica) return Energy::sElastica(ds,id.radius,id.h,id.alpha);
+    else throw std::runtime_error("Unrecognized energy!");
+}
+
 int main(int argc, char* argv[])
 {
     InputData id = readInput(argc,argv);
@@ -75,14 +104,22 @@ int main(int argc, char* argv[])
     boost::filesystem::create_directories(id.outputFolder);
 
     DigitalSet _ds = Digital::resolveShape(id.shapeName,id.h);
-    DigitalSet ds = DIPaCUS::Transform::bottomLeftBoundingBoxAtOrigin(_ds,Point(20,20));
+    DigitalSet ds = DIPaCUS::Transform::bottomLeftBoundingBoxAtOrigin(_ds,Point(20/id.h,20/id.h));
 
     Neighborhood::Morphology morphologyNeighborhood(Neighborhood::Morphology::MorphologyElement::CIRCLE, id.neighborhoodSize);
 
+    std::vector<EnergyIteration> eiVector;
     Timer T;
     T.start();
-    for(int i=0;i<id.iterations;++i)
+    double lastEnergyValue= evaluateEnergy(id,ds);
+    int i=0;
+    while(true)
     {
+        Display::saveDigitalSetAsImage(ds,id.outputFolder+"/" + String::nDigitsString(i,4) + ".pgm");
+        eiVector.push_back( EnergyIteration(i,lastEnergyValue ) );
+
+        if(i==id.iterations) break;
+
         auto range = magLac::Core::addRange(morphologyNeighborhood.begin(),morphologyNeighborhood.end(),1);
         auto src = magLac::Core::Single::createCombinator(range);
 
@@ -109,7 +146,7 @@ int main(int argc, char* argv[])
             fg = new FlowGraph(candidateDS,id.optBand,&nwe);
 
 
-            double energyValue = Energy::elastica(fg->sourceNodes,id.radius,id.h,id.alpha);
+            double energyValue = evaluateEnergy(id,fg->sourceNodes);
             ti.vars.epVector.push_back(std::make_pair( fg,energyValue));
 
         };
@@ -130,8 +167,6 @@ int main(int argc, char* argv[])
         std::sort(evaluationPairs.begin(),evaluationPairs.end(),[](const UserVars::EvaluationPair& ep1, const UserVars::EvaluationPair&  ep2){ return ep1.second < ep2.second;});
 
         const DigitalSet& bestDS = evaluationPairs[0].first->sourceNodes;
-        Display::saveDigitalSetAsImage(bestDS,id.outputFolder+"/" + std::to_string(i) + ".pgm");
-
         ds.clear();
         ds.insert(bestDS.begin(),bestDS.end());
 
@@ -141,11 +176,25 @@ int main(int argc, char* argv[])
         }
 
 
+        if(id.iterations==-1)
+            if( evaluationPairs[0].second > lastEnergyValue ) break;
+
+        if( fabs(evaluationPairs[0].second-lastEnergyValue) < 1e-6 ) break;
+        lastEnergyValue=evaluationPairs[0].second;
+        ++i;
+
     }
 
-    Display::saveDigitalSetAsImage(ds,id.outputFolder+"/final.pgm");
 
+    std::ofstream ofsInputData(id.outputFolder + "/inputData.txt");
+    writeInputData(id,ofsInputData);
+    ofsInputData.flush(); ofsInputData.close();
 
-    T.end(std::cout);
+    std::ofstream ofsEnergy(id.outputFolder + "/energy.txt");
+    writeEnergyData(eiVector,ofsEnergy);
+    ofsEnergy << "#Execution time: ";
+    T.end(ofsEnergy);
+    ofsEnergy.flush(); ofsEnergy.close();
+
     return 0;
 }

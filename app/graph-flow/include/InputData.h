@@ -5,6 +5,8 @@
 
 struct InputData
 {
+    enum EnergyType{Elastica,SElastica};
+
     InputData()
     {
         shapeName="square";
@@ -14,6 +16,8 @@ struct InputData
         h=0.25;
         alpha=0.01;
         optBand=2;
+
+        energy=Elastica;
 
         nThreads=4;
         neighborhoodSize=2;
@@ -28,6 +32,8 @@ struct InputData
     double h;
     double alpha;
     int optBand;
+
+    EnergyType  energy;
 
     int nThreads;
     int neighborhoodSize;
