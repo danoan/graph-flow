@@ -1,5 +1,5 @@
 #include <cstring>
-#include "InputReader.h"
+#include "input/InputReader.h"
 
 void usage(char* argv[])
 {
@@ -12,7 +12,7 @@ void usage(char* argv[])
                                          "[-a Length penalization (default:0.01)]\n"
                                          "[-O Optimization band (default:2)]\n"
                                          "[-n Maximum number of threads (default:4)]\n"
-                                         "[-N Neighborhood size (default:2)]\n"
+                                         "[-N neighborhood size (default:2)]\n"
                                          "[-P Pixel mask filepath]" << std::endl;
 }
 
@@ -107,7 +107,7 @@ void writeInputData(const InputData& id, std::ostream& os)
     << "Energy:" << resolveEnergyName(id.energy) << "\n"
     << "Length penalization:" << id.alpha  << "\n"
     << "Iterations:" << id.iterations  << "\n"
-    << "Neighborhood size:" << id.neighborhoodSize  << "\n"
+    << "neighborhood size:" << id.neighborhoodSize  << "\n"
     << "Max number of threads:" << id.nThreads  << "\n"
     << "Output folder:" << id.outputFolder  << "\n"
     << "Pixel mask filepath:" << id.pixelMaskFilepath << "\n";

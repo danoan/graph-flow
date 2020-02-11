@@ -14,8 +14,10 @@
 
 #include <graph-flow/utils/digital.h>
 #include <graph-flow/utils/timer.h>
-#include "WeightFunctionInterface.h"
-#include "ArcPenalizationInterface.h"
+
+#include "EdgeWeight.h"
+#include "HardConstraint.h"
+#include "TerminalWeight.h"
 
 namespace GraphFlow::Core
 {
@@ -23,6 +25,7 @@ namespace GraphFlow::Core
     {
     public:
         typedef DGtal::Z2i::DigitalSet DigitalSet;
+        typedef DGtal::Z2i::Point Point;
 
         typedef lemon::ListDigraph ListDigraph;
         typedef ListDigraph::Node Node;
@@ -32,15 +35,16 @@ namespace GraphFlow::Core
         typedef std::map<DGtal::Z2i::Point,Node> PointToNode;
         typedef ListDigraph::NodeMap<DGtal::Z2i::Point> NodeToPoint;
 
-    public:
-        typedef DGtal::Z2i::Point Point;
+        typedef std::vector<TerminalWeight*> TerminalWeightVector;
+        typedef std::vector<HardConstraint*> HardConstraintVector;
+        typedef std::vector<EdgeWeight*> EdgeWeightVector;
+
 
     private:
         void addNode(const Point& p);
-        void connectNodes(ArcWeightMap& arcWeightMap, const DigitalSet& ds,const DigitalSet& allPoints);
 
     public:
-        FlowGraph(const DigitalSet& ds,int optBand,WeightFunctionInterface* nwe, ArcPenalizationInterface* api);
+        FlowGraph(const DigitalSet& vertexSet,TerminalWeightVector twv, EdgeWeightVector ewv, HardConstraintVector hcv);
 
 
     public:
@@ -53,8 +57,9 @@ namespace GraphFlow::Core
         PointToNode ptn;
         NodeToPoint ntp;
 
-        WeightFunctionInterface* nwe;
-        ArcPenalizationInterface* api;
+        TerminalWeightVector twv;
+        EdgeWeightVector ewv;
+        HardConstraintVector hcv;
 
     public:
         DigitalSet sourceNodes;

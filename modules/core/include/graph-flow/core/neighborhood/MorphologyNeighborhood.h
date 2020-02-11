@@ -39,7 +39,7 @@ namespace GraphFlow::Core::Neighborhood
             }
         }
 
-        DigitalSet evaluateCandidate(const Candidate& candidate, const DigitalSet& dsInput)
+        DigitalSet evaluateCandidate(const Candidate& candidate, const DigitalSet& dsInput) const
         {
             DigitalSet dsOutput(dsInput.domain());
             evaluateCandidate(dsOutput,candidate,dsInput);
@@ -47,7 +47,7 @@ namespace GraphFlow::Core::Neighborhood
             return dsOutput;
         }
 
-        void evaluateCandidate(DigitalSet& dsOutput, const Candidate& candidate, const DigitalSet& dsInput)
+        void evaluateCandidate(DigitalSet& dsOutput, const Candidate& candidate, const DigitalSet& dsInput) const
         {
             using namespace DIPaCUS::Morphology;
             if(candidate.operationType==Candidate::OperationType::Erosion)
@@ -58,8 +58,8 @@ namespace GraphFlow::Core::Neighborhood
                 dsOutput = dsInput;
         }
 
-        CandidatesIterator begin(){return candidates.begin();}
-        CandidatesIterator end(){return candidates.end();}
+        CandidatesIterator begin() const {return candidates.begin();}
+        CandidatesIterator end() const {return candidates.end();}
 
 
     private:
