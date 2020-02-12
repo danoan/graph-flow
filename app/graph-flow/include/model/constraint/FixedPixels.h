@@ -49,6 +49,7 @@ public:
 
     HardConstraintIterator begin(){ return arcPenVector.begin(); }
     HardConstraintIterator end(){ return arcPenVector.end(); }
+    bool normalize() const{ return false;};
 
 private:
     std::vector<HardConstraintElement> arcPenVector;

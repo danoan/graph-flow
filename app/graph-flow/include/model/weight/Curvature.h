@@ -49,6 +49,9 @@ public:
         return (pm[p1]+pm[p2])/2.0;
     }
 
+    double weight() const { return 1.0; }
+    bool normalize() const {return false;}
+
 private:
     PointMap pm;
     double radius;

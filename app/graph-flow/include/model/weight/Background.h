@@ -24,7 +24,10 @@ public:
         else return 0;
     }
 
-    TerminalType type(){ return TerminalType::Target; }
+    double weight() const { return 1.0; }
+    bool normalize() const {return false;}
+
+    TerminalType type() const{ return TerminalType::Target; }
 
 private:
     DigitalSet connectedToTarget;

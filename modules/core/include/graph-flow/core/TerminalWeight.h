@@ -12,7 +12,9 @@ namespace GraphFlow::Core
         enum TerminalType{Source,Target};
 
         virtual double operator()(const Point& p)=0;
-        virtual TerminalType type()=0;
+        virtual double weight() const=0;
+        virtual TerminalType type() const=0;
+        virtual bool normalize() const=0;
     };
 }
 

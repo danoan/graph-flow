@@ -17,21 +17,27 @@ namespace GraphFlow::Core
         terminalTarget = digraph.addNode();
         for(auto p:vertexSet) addNode(p);
 
+        setMax(vertexSet);
 
         for(auto p:vertexSet)
         {
-            for(auto tw:twv)
+            for(int i=0;i<twv.size();++i)
             {
+                auto& tw = twv[i];
+                double factor;
+                if(tw->normalize()) factor=1.0/this->twvMax[i];
+                else factor = 1.0;
+
                 if(tw->type()==TerminalWeight::TerminalType::Source)
                 {
                     ListDigraph::Arc a = digraph.addArc( terminalSource,ptn[p] );
-                    double v = (*tw)(p);
+                    double v = factor*tw->weight()*(*tw)(p);
                     arcWeightMap[a] = v;
                 }
                 else
                 {
                     ListDigraph::Arc a = digraph.addArc( ptn[p],terminalTarget );
-                    double v = (*tw)(p);
+                    double v = factor*tw->weight()*(*tw)(p);
                     arcWeightMap[a] = v;
                 }
             }
@@ -46,7 +52,14 @@ namespace GraphFlow::Core
                 if( vertexSet(np) )
                 {
                     ListDigraph::Arc a = digraph.addArc( ptn[p],ptn[np] );
-                    for(auto ew:ewv) arcWeightMap[a] = (*ew)(p,np);
+                    for(int i=0;i<ewv.size();++i)
+                    {
+                        auto& ew = ewv[i];
+                        double factor;
+                        if(ew->normalize()) factor=1.0/this->ewvMax[i];
+                        else factor=1.0;
+                        arcWeightMap[a] = factor*ew->weight()*(*ew)(p,np);
+                    }
                 }
             }
         }
@@ -99,5 +112,48 @@ namespace GraphFlow::Core
         ptn[p] = digraph.addNode();
         ntp[ ptn[p] ] = p;
     }
+
+    void FlowGraph::setMax(const DigitalSet& vertexSet)
+    {
+        twvMax.resize(this->twv.size());
+
+        int i=0;
+        for(auto tw:twv)
+        {
+            double maxTerminalType= (*twv.begin())->operator()(*vertexSet.begin());
+
+            for(auto p:vertexSet)
+            {
+                maxTerminalType = (*tw)(p)>maxTerminalType?(*tw)(p):maxTerminalType;
+            }
+            maxTerminalType=maxTerminalType==0?1:maxTerminalType;
+
+            twvMax[i++] = maxTerminalType;
+        }
+
+        ewvMax.resize(this->ewv.size());
+        Point neighbors[4]={Point(0,1),Point(1,0),Point(-1,0),Point(0,-1)};
+        i=0;
+        for(auto ew:ewv)
+        {
+            double maxEdgeType=0;
+            for(auto p:vertexSet)
+            {
+                for(auto n:neighbors)
+                {
+                    Point np = p+n;
+                    if( vertexSet(np) )
+                    {
+                         maxEdgeType = (*ew)(p,np)>maxEdgeType?(*ew)(p,np):maxEdgeType;
+                    }
+                }
+            }
+            maxEdgeType=maxEdgeType==0?1:maxEdgeType;
+            ewvMax[i++]=maxEdgeType;
+        }
+
+
+    }
+
 
 }

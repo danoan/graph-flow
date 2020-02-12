@@ -10,6 +10,7 @@ namespace GraphFlow::Core
     public:
         typedef std::vector<HardConstraintElement>::const_iterator HardConstraintIterator;
 
+        virtual bool normalize() const=0;
         virtual HardConstraintIterator begin()=0;
         virtual HardConstraintIterator end()=0;
     };

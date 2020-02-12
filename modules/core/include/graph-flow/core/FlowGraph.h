@@ -42,6 +42,7 @@ namespace GraphFlow::Core
 
     private:
         void addNode(const Point& p);
+        void setMax(const DigitalSet& vertexSet);
 
     public:
         FlowGraph(const DigitalSet& vertexSet,TerminalWeightVector twv, EdgeWeightVector ewv, HardConstraintVector hcv);
@@ -64,6 +65,9 @@ namespace GraphFlow::Core
     public:
         DigitalSet sourceNodes;
         double cutValue;
+
+        std::vector<double> twvMax;
+        std::vector<double> ewvMax;
     };
 }
 

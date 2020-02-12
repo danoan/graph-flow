@@ -10,6 +10,8 @@ namespace GraphFlow::Core
     public:
         typedef DGtal::Z2i::Point Point;
         virtual double operator()(const Point& p1, const Point& p2)=0;
+        virtual double weight() const=0;
+        virtual bool normalize() const=0;
     };
 }
 
