@@ -26,7 +26,7 @@ private:
 
 public:
 
-    Curvature(double radius, const DigitalSet& ds):radius(radius)
+    Curvature(double radius, double gridStep, const DigitalSet& ds):radius(radius),gridStep(gridStep)
     {
         DBI = new DigitalBallIntersection(radius,ds);
         intersectionSet = new DigitalSet(DBI->domain());
@@ -41,10 +41,10 @@ public:
     double operator()(const Point& p1, const Point& p2)
     {
         if(pm.find(p1)==pm.end())
-            pm[p1] = computeAreaDifference(p1);
+            pm[p1] = computeAreaDifference(p1)*pow(gridStep,2);
 
         if(pm.find(p2)==pm.end())
-            pm[p2] = computeAreaDifference(p2);
+            pm[p2] = computeAreaDifference(p2)*pow(gridStep,2);
 
         return (pm[p1]+pm[p2])/2.0;
     }
@@ -55,6 +55,7 @@ public:
 private:
     PointMap pm;
     double radius;
+    double gridStep;
     DigitalBallIntersection* DBI;
     DigitalSet* intersectionSet;
 };

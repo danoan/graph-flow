@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
 
     IterationCallback iterationCallback=[&id,&ofsEnergy](const GraphSegIteration& gfIteration)->void
     {
-//        Display::saveDigitalSetAsImage(gfIteration.ds,id.outputFolder+"/" + String::nDigitsString(gfIteration.iteration,4) + ".pgm");
+        Display::saveDigitalSetAsImage(gfIteration.ds,id.outputFolder+"/" + String::nDigitsString(gfIteration.iteration,4) + ".pgm");
         writeEnergyData(gfIteration,ofsEnergy);
     };
 
@@ -83,3 +83,4 @@ int main(int argc, char* argv[])
 
     return 0;
 }
+//output/radius_3/elastica/opt_band_3/neigh_size_3/len_pen_0.00100/data_term_1.00000/gs_1.00000

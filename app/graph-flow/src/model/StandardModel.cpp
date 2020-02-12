@@ -32,7 +32,7 @@ namespace StandardModel
     EdgeWeightVector prepareEdgeWeightVector(const InputData& id, const DigitalSet& ds)
     {
         EdgeWeightVector ewv(1);
-        ewv[0] = new Curvature(id.radius,ds);
+        ewv[0] = new Curvature(id.radius,id.h,ds);
 
         return ewv;
     }
