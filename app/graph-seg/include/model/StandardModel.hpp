@@ -1,0 +1,60 @@
+#include "StandardModel.h"
+
+namespace StandardModel
+{
+    template<class TNeighborhoodExplorer>
+    typename TNeighborhoodExplorer::VisitNeighborFunction visitNeighbor(TNeighborhoodExplorer& neighExplorer)
+    {
+        typedef TNeighborhoodExplorer NE;
+        typedef typename NE::MyResolver MyResolver;
+        typedef typename NE::MyThreadInput MyThreadInput;
+        typedef typename NE::ThreadControl ThreadControl;
+        typedef typename NE::Context MyContext;
+
+        return
+        [](const MyContext& context, MyResolver& resolver, MyThreadInput & ti, ThreadControl& tc)
+        {
+            MorphologyNeighborhood::VectorOfCandidates c1(1);
+            resolver >> c1;
+
+            const MorphologyNeighborhood::Candidate& candidate = c1[0];
+
+
+            DigitalSet candidateDS(context.ds.domain());
+            context.neighborhood.evaluateCandidate(candidateDS,candidate,context.ds);
+
+            Point lb,ub;
+            candidateDS.computeBoundingBox(lb,ub);
+            Point optBandBorder(context.gfi.inputData.optBand+1,context.gfi.inputData.optBand+1);
+            Domain reducedDomain(lb-2*optBandBorder,ub+2*optBandBorder);
+
+            auto dtInterior = GraphFlow::Utils::Digital::interiorDistanceTransform(reducedDomain,candidateDS);
+            auto dtExterior = GraphFlow::Utils::Digital::exteriorDistanceTransform(reducedDomain,candidateDS);
+
+            auto ewv = prepareEdgeWeightVector(context.gfi.inputData,candidateDS);
+
+            DigitalSet vertexSet = GraphFlow::Utils::Digital::level(dtInterior,context.gfi.inputData.optBand,0);
+            vertexSet += GraphFlow::Utils::Digital::level(dtExterior,context.gfi.inputData.optBand,0);
+
+            FlowGraph fg(vertexSet,context.twv,ewv,context.hcv);
+            DigitalSet* solutionSet = new DigitalSet(candidateDS.domain());
+            DIPaCUS::SetOperations::setDifference(*solutionSet,candidateDS,vertexSet);
+
+            for(auto p:fg.sourceNodes)
+            {
+                if(context.ds.domain().isInside(p)) solutionSet->insert(p);
+            }
+
+            double elasticaValue = evaluateEnergy(context.gfi.inputData,*solutionSet);
+            double dataFidelityValue= evaluateData(context.gfi.inputData,*solutionSet,context.gfi.dataDistribution);
+
+            double energyValue = dataFidelityValue + elasticaValue;
+
+
+
+            ti.vars.epVector.push_back(std::make_pair( solutionSet,energyValue));
+
+            for(auto ew:ewv) delete ew;
+        };
+    }
+}
