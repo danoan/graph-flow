@@ -1,7 +1,7 @@
 #include "graph-seg.h"
 
 
-void graphSeg(const GraphSegInput& gfi, std::ostream& os, IterationCallback& icb)
+DigitalSet graphSeg(const GraphSegInput& gfi, std::ostream& os, IterationCallback& icb)
 {
     using namespace DGtal::Z2i;
     using namespace GraphFlow::Utils;
@@ -57,4 +57,6 @@ void graphSeg(const GraphSegInput& gfi, std::ostream& os, IterationCallback& icb
         lastEnergyValue=evaluationPairs[0].second;
         ++i;
     }
+
+    return ds;
 }

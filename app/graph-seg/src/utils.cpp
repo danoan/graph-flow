@@ -78,3 +78,45 @@ void initGMMs( const cv::Mat& img, const cv::Mat& mask, GMM& bgdGMM, GMM& fgdGMM
         fgdGMM.addSample( fgdLabels.at<int>(i,0), fgdSamples[i] );
     fgdGMM.endLearning();
 }
+
+cv::Mat highlightBorder(const DigitalSet& ds, const cv::Vec3b& color)
+{
+    const DigitalSet& boundaryMaskDs = ds;
+    Point dims = boundaryMaskDs.domain().upperBound() - boundaryMaskDs.domain().lowerBound() + Point(1,1);
+    cv::Mat maskBoundaryImgGS = cv::Mat::zeros( dims(1),dims(0) ,CV_8UC1);
+    DIPaCUS::Representation::digitalSetToCVMat(maskBoundaryImgGS,boundaryMaskDs);
+
+    cv::Mat maskBoundaryImgColor( maskBoundaryImgGS.size(),CV_8UC3);
+    cv::cvtColor(maskBoundaryImgGS,maskBoundaryImgColor,cv::COLOR_GRAY2RGB);
+
+    BTools::Utils::setHighlightedBorder(maskBoundaryImgColor,color);
+    return maskBoundaryImgColor;
+}
+
+void outputImages(const GrabCutObject& gco,const DigitalSet& outputDS,const std::string& outputFolder)
+{
+    const cv::Mat& inputImage = gco.inputImage;
+
+    cv::Mat foregroundMask = cv::Mat::zeros(inputImage.size(),
+                                            CV_8UC1);
+    DIPaCUS::Representation::digitalSetToCVMat(foregroundMask,outputDS);
+
+    cv::Mat imgOutput = cv::Mat::zeros(inputImage.size(),CV_8UC3);
+
+
+
+    BTools::Utils::setHighlightMask(imgOutput,inputImage,foregroundMask);
+
+    std::string graphCutSegFilepath = outputFolder + "/gc-seg.png";
+    std::string correctedSegFilepath = outputFolder +"/corrected-seg.png";
+    std::string seedsFilepath = outputFolder +"/seeds.png";
+
+
+    cv::Mat gcSegImg = cv::Mat::zeros(inputImage.size(),inputImage.type());
+    BTools::Utils::setHighlightMask(gcSegImg,inputImage,gco.segMask);
+
+
+    cv::imwrite(graphCutSegFilepath,gcSegImg);
+    cv::imwrite(correctedSegFilepath,imgOutput);
+    cv::imwrite(seedsFilepath,gco.seeds);
+}

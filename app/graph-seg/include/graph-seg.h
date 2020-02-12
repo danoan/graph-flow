@@ -26,7 +26,7 @@ struct UserVars
 
 struct Params{};
 
-void graphSeg(const GraphSegInput& gfi, std::ostream& os, IterationCallback& icb);
+DigitalSet graphSeg(const GraphSegInput& gfi, std::ostream& os, IterationCallback& icb);
 
 
 #endif //GRAPH_FLOW_GRAPH_SEG_H

@@ -16,6 +16,7 @@ namespace GraphFlow::Utils::Energy
     typedef DGtal::Z2i::Point Point;
     typedef std::set<Point> PointSet;
 
+    void computeBoundaryCurve(Curve& boundOut,const DigitalSet& dsIn);
     double elastica(const DigitalSet& ds,double ballRadius,double h,double alpha);
     double sElastica(const DigitalSet& ds,double ballRadius,double h,double alpha);
 }

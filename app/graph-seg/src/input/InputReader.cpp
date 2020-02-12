@@ -1,9 +1,8 @@
-#include <cstring>
 #include "input/InputReader.h"
 
 void usage(char* argv[])
 {
-    std::cerr << "Usage: " << argv[0] << " OutputFolder \n"
+    std::cerr << "Usage: " << argv[0] << " GrabcutObjectFilepath OutputFolder \n"
                                          "[-i Number of iterations (default: 10)]\n"
                                          "[-r Estimation ball radius (default: 5)]\n"
                                          "[-e Energy (elastica, selastica. default: elastica)]\n"
@@ -23,15 +22,10 @@ InputData readInput(int argc, char* argv[])
     InputData id;
 
     int opt;
-    while( (opt=getopt(argc,argv,"S:i:r:e:h:a:g:O:n:N:P:"))!=-1)
+    while( (opt=getopt(argc,argv,"i:r:e:h:a:g:O:n:N:P:"))!=-1)
     {
         switch(opt)
         {
-            case 'S':
-            {
-                id.shapeName = optarg;
-                break;
-            }
             case 'i':
             {
                 id.iterations = std::atoi(optarg);
@@ -92,6 +86,7 @@ InputData readInput(int argc, char* argv[])
         }
     }
 
+    id.gcoFilepath = argv[optind++];
     id.outputFolder = argv[optind++];
     return id;
 }
@@ -105,12 +100,13 @@ std::string resolveEnergyName(InputData::EnergyType et)
 
 void writeInputData(const InputData& id, std::ostream& os)
 {
-    os << "Shape name:" << id.shapeName << "\n"
+    os << "GrabcutObject filepath:" << id.gcoFilepath<< "\n"
     << "Ball radius:" << id.radius << "\n"
     << "Grid step:" << id.h  << "\n"
     << "Opt band:" << id.optBand  << "\n"
     << "Energy:" << resolveEnergyName(id.energy) << "\n"
     << "Length penalization:" << id.alpha  << "\n"
+    << "Data term:" << id.dataTermWeight << "\n"
     << "Iterations:" << id.iterations  << "\n"
     << "neighborhood size:" << id.neighborhoodSize  << "\n"
     << "Max number of threads:" << id.nThreads  << "\n"

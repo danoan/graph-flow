@@ -47,7 +47,6 @@ DigitalSet prepareShape(const DataDistribution& DD, Point initialBorder)
     return tempDS;
 }
 
-
 int main(int argc, char* argv[])
 {
     InputData id = readInput(argc,argv);
@@ -69,16 +68,18 @@ int main(int argc, char* argv[])
 
     IterationCallback iterationCallback=[&id,&ofsEnergy](const GraphSegIteration& gfIteration)->void
     {
-        Display::saveDigitalSetAsImage(gfIteration.ds,id.outputFolder+"/" + String::nDigitsString(gfIteration.iteration,4) + ".pgm");
+//        Display::saveDigitalSetAsImage(gfIteration.ds,id.outputFolder+"/" + String::nDigitsString(gfIteration.iteration,4) + ".pgm");
         writeEnergyData(gfIteration,ofsEnergy);
     };
 
     Timer T;
     T.start();
-    graphSeg(gsi,ofsEnergy,iterationCallback);
+    DigitalSet outputDS=graphSeg(gsi,ofsEnergy,iterationCallback);
     ofsEnergy << "#Execution time: ";
     T.end(ofsEnergy);
     ofsEnergy.flush(); ofsEnergy.close();
+
+    outputImages(gsi.dataDistribution.gco,outputDS,id.outputFolder);
 
     return 0;
 }

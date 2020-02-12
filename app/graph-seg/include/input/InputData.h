@@ -24,10 +24,8 @@ struct InputData
 
         outputFolder="";
         pixelMaskFilepath="";
-        gcoFilepath="/home/dantu/GIT/PhD/graph-flow/input/gc-object.xml";
+        gcoFilepath="";
     }
-
-    std::string shapeName;
 
     int iterations;
     double radius;

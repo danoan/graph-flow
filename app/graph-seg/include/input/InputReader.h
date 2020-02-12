@@ -1,6 +1,7 @@
 #ifndef GRAPH_FLOW_INPUTREADER_H
 #define GRAPH_FLOW_INPUTREADER_H
 
+#include <cstring>
 #include <unistd.h>
 #include <iostream>
 #include "InputData.h"
