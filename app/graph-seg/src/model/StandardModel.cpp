@@ -15,7 +15,7 @@ namespace StandardModel
         }
 
 
-        return pow(value/( (double) ds.domain().size() ),2);
+        return id.dataTermWeight*value;
     }
 
     HardConstraintVector prepareHardConstraints(const InputData& id, const DigitalSet& ds, const DigitalSet& pixelMask)
@@ -40,9 +40,9 @@ namespace StandardModel
 
     EdgeWeightVector prepareEdgeWeightVector(const InputData& id, const DigitalSet& ds, const cv::Mat& colorImage)
     {
-        EdgeWeightVector ewv(2);
+        EdgeWeightVector ewv(1);
         ewv[0] = new Curvature(id.radius,id.h,ds);
-        ewv[1] = new Homogeneity(colorImage);
+//        ewv[1] = new Homogeneity(colorImage);
 
         return ewv;
     }
