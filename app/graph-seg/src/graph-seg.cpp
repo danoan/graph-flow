@@ -12,7 +12,6 @@ DigitalSet graphSeg(const GraphSegInput& gfi, std::ostream& os, IterationCallbac
 
     StandardModel::MorphologyNeighborhood neighborhood(StandardModel::MorphologyNeighborhood::MorphologyElement::CIRCLE,id.neighborhoodSize);
     StandardModel::HardConstraintVector hcv;
-    StandardModel::TerminalWeightVector twv = StandardModel::prepareTerminalWeights(gfi.dataDistribution,id.dataTermWeight);
 
     double lastEnergyValue= StandardModel::evaluateData(id,ds,gfi.dataDistribution) + evaluateEnergy(id,ds);
     int i=0;
@@ -21,7 +20,7 @@ DigitalSet graphSeg(const GraphSegInput& gfi, std::ostream& os, IterationCallbac
         icb(GraphSegIteration(i,lastEnergyValue,ds));
         if(i==id.iterations) break;
 
-        StandardModel::Context context(gfi,ds,hcv,twv,neighborhood);
+        StandardModel::Context context(gfi,ds,hcv,neighborhood);
         auto range = magLac::Core::addRange(context.neighborhood.begin(),context.neighborhood.end(),1);
         auto neighExplorer = createNeighborExplorer<UserVars,Params>(range,context);
 

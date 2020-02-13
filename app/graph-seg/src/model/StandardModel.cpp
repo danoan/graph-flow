@@ -4,15 +4,18 @@ namespace StandardModel
 {
     double evaluateData(const InputData& id,const DigitalSet& ds, const DataDistribution& DD)
     {
+        const cv::Mat& img = DD.fgDistr->img;
         double value=0;
         for(auto p:ds.domain())
         {
             if( ds(p) )
-                value+=-log( (*DD.fgDistr)( DD.fgDistr->img.rows-p[1],p[0]) );
+                value+=-log( (*DD.fgDistr)( img.rows-p[1],p[0]) );
             else
-                value+=-log( (*DD.bgDistr)( DD.bgDistr->img.rows-p[1],p[0]) );
+                value+=-log( (*DD.bgDistr)( img.rows-p[1],p[0]) );
         }
-        return id.dataTermWeight*value/( (double) ds.domain().size() );
+
+
+        return pow(value/( (double) ds.domain().size() ),2);
     }
 
     HardConstraintVector prepareHardConstraints(const InputData& id, const DigitalSet& ds, const DigitalSet& pixelMask)
@@ -23,19 +26,23 @@ namespace StandardModel
         return hcv;
     }
 
-    TerminalWeightVector prepareTerminalWeights(const DataDistribution& DD, double dataTermWeight)
+    TerminalWeightVector prepareTerminalWeights(const InputData& id, const DTL2& dtInterior, const DTL2& dtExterior,const DataDistribution& DD, double dataTermWeight)
     {
-        TerminalWeightVector twv(2);
-        twv[0] = new Foreground(*DD.fgDistr,dataTermWeight);
-        twv[1] = new Background(*DD.bgDistr,dataTermWeight);
+        TerminalWeightVector twv(4);
+        twv[0] = new ForegroundHard(dtInterior,id.optBand,id.radius);
+        twv[1] = new BackgroundHard(dtExterior,id.optBand,id.radius);
+
+        twv[2] = new Foreground(*DD.fgDistr,dataTermWeight);
+        twv[3] = new Background(*DD.bgDistr,dataTermWeight);
 
         return twv;
     }
 
-    EdgeWeightVector prepareEdgeWeightVector(const InputData& id, const DigitalSet& ds)
+    EdgeWeightVector prepareEdgeWeightVector(const InputData& id, const DigitalSet& ds, const cv::Mat& colorImage)
     {
-        EdgeWeightVector ewv(1);
+        EdgeWeightVector ewv(2);
         ewv[0] = new Curvature(id.radius,id.h,ds);
+        ewv[1] = new Homogeneity(colorImage);
 
         return ewv;
     }

@@ -31,12 +31,13 @@ namespace StandardModel
             auto dtInterior = GraphFlow::Utils::Digital::interiorDistanceTransform(reducedDomain,candidateDS);
             auto dtExterior = GraphFlow::Utils::Digital::exteriorDistanceTransform(reducedDomain,candidateDS);
 
-            auto ewv = prepareEdgeWeightVector(context.gfi.inputData,candidateDS);
+            auto ewv = prepareEdgeWeightVector(context.gfi.inputData,candidateDS,context.gfi.dataDistribution.segResultImg);
+            auto twv = prepareTerminalWeights(context.gfi.inputData,dtInterior,dtExterior,context.gfi.dataDistribution,context.gfi.inputData.dataTermWeight);
 
             DigitalSet vertexSet = GraphFlow::Utils::Digital::level(dtInterior,context.gfi.inputData.optBand,0);
             vertexSet += GraphFlow::Utils::Digital::level(dtExterior,context.gfi.inputData.optBand,0);
 
-            FlowGraph fg(vertexSet,context.twv,ewv,context.hcv);
+            FlowGraph fg(vertexSet,twv,ewv,context.hcv);
             DigitalSet* solutionSet = new DigitalSet(candidateDS.domain());
             DIPaCUS::SetOperations::setDifference(*solutionSet,candidateDS,vertexSet);
 

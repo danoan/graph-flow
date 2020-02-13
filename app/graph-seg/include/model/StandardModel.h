@@ -11,7 +11,11 @@
 
 #include "weight/Foreground.h"
 #include "weight/Background.h"
+#include "weight/ForegroundHard.h"
+#include "weight/BackgroundHard.h"
+
 #include "weight/Curvature.h"
+#include "weight/Homogeneity.h"
 
 #include "constraint/FixedPixels.h"
 
@@ -37,25 +41,24 @@ namespace StandardModel
     typedef GraphFlow::Core::Neighborhood::Morphology MorphologyNeighborhood;
 
     HardConstraintVector prepareHardConstraints(const InputData& id, const DigitalSet& ds, const DigitalSet& pixelMask);
-    TerminalWeightVector prepareTerminalWeights(const DataDistribution& DD,double dataTermWeight);
-    EdgeWeightVector prepareEdgeWeightVector(const InputData& id, const DigitalSet& ds);
+    TerminalWeightVector prepareTerminalWeights(const InputData& id, const DTL2& dtInterior, const DTL2& dtExterior,const DataDistribution& DD, double dataTermWeight);
+    EdgeWeightVector prepareEdgeWeightVector(const InputData& id, const DigitalSet& ds, const cv::Mat& colorImage);
 
     struct Context
     {
         typedef GraphFlow::Core::Neighborhood::Morphology MorphologyNeighborhood;
 
-        Context(const GraphSegInput& gfi, const DigitalSet& ds, const HardConstraintVector& hcv, const TerminalWeightVector& twv, const MorphologyNeighborhood& neighborhood):
+        Context(const GraphSegInput& gfi, const DigitalSet& ds, const HardConstraintVector& hcv, const MorphologyNeighborhood& neighborhood):
                 gfi(gfi),
                 ds(ds),
                 neighborhood(neighborhood),
-                hcv(hcv),twv(twv){}
+                hcv(hcv){}
 
         const GraphSegInput& gfi;
         const DigitalSet& ds;
 
         MorphologyNeighborhood neighborhood;
         const HardConstraintVector& hcv;
-        const TerminalWeightVector& twv;
     };
 
 

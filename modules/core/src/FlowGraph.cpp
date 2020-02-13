@@ -19,9 +19,9 @@ namespace GraphFlow::Core
 
         setMax(vertexSet);
 
-        for(auto p:vertexSet)
+        for(int i=0;i<twv.size();++i)
         {
-            for(int i=0;i<twv.size();++i)
+            for(auto p:vertexSet)
             {
                 auto& tw = twv[i];
                 double factor;
@@ -44,16 +44,17 @@ namespace GraphFlow::Core
         }
 
         Point neighbors[4]={Point(0,1),Point(1,0),Point(-1,0),Point(0,-1)};
-        for(auto p:vertexSet)
+        for(int i=0;i<ewv.size();++i)
         {
-            for(auto n:neighbors)
+            for(auto p:vertexSet)
             {
-                Point np = p+n;
-                if( vertexSet(np) )
+                for(auto n:neighbors)
                 {
-                    ListDigraph::Arc a = digraph.addArc( ptn[p],ptn[np] );
-                    for(int i=0;i<ewv.size();++i)
+                    Point np = p+n;
+                    if( vertexSet(np) )
                     {
+                        ListDigraph::Arc a = digraph.addArc( ptn[p],ptn[np] );
+    
                         auto& ew = ewv[i];
                         double factor;
                         if(ew->normalize()) factor=1.0/this->ewvMax[i];
