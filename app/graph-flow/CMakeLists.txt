@@ -42,3 +42,6 @@ target_link_libraries(graph-flow-app
         -lboost_filesystem
         -lpthread
         ${DGTAL_LIBRARIES})
+
+install(TARGETS graph-flow-app
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)

@@ -45,3 +45,6 @@ target_link_libraries(graph-seg-app
         -lpthread
         ${DGTAL_LIBRARIES}
         ${OpenCV_LIBS})
+
+install(TARGETS graph-seg-app
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
