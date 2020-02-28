@@ -55,6 +55,9 @@ int main(int argc, char* argv[])
 
 
     DataDistribution DD(id);
+    Domain imgDomain(Point(0,0),
+                      Point(DD.segResultImg.cols-1,
+                            DD.segResultImg.rows-1));
     DigitalSet ds = prepareShape(DD,Point(20,20));
     GraphSegInput gsi(id,ds,DD);
 
@@ -70,11 +73,13 @@ int main(int argc, char* argv[])
     {
         Display::saveDigitalSetAsImage(gfIteration.ds,id.outputFolder+"/" + String::nDigitsString(gfIteration.iteration,4) + ".pgm");
         writeEnergyData(gfIteration,ofsEnergy);
+//        writeEnergyData(gfIteration,std::cout);
     };
 
     Timer T;
     T.start();
     DigitalSet outputDS=graphSeg(gsi,ofsEnergy,iterationCallback);
+
     ofsEnergy << "#Execution time: ";
     T.end(ofsEnergy);
     ofsEnergy.flush(); ofsEnergy.close();

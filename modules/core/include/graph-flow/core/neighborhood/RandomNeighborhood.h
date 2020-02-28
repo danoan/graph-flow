@@ -13,81 +13,74 @@ namespace GraphFlow::Core::Neighborhood
     class Random
     {
     public:
-        struct Candidate
-        {
-            enum OperationType{None,Erosion,Dilation};
-
-            Candidate(){}
-            Candidate(OperationType operationType):
-                    operationType(operationType){};
-
-            OperationType operationType;
-        };
 
         typedef DGtal::Z2i::DigitalSet DigitalSet;
-        typedef DIPaCUS::Misc::DigitalBallIntersection DigitalBallIntersection;
+        typedef DGtal::Z2i::Curve Curve;
+
+        struct Candidate
+        {
+            enum OperationType{None,Inclusion,Removal};
+
+
+            Candidate(){}
+            Candidate(OperationType operationType,int length):
+                    operationType(operationType),
+                    length(length){};
+
+            OperationType operationType;
+            int length;
+        };
+
 
         typedef std::vector<Candidate> VectorOfCandidates;
         typedef VectorOfCandidates::const_iterator CandidatesIterator;
 
     public:
 
-        Random(int ballRadius, int neighborhoodSize, int evaluationPoints):
-        ballRadius(ballRadius),
-        evaluationPoints(evaluationPoints)
+        Random(int neighborhoodSize, int minLength, int maxLength)
         {
-            std::default_random_engine re(rd());
-            std::uniform_int_distribution<int> udist(0,1);
+            std::random_device rd;
+            std::default_random_engine re;
+            std::uniform_int_distribution<int> udistLength(minLength,maxLength);
 
-            candidates.resize(neighborhoodSize+1);
-            candidates[0] = Candidate(Candidate::None);
-            for(int i=1;i<=neighborhoodSize;++i)
+            candidates.resize(neighborhoodSize);
+            for(int i=0;i<neighborhoodSize;++i)
             {
-                Candidate::OperationType ot = otRange[ udist(re) ];
-
-                candidates[i] = Candidate(ot);
+                candidates[i] = Candidate(Candidate::OperationType::Inclusion,udistLength(re));
             }
+
         }
 
-        DigitalSet evaluateCandidate(const Candidate& candidate, const DigitalSet& dsInput)
+        void evaluateCandidate(DigitalSet& dsOutput, const Candidate& candidate, const DigitalSet& dsInput) const
         {
-            DigitalSet dsOutput(dsInput.domain());
-            evaluateCandidate(dsOutput,candidate,dsInput);
+            std::random_device rd;
+            std::default_random_engine re;
 
-            return dsOutput;
-        }
+            Curve curve;
+            DIPaCUS::Misc::computeBoundaryCurve(curve,dsInput);
 
-        void evaluateCandidate(DigitalSet& dsOutput, const Candidate& candidate, const DigitalSet& dsInput)
-        {
+            const DGtal::Z2i::Domain& domain = dsInput.domain();
+            DGtal::Z2i::KSpace kspace;
+            kspace.init(domain.lowerBound(),domain.upperBound(),true);
+
+
+            std::uniform_int_distribution<int> udistPos(0,curve.size());
+            int pos = udistPos(re);
+
+            auto itC = DGtal::Circulator<Curve::ConstIterator>(curve.begin(),curve.begin(),curve.end());
+
             dsOutput=dsInput;
-            if(candidate.operationType!=Candidate::None)
+            for(int i=0;i<pos;++i,++itC);
+            for(int i=0;i<candidate.length;++i,++itC)
             {
-                DigitalSet boundary(dsInput.domain());
-                DIPaCUS::Misc::digitalBoundary<DIPaCUS::Neighborhood::EightNeighborhoodPredicate>(boundary,dsInput);
-                DigitalBallIntersection DBI(ballRadius,dsInput);
-
-                std::default_random_engine re(rd());
-                std::uniform_int_distribution<int> udist(0,boundary.size()-1);
-                std::vector<DGtal::Z2i::Point> boundaryPoints;
-                boundaryPoints.insert(boundaryPoints.end(),boundary.begin(),boundary.end());
-
-
-                DigitalSet intersectionSet(dsInput.domain());
-                for(int i=0;i<evaluationPoints;++i)
+                auto pixels = kspace.sUpperIncident(*itC);
+                for(auto p:pixels)
                 {
-                    intersectionSet.clear();
-                    DGtal::Z2i::Point p = boundaryPoints[ udist(re) ];
-                    DBI.operator()(intersectionSet,p);
-
-                    if(candidate.operationType==Candidate::Erosion)
-                    {
-                        for(auto pi:intersectionSet) dsOutput.erase(pi);
-                    }else
-                    {
-                        for(auto pi:DBI.digitalBall()) if(!dsInput(pi+p)) dsOutput.insert(pi+p);
-                    }
+                    auto scoords = kspace.sCoords(p);
+                    if(dsInput(scoords)) dsOutput.insert(scoords);
                 }
             }
+
         }
 
         CandidatesIterator begin(){return candidates.begin();}
@@ -95,14 +88,7 @@ namespace GraphFlow::Core::Neighborhood
 
 
     private:
-        std::random_device rd;
-
-        Candidate::OperationType otRange[2]={Candidate::OperationType::Erosion,Candidate::OperationType::Dilation};
-
         VectorOfCandidates candidates;
-
-        int ballRadius;
-        int evaluationPoints;
     };
 }
 

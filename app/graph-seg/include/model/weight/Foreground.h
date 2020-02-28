@@ -7,22 +7,21 @@
 class Foreground:public GraphFlow::Core::TerminalWeight
 {
 public:
-    Foreground(CVMatDistribution& frgDistr,double dataTermWeight):frgDistr(frgDistr),dataTermWeight(dataTermWeight)
+    Foreground(CVMatDistribution& frgDistr,double dataTermWeight):frgDistr(frgDistr)
     {}
 
     double operator()(const Point& p)
     {
-        return -log( 1 - frgDistr(frgDistr.img.rows - p[1],p[0]) );
+        return -log( frgDistr(frgDistr.img.rows - p[1],p[0]) );
     }
 
-    double weight() const { return dataTermWeight; }
+    double weight() const { return 1; }
     bool normalize() const{ return true;}
 
-    TerminalType type() const{ return TerminalType::Source; }
+    TerminalType type() const{ return TerminalType::Target; }
 
 private:
     CVMatDistribution frgDistr;
-    double dataTermWeight;
 };
 
 #endif //GRAPH_FLOW_FOREGROUND_H

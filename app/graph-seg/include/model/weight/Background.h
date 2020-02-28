@@ -7,22 +7,21 @@
 class Background:public GraphFlow::Core::TerminalWeight
 {
 public:
-    Background(CVMatDistribution& bkgDistr,double dataTermWeight):bkgDistr(bkgDistr),dataTermWeight(dataTermWeight)
+    Background(CVMatDistribution& bkgDistr,double dataTermWeight):bkgDistr(bkgDistr)
     {}
 
     double operator()(const Point& p)
     {
-        return -log(1-bkgDistr(bkgDistr.img.rows-p[1],p[0]));
+        return -log(bkgDistr(bkgDistr.img.rows-p[1],p[0]));
     }
 
-    double weight() const { return dataTermWeight; }
+    double weight() const { return 1; }
     bool normalize() const{ return true;}
 
-    TerminalType type() const{ return TerminalType::Target; }
+    TerminalType type() const{ return TerminalType::Source; }
 
 private:
     CVMatDistribution bkgDistr;
-    double dataTermWeight;
 };
 
 #endif //GRAPH_FLOW_BACKGROUND_H

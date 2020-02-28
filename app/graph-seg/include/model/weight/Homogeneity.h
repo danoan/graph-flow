@@ -31,8 +31,9 @@ public:
 
         Point pdiff = p1-p2;
         double d = sqrt( pow(pdiff[0],2) + pow(pdiff[1],2) );
+        double v = exp(-s*1.0/d); 
 
-        return exp(-s*1.0/d);
+        return v;
     }
 
     double weight() const{ return 1.0;}

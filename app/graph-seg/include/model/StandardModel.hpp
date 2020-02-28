@@ -32,10 +32,13 @@ namespace StandardModel
             auto dtExterior = GraphFlow::Utils::Digital::exteriorDistanceTransform(reducedDomain,candidateDS);
 
             auto ewv = prepareEdgeWeightVector(context.gfi.inputData,candidateDS,context.gfi.dataDistribution.segResultImg);
-            auto twv = prepareTerminalWeights(context.gfi.inputData,dtInterior,dtExterior,context.gfi.dataDistribution,context.gfi.inputData.dataTermWeight);
+            auto twv = prepareTerminalWeights(context.gfi.inputData,dtInterior,dtExterior,context.gfi.dataDistribution,context.gfi.inputData.dataTermWeight,context.ds);
 
-            DigitalSet vertexSet = GraphFlow::Utils::Digital::level(dtInterior,context.gfi.inputData.optBand,0);
-            vertexSet += GraphFlow::Utils::Digital::level(dtExterior,context.gfi.inputData.optBand,0);
+            DigitalSet _vertexSet = GraphFlow::Utils::Digital::level(dtInterior,context.gfi.inputData.optBand,0);
+            _vertexSet += GraphFlow::Utils::Digital::level(dtExterior,context.gfi.inputData.optBand,0);
+            DigitalSet vertexSet(context.ds.domain());
+            for(auto p:_vertexSet) if(context.ds.domain().isInside(p)) vertexSet.insert(p);
+
 
             FlowGraph fg(vertexSet,twv,ewv,context.hcv);
             DigitalSet* solutionSet = new DigitalSet(candidateDS.domain());

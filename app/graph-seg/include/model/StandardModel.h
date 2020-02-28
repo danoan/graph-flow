@@ -3,6 +3,7 @@
 
 #include <graph-flow/core/FlowGraph.h>
 #include <graph-flow/core/neighborhood/MorphologyNeighborhood.h>
+#include <graph-flow/core/neighborhood/RandomNeighborhood.h>
 
 #include <graph-flow/core/TerminalWeight.h>
 #include <graph-flow/core/EdgeWeight.h>
@@ -16,11 +17,14 @@
 
 #include "weight/Curvature.h"
 #include "weight/Homogeneity.h"
+#include "weight/Variance.h"
+#include "weight/Blur.h"
 
 #include "constraint/FixedPixels.h"
 
 #include "model/GraphSegInput.h"
 #include "model/DataDistribution.h"
+#include "model/Stats.h"
 #include "input/InputData.h"
 
 #include "utils.h"
@@ -39,9 +43,10 @@ namespace StandardModel
 
     typedef GraphFlow::Core::FlowGraph FlowGraph;
     typedef GraphFlow::Core::Neighborhood::Morphology MorphologyNeighborhood;
+//    typedef GraphFlow::Core::Neighborhood::Random MorphologyNeighborhood;
 
     HardConstraintVector prepareHardConstraints(const InputData& id, const DigitalSet& ds, const DigitalSet& pixelMask);
-    TerminalWeightVector prepareTerminalWeights(const InputData& id, const DTL2& dtInterior, const DTL2& dtExterior,const DataDistribution& DD, double dataTermWeight);
+    TerminalWeightVector prepareTerminalWeights(const InputData& id, const DTL2& dtInterior, const DTL2& dtExterior,const DataDistribution& DD, double dataTermWeight,const DigitalSet& ds);
     EdgeWeightVector prepareEdgeWeightVector(const InputData& id, const DigitalSet& ds, const cv::Mat& colorImage);
 
     struct Context
