@@ -26,10 +26,11 @@ private:
 
 public:
 
-    Curvature(double radius, double gridStep, const DigitalSet& ds):radius(radius),gridStep(gridStep)
+    Curvature(double radius, double gridStep, const DigitalSet& ds,double curvatureWeight):radius(radius),gridStep(gridStep),curvatureWeight(curvatureWeight)
     {
         DBI = new DigitalBallIntersection(radius,ds);
         intersectionSet = new DigitalSet(DBI->domain());
+        curvatureWeight=curvatureWeight;
     }
 
     ~Curvature()
@@ -49,13 +50,15 @@ public:
         return (pm[p1]+pm[p2])/2.0;
     }
 
-    double weight() const{ return 1.0;}
+    double weight() const{ return curvatureWeight;}
     bool normalize() const{ return true;}
 
 private:
     PointMap pm;
     double radius;
     double gridStep;
+    double curvatureWeight;
+
     DigitalBallIntersection* DBI;
     DigitalSet* intersectionSet;
 };

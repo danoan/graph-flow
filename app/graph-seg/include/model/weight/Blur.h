@@ -22,7 +22,7 @@ public:
 
     double computePointCoefficient(const Point& p)
     {
-        double M=pow(255,2);
+        double M=255.0;
         int prow = img.rows - p[1];
         int pcol = p[0];
 

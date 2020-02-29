@@ -8,10 +8,13 @@ void usage(char* argv[])
                                          "[-e Energy (elastica, selastica. default: elastica)]\n"
                                          "[-h Grid step (default:0.25)]\n"
                                          "[-a Length penalization (default:0.01)]\n"
-                                         "[-g Data penalization (default:0.5)]\n"
+                                         "[-g Regional term penalization (default:1)]\n"
+                                         "[-b Boundary term penalization (default:2)]\n"
+                                         "[-k Curvature term penalization (default:0.5)]\n"
                                          "[-O Optimization band (default:2)]\n"
                                          "[-n Maximum number of threads (default:4)]\n"
                                          "[-N neighborhood size (default:2)]\n"
+                                         "[-w print energy value]\n"
                                          "[-P Pixel mask filepath]" << std::endl;
 }
 
@@ -22,7 +25,7 @@ InputData readInput(int argc, char* argv[])
     InputData id;
 
     int opt;
-    while( (opt=getopt(argc,argv,"i:r:e:h:a:g:O:n:N:P:"))!=-1)
+    while( (opt=getopt(argc,argv,"i:r:e:h:a:g:b:k:O:n:N:P:w"))!=-1)
     {
         switch(opt)
         {
@@ -55,7 +58,17 @@ InputData readInput(int argc, char* argv[])
             }
             case 'g':
             {
-                id.dataTermWeight = std::atof(optarg);
+                id.regionalTermWeight = std::atof(optarg);
+                break;
+            }
+            case 'b':
+            {
+                id.boundaryTermWeight = std::atof(optarg);
+                break;
+            }
+            case 'k':
+            {
+                id.curvatureTermWeight = std::atof(optarg);
                 break;
             }
             case 'O':
@@ -76,6 +89,11 @@ InputData readInput(int argc, char* argv[])
             case 'P':
             {
                 id.pixelMaskFilepath = optarg;
+                break;
+            }
+            case 'w':
+            {
+                id.printEnergyValue = true;
                 break;
             }
             default:
@@ -106,7 +124,9 @@ void writeInputData(const InputData& id, std::ostream& os)
     << "Opt band:" << id.optBand  << "\n"
     << "Energy:" << resolveEnergyName(id.energy) << "\n"
     << "Length penalization:" << id.alpha  << "\n"
-    << "Data term:" << id.dataTermWeight << "\n"
+    << "Regional term:" << id.regionalTermWeight << "\n"
+    << "Boundary term:" << id.boundaryTermWeight << "\n"
+    << "Curvature term:" << id.curvatureTermWeight << "\n"
     << "Iterations:" << id.iterations  << "\n"
     << "neighborhood size:" << id.neighborhoodSize  << "\n"
     << "Max number of threads:" << id.nThreads  << "\n"

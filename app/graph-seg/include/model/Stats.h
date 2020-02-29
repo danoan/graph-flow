@@ -29,12 +29,12 @@ struct Stats
         var[0]=var[1]=var[2]=0;
         for(int i=0;i<n;++i)
         {
-            var[0]+= pow( (*colors[i])(0) - mean[0],2)/(n-1);
-            var[1]+= pow( (*colors[i])(1) - mean[1],2)/(n-1);
-            var[2]+= pow( (*colors[i])(2) - mean[2],2)/(n-1);
+            var[0]+= pow( ( (*colors[i])(0) - mean[0])/255.0,2)/(n+1);
+            var[1]+= pow( ( (*colors[i])(1) - mean[1])/255.0,2)/(n+1);
+            var[2]+= pow( ( (*colors[i])(2) - mean[2])/255.0,2)/(n+1);
         }
 
-        det = pow( var[0] + var[1] + var[2],2);
+        det = var[0] + var[1] + var[2];
 
     }
 

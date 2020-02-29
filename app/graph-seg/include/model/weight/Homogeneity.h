@@ -17,7 +17,7 @@ public:
 
 public:
 
-    Homogeneity(const cv::Mat& colorImage):img(colorImage)
+    Homogeneity(const cv::Mat& colorImage,double boundaryWeight):img(colorImage),boundaryWeight(boundaryWeight)
     {}
 
 
@@ -36,11 +36,12 @@ public:
         return v;
     }
 
-    double weight() const{ return 1.0;}
+    double weight() const{ return boundaryWeight;}
     bool normalize() const{ return true;}
 
 private:
     const cv::Mat& img;
+    double boundaryWeight;
 
 };
 

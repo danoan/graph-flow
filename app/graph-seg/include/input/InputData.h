@@ -13,7 +13,10 @@ struct InputData
         radius=5;
         h=0.25;
         alpha=0.01;
-        dataTermWeight=0.5;
+
+        regionalTermWeight=1;
+        boundaryTermWeight=2;
+        curvatureTermWeight=0.5;
 
         optBand=2;
 
@@ -25,6 +28,8 @@ struct InputData
         outputFolder="";
         pixelMaskFilepath="";
         gcoFilepath="";
+
+        printEnergyValue=false;
     }
 
     int iterations;
@@ -33,7 +38,10 @@ struct InputData
     double alpha;
     int optBand;
 
-    double dataTermWeight;
+    double regionalTermWeight;
+    double boundaryTermWeight;
+    double curvatureTermWeight;
+
     EnergyType  energy;
 
     int nThreads;
@@ -42,6 +50,8 @@ struct InputData
     std::string outputFolder;
     std::string pixelMaskFilepath;
     std::string gcoFilepath;
+
+    bool printEnergyValue;
 };
 
 #endif //GRAPH_FLOW_APP_INPUTDATA_H

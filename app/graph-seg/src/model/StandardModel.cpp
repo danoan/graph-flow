@@ -2,6 +2,40 @@
 
 namespace StandardModel
 {
+    double boundaryCoefficient(const Point& p, const DigitalSet& ds, const cv::Mat& img, const DigitalSet& kernel)
+    {
+        cv::Vec3d in=0;
+        cv::Vec3d out=0;
+        double nInn=0;
+        double nOut=0;
+        for(const Point& kp:kernel)
+        {
+            Point np = p+kp;
+            int nprow = img.rows - np[1];
+            int npcol = np[0];
+
+            if(ds(np))
+            {
+                in += img.at<cv::Vec3b>(nprow, npcol)/255.0;
+                ++nInn;
+            }
+            else
+            {
+                out+=img.at<cv::Vec3b>(nprow,npcol)/255.0;
+                ++nOut;
+            }
+
+        }
+
+        double mIn = (in[0]+in[1]+in[2])/nInn;
+        double mOut = (out[0]+out[1]+out[2])/nOut;
+
+        double c=std::fabs( (mIn-mOut) );
+        c=3-c;
+
+        return exp(c);
+    }
+
     double boundaryValue(const InputData& id,const DigitalSet& ds, const DataDistribution& DD)
     {
         const cv::Mat& img = DD.fgDistr->img;
@@ -9,20 +43,13 @@ namespace StandardModel
         DigitalSet boundary(ds.domain());
         DIPaCUS::Misc::digitalBoundary<DIPaCUS::Neighborhood::FourNeighborhoodPredicate>(boundary,ds);
 
-        cv::Mat blurred(DD.segResultImg.rows,DD.segResultImg.cols,DD.segResultImg.type());
-        cv::blur(DD.segResultImg,blurred,cv::Size(5,5));
+        DigitalSet kernel = DIPaCUS::Shapes::ball(1.0,0,0,10);
 
-        double M=pow(255,2);
+
         double v=0;
         for(auto p:boundary)
         {
-            int prow = img.rows - p[1];
-            int pcol = p[0];
-
-            cv::Vec3d diff = img.at<cv::Vec3b>(prow,pcol)-blurred.at<cv::Vec3b>(prow,pcol);
-            for(int i=0;i<3;++i) diff[i]=std::fabs(diff[i]);
-            diff/=M;
-            v+=exp( pow(1-diff[0],2)+pow(1-diff[1],2)+pow(1-diff[2],2) );
+            v+=boundaryCoefficient(p,ds,img,kernel);
         }
 
         v=v/( (double) boundary.size() );
@@ -53,10 +80,10 @@ namespace StandardModel
 
     double evaluateData(const InputData& id,const DigitalSet& ds, const DataDistribution& DD)
     {
-        double bv = boundaryValue(id,ds,DD);
-        double rv = regionValue(id,ds,DD);
+        double bv = id.boundaryTermWeight*boundaryValue(id,ds,DD);
+        double rv = id.regionalTermWeight*regionValue(id,ds,DD);
 
-        return id.dataTermWeight*(bv+rv);
+        return bv+rv;
 
     }
 
@@ -68,14 +95,14 @@ namespace StandardModel
         return hcv;
     }
 
-    TerminalWeightVector prepareTerminalWeights(const InputData& id, const DTL2& dtInterior, const DTL2& dtExterior,const DataDistribution& DD, double dataTermWeight, const DigitalSet& ds)
+    TerminalWeightVector prepareTerminalWeights(const InputData& id, const DTL2& dtInterior, const DTL2& dtExterior,const DataDistribution& DD, const DigitalSet& ds)
     {
         TerminalWeightVector twv(4);
         twv[0] = new ForegroundHard(dtInterior,id.optBand,id.radius);
         twv[1] = new BackgroundHard(dtExterior,id.optBand,id.radius);
 
-        twv[2] = new Foreground(*DD.fgDistr,dataTermWeight);
-        twv[3] = new Background(*DD.bgDistr,dataTermWeight);
+        twv[2] = new Foreground(*DD.fgDistr,id.regionalTermWeight);
+        twv[3] = new Background(*DD.bgDistr,id.regionalTermWeight);
 
         return twv;
     }
@@ -83,9 +110,8 @@ namespace StandardModel
     EdgeWeightVector prepareEdgeWeightVector(const InputData& id, const DigitalSet& ds, const cv::Mat& colorImage)
     {
         EdgeWeightVector ewv(2);
-        ewv[0] = new Curvature(id.radius,id.h,ds);
-//        ewv[0] = new Homogeneity(colorImage);
-        ewv[1] = new Blur(ds,colorImage);
+        ewv[0] = new Curvature(id.radius,id.h,ds,id.curvatureTermWeight);
+        ewv[1] = new Homogeneity(colorImage,id.boundaryTermWeight);
 
         return ewv;
     }

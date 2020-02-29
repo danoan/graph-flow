@@ -46,7 +46,7 @@ namespace StandardModel
 //    typedef GraphFlow::Core::Neighborhood::Random MorphologyNeighborhood;
 
     HardConstraintVector prepareHardConstraints(const InputData& id, const DigitalSet& ds, const DigitalSet& pixelMask);
-    TerminalWeightVector prepareTerminalWeights(const InputData& id, const DTL2& dtInterior, const DTL2& dtExterior,const DataDistribution& DD, double dataTermWeight,const DigitalSet& ds);
+    TerminalWeightVector prepareTerminalWeights(const InputData& id, const DTL2& dtInterior, const DTL2& dtExterior,const DataDistribution& DD,const DigitalSet& ds);
     EdgeWeightVector prepareEdgeWeightVector(const InputData& id, const DigitalSet& ds, const cv::Mat& colorImage);
 
     struct Context
