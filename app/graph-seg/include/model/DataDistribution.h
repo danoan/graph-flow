@@ -17,10 +17,29 @@ struct DataDistribution
     {
         gco = BTools::Utils::GrabCutIO::read(id.gcoFilepath);
 
-        segResultImg = cv::Mat::zeros(gco.inputImage.size(),gco.inputImage.type());
-        gco.inputImage.copyTo(segResultImg,gco.segMask);
 
-        initGMMs(gco.inputImage,gco.grabCutMask,bgGMM,fgGMM);
+
+        cv::Mat fgMask=cv::Mat::zeros(gco.grabCutMask.size(),gco.grabCutMask.type());
+        cv::compare(gco.grabCutMask,
+                    cv::GC_FGD,
+                    fgMask,
+                    cv::CMP_EQ);
+        cv::Mat gcOutMask=gco.grabCutMask;
+
+
+        grabCut(gco.inputImage,gcOutMask,cv::Rect(),bgModel,fgModel,10,cv::GC_INIT_WITH_MASK);
+
+        cv::Mat segMask= cv::Mat::zeros(gco.inputImage.size(),CV_8UC1);
+        cv::compare(gcOutMask,
+                    cv::GC_PR_FGD,
+                    segMask,
+                    cv::CMP_EQ);
+
+        segMask.setTo(255,fgMask);
+        gco.inputImage.copyTo(segResultImg,segMask);
+
+        fgGMM=GMM(fgModel);
+        bgGMM=GMM(bgModel);
 
         fgDistr = new CVMatDistribution(gco.inputImage,fgGMM);
         bgDistr = new CVMatDistribution(gco.inputImage,bgGMM);

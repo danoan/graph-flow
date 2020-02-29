@@ -13,8 +13,8 @@ public:
 
 public:
 
-    Blur(const DigitalSet& ds, const cv::Mat& colorImage):
-            img(colorImage)
+    Blur(const DigitalSet& ds, const cv::Mat& colorImage,double boundaryWeight):
+            img(colorImage),boundaryWeight(boundaryWeight)
     {
         blurred = cv::Mat::zeros(colorImage.size(),colorImage.type());
         cv::blur(img,blurred,cv::Size(5,5));
@@ -42,12 +42,13 @@ public:
         return c1+c2;
     }
 
-    double weight() const{ return 1.0;}
+    double weight() const{ return boundaryWeight;}
     bool normalize() const{ return true;}
 
 private:
     const cv::Mat& img;
     cv::Mat blurred;
+    double boundaryWeight;
 
 };
 

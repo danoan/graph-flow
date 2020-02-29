@@ -86,7 +86,7 @@ int main(int argc, char* argv[])
     T.end(ofsEnergy);
     ofsEnergy.flush(); ofsEnergy.close();
 
-    outputImages(gsi.dataDistribution.gco,outputDS,id.outputFolder);
+    outputImages(gsi.dataDistribution.gco,gsi.dataDistribution.segResultImg,outputDS,id.outputFolder);
 
     return 0;
 }

@@ -41,5 +41,6 @@ add_subdirectory(modules/core)
 add_subdirectory(modules/utils)
 add_subdirectory(app/graph-flow)
 add_subdirectory(app/graph-seg)
+add_subdirectory(app/grabcut-reweight)
 
 

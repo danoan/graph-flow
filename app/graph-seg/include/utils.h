@@ -26,6 +26,7 @@ DigitalSet getPixelMask(const std::string& pixelMaskFilepath, const Domain& doma
 void initGMMs( const cv::Mat& img, const cv::Mat& mask, GMM& bgdGMM, GMM& fgdGMM );
 cv::Mat highlightBorder(const DigitalSet& ds, const cv::Vec3b& color=cv::Vec3b(255,255,255));
 void outputImages(const GrabCutObject& gco,const DigitalSet& outputDS,const std::string& outputFolder);
+void outputImages(const GrabCutObject& gco,const cv::Mat& segResultImg,const DigitalSet& outputDS,const std::string& outputFolder);
 
 
 #endif //GRAPH_FLOW_UTILS_H
