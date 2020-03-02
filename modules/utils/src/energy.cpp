@@ -39,7 +39,7 @@ namespace GraphFlow::Utils::Energy
         boundOut.initFromSCellsVector(boundarySCells);
     }
 
-    double elastica(const DigitalSet& ds,double ballRadius,double h,double alpha)
+    double elastica(const DigitalSet& ds,double ballRadius,double h,double alpha,double beta)
     {
         using namespace DGtal::Z2i;
         using namespace GEOC::API::GridCurve;
@@ -72,7 +72,7 @@ namespace GraphFlow::Utils::Energy
 
             for(int i=0;i<curvatureEV.size();++i)
             {
-                value+=pow(curvatureEV[i],2)*lengthEV[i] + alpha*lengthEV[i];
+                value+=alpha*lengthEV[i] + beta*pow(curvatureEV[i],2)*lengthEV[i];
             }
         }
 
@@ -81,7 +81,7 @@ namespace GraphFlow::Utils::Energy
 
     }
 
-    double sElastica(const DigitalSet& ds,double ballRadius,double h,double alpha)
+    double sElastica(const DigitalSet& ds,double ballRadius,double h,double alpha,double beta)
     {
         using namespace DGtal::Z2i;
         using namespace GEOC::API::GridCurve;
@@ -114,7 +114,7 @@ namespace GraphFlow::Utils::Energy
 
             for(int i=0;i<curvatureEV.size();++i)
             {
-                value+=pow(curvatureEV[i],2)*h + alpha*lengthEV[i];
+                value+=alpha*lengthEV[i] + beta*pow(curvatureEV[i],2)*h;
             }
         }
 

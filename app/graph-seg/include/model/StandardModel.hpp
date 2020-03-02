@@ -52,7 +52,7 @@ namespace StandardModel
             double elasticaValue = evaluateEnergy(context.gfi.inputData,*solutionSet);
             double dataFidelityValue= evaluateData(context.gfi.inputData,*solutionSet,context.gfi.dataDistribution);
 
-            double energyValue = dataFidelityValue + context.gfi.inputData.curvatureTermWeight*elasticaValue;
+            double energyValue = dataFidelityValue + elasticaValue;
 
 
 

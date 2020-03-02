@@ -10,6 +10,7 @@ void usage(char* argv[])
                                          "[-e Energy (elastica, selastica. default: elastica)]\n"
                                          "[-h Grid step (default:0.25)]\n"
                                          "[-a Length penalization (default:0.01)]\n"
+                                         "[-b Curvature penalization (default:1.0)]\n"
                                          "[-O Optimization band (default:2)]\n"
                                          "[-n Maximum number of threads (default:4)]\n"
                                          "[-N neighborhood size (default:2)]\n"
@@ -23,7 +24,7 @@ InputData readInput(int argc, char* argv[])
     InputData id;
 
     int opt;
-    while( (opt=getopt(argc,argv,"S:i:r:e:h:a:O:n:N:P:"))!=-1)
+    while( (opt=getopt(argc,argv,"S:i:r:e:h:a:b:O:n:N:P:"))!=-1)
     {
         switch(opt)
         {
@@ -57,6 +58,11 @@ InputData readInput(int argc, char* argv[])
             case 'a':
             {
                 id.alpha = std::atof(optarg);
+                break;
+            }
+            case 'b':
+            {
+                id.beta = std::atof(optarg);
                 break;
             }
             case 'O':
@@ -106,6 +112,7 @@ void writeInputData(const InputData& id, std::ostream& os)
     << "Opt band:" << id.optBand  << "\n"
     << "Energy:" << resolveEnergyName(id.energy) << "\n"
     << "Length penalization:" << id.alpha  << "\n"
+    << "Curvature penalization:" << id.beta  << "\n"
     << "Iterations:" << id.iterations  << "\n"
     << "neighborhood size:" << id.neighborhoodSize  << "\n"
     << "Max number of threads:" << id.nThreads  << "\n"

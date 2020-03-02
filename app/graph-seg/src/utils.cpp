@@ -22,8 +22,8 @@ double evaluateEnergy(const InputData& id, const DigitalSet& ds)
     using namespace GraphFlow::Utils;
 
     double s=0;
-    if(id.energy==InputData::EnergyType::Elastica) s+=Energy::elastica(ds,id.radius,id.h,id.alpha);
-    else if(id.energy==InputData::EnergyType::SElastica) s+=Energy::sElastica(ds,id.radius,id.h,id.alpha);
+    if(id.energy==InputData::EnergyType::Elastica) s+=Energy::elastica(ds,id.radius,id.h,id.alpha,id.curvatureTermWeight);
+    else if(id.energy==InputData::EnergyType::SElastica) s+=Energy::sElastica(ds,id.radius,id.h,id.alpha,id.curvatureTermWeight);
     else throw std::runtime_error("Unrecognized energy!");
 
     return s;

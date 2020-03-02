@@ -15,6 +15,7 @@ struct InputData
         radius=5;
         h=0.25;
         alpha=0.01;
+        beta=1.0;
         optBand=2;
 
         energy=Elastica;
@@ -32,6 +33,8 @@ struct InputData
     double radius;
     double h;
     double alpha;
+    double beta;
+
     int optBand;
 
     EnergyType  energy;

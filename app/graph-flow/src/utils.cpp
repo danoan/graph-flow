@@ -1,4 +1,5 @@
 #include "utils.h"
+#include "../../graph-seg/include/input/InputData.h"
 
 void writeEnergyData(const GraphFlowIteration& gfIteration,std::ostream& os)
 {
@@ -21,8 +22,8 @@ double evaluateEnergy(const InputData& id, const DigitalSet& ds)
 {
     using namespace GraphFlow::Utils;
     
-    if(id.energy==InputData::EnergyType::Elastica) return Energy::elastica(ds,id.radius,id.h,id.alpha);
-    else if(id.energy==InputData::EnergyType::SElastica) return Energy::sElastica(ds,id.radius,id.h,id.alpha);
+    if(id.energy==InputData::EnergyType::Elastica) return Energy::elastica(ds,id.radius,id.h,id.alpha,id.beta);
+    else if(id.energy==InputData::EnergyType::SElastica) return Energy::sElastica(ds,id.radius,id.h,id.alpha,id.beta);
     else throw std::runtime_error("Unrecognized energy!");
 }
 
