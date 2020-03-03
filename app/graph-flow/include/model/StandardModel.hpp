@@ -22,6 +22,7 @@ namespace StandardModel
 
             DigitalSet candidateDS(context.ds.domain());
             context.neighborhood.evaluateCandidate(candidateDS,candidate,context.ds);
+            candidateDS.insert(context.gfi.pixelMask.begin(),context.gfi.pixelMask.end());
 
             Point lb,ub;
             candidateDS.computeBoundingBox(lb,ub);
@@ -36,6 +37,7 @@ namespace StandardModel
 
             DigitalSet vertexSet = GraphFlow::Utils::Digital::level(dtInterior,context.gfi.inputData.optBand,0);
             vertexSet += GraphFlow::Utils::Digital::level(dtExterior,context.gfi.inputData.optBand,0);
+            vertexSet += context.gfi.pixelMask;
 
             FlowGraph fg(vertexSet,twv,ewv,context.hcv);
             DigitalSet* solutionSet = new DigitalSet(candidateDS.domain());
