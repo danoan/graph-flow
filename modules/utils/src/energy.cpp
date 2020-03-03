@@ -55,7 +55,7 @@ namespace GraphFlow::Utils::Energy
         DigitalSet tempDS(ds.domain());
         for(auto cc:vcc)
         {
-            if(cc.size()<10) continue;
+            if(cc.size()<10){ value+=1.0/h; continue; }
 
             tempDS.clear();
             tempDS.insert(cc.begin(),cc.end());
@@ -97,7 +97,7 @@ namespace GraphFlow::Utils::Energy
         DigitalSet tempDS(ds.domain());
         for(auto cc:vcc)
         {
-            if(cc.size()<10) continue;
+            if(cc.size()<10){ value+=1.0/h; continue; }
 
             tempDS.clear();
             tempDS.insert(cc.begin(),cc.end());
