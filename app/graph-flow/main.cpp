@@ -45,6 +45,9 @@ int main(int argc, char* argv[])
     DigitalSet& ds = shapeAndMask.first;
     DigitalSet& pixelMask = shapeAndMask.second;
 
+    if(pixelMask.size()>0)
+        Display::saveDigitalSetAsImage(pixelMask,id.outputFolder + "/pixelMask.pgm");
+
     GraphFlowInput gfi(id,ds,pixelMask);
 
     std::ofstream ofsInputData(id.outputFolder + "/inputData.txt");
