@@ -22,6 +22,7 @@ namespace StandardModel
 
             DigitalSet candidateDS(context.ds.domain());
             context.neighborhood.evaluateCandidate(candidateDS,candidate,context.ds);
+            if(candidateDS.empty()) return;
 
             Point lb,ub;
             candidateDS.computeBoundingBox(lb,ub);

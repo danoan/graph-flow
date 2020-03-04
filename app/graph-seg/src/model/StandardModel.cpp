@@ -52,6 +52,7 @@ namespace StandardModel
             v+=boundaryCoefficient(p,ds,img,kernel);
         }
 
+        if(boundary.empty()) return v;
         v=v/( (double) boundary.size() );
 
         return v;

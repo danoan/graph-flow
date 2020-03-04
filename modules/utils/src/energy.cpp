@@ -82,7 +82,7 @@ namespace GraphFlow::Utils::Energy
 
 
 
-            if(curve.size()<10){ value+=1.0/h; continue; }
+            if(curve.size()<10){ value+=pow(1.0/h,2); continue; }
 
             Length::EstimationsVector lengthEV;
             Length::mdssClosed<Length::EstimationAlgorithms::ALG_PROJECTED>(kspace,curve.begin(),curve.end(),lengthEV,h,NULL);

@@ -19,6 +19,7 @@ DigitalSet graphSeg(const GraphSegInput& gfi, std::ostream& os, IterationCallbac
     {
         icb(GraphSegIteration(i,lastEnergyValue,ds));
         if(i==id.iterations) break;
+        if(ds.empty()) break;
 
         StandardModel::Context context(gfi,ds,hcv,neighborhood);
         auto range = magLac::Core::addRange(context.neighborhood.begin(),context.neighborhood.end(),1);

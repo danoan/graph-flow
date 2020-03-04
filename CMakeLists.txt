@@ -22,6 +22,9 @@ set(GCURVE_LIBS_DIR ${EXTPROJECTS_BUILD_DIR}/lib CACHE PATH "GCurve libraries lo
 set(GEOC_INCLUDE_DIRS ${EXTPROJECTS_BUILD_DIR}/include CACHE PATH "GEOC include location path.")
 set(MAGLAC_INCLUDE_DIRS ${EXTPROJECTS_BUILD_DIR}/include CACHE PATH "MagLac include location path.")
 
+set(BTOOLS_INCLUDE_DIRS ${EXTPROJECTS_BUILD_DIR}/include CACHE PATH "BTools include location path.")
+set(BTOOLS_LIBS_DIR ${EXTPROJECTS_BUILD_DIR}/lib CACHE PATH "BTools libraries location path.")
+
 set(LEMON_INCLUDE_DIRS ${CMAKE_PREFIX_PATH}/include CACHE PATH "Lemon include location path.")
 set(LEMON_LIBS_DIR ${CMAKE_PREFIX_PATH}/lib CACHE PATH "Lemon libraries location path.")
 
