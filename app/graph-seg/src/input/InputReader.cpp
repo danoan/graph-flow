@@ -11,6 +11,7 @@ void usage(char* argv[])
                                          "[-g Regional term penalization (default:1)]\n"
                                          "[-b Boundary term penalization (default:2)]\n"
                                          "[-k Curvature term penalization (default:0.5)]\n"
+                                         "[-G Grabcut iterations (default:1)]\n"
                                          "[-O Optimization band (default:2)]\n"
                                          "[-n Maximum number of threads (default:4)]\n"
                                          "[-N neighborhood size (default:2)]\n"
@@ -25,7 +26,7 @@ InputData readInput(int argc, char* argv[])
     InputData id;
 
     int opt;
-    while( (opt=getopt(argc,argv,"i:r:e:h:a:g:b:k:O:n:N:P:w"))!=-1)
+    while( (opt=getopt(argc,argv,"i:r:e:h:a:g:b:k:G:O:n:N:P:w"))!=-1)
     {
         switch(opt)
         {
@@ -71,6 +72,11 @@ InputData readInput(int argc, char* argv[])
                 id.curvatureTermWeight = std::atof(optarg);
                 break;
             }
+            case 'G':
+            {
+                id.grabcutIterations= std::atoi(optarg);
+                break;
+            }            
             case 'O':
             {
                 id.optBand = std::atoi(optarg);

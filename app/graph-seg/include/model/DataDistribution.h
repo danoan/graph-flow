@@ -27,7 +27,7 @@ struct DataDistribution
         cv::Mat gcOutMask=gco.grabCutMask;
 
 
-        grabCut(gco.inputImage,gcOutMask,cv::Rect(),bgModel,fgModel,10,cv::GC_INIT_WITH_MASK);
+        grabCut(gco.inputImage,gcOutMask,cv::Rect(),bgModel,fgModel,id.grabcutIterations,cv::GC_INIT_WITH_MASK);
 
         cv::Mat segMask= cv::Mat::zeros(gco.inputImage.size(),CV_8UC1);
         cv::compare(gcOutMask,

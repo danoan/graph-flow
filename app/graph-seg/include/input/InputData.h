@@ -19,6 +19,7 @@ struct InputData
         curvatureTermWeight=0.5;
 
         optBand=2;
+        grabcutIterations=1;
 
         energy=Elastica;
 
@@ -37,6 +38,7 @@ struct InputData
     double h;
     double alpha;
     int optBand;
+    int grabcutIterations;
 
     double regionalTermWeight;
     double boundaryTermWeight;
