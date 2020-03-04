@@ -128,6 +128,7 @@ void writeInputData(const InputData& id, std::ostream& os)
     << "Ball radius:" << id.radius << "\n"
     << "Grid step:" << id.h  << "\n"
     << "Opt band:" << id.optBand  << "\n"
+    << "Grabcut iterations:" << id.grabcutIterations  << "\n"
     << "Energy:" << resolveEnergyName(id.energy) << "\n"
     << "Length penalization:" << id.alpha  << "\n"
     << "Regional term:" << id.regionalTermWeight << "\n"

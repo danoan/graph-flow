@@ -26,6 +26,7 @@ DigitalSet prepareShape(const DataDistribution& DD, Point initialBorder)
 {
     const cv::Mat& segResult = DD.segResultImg;
 
+
     Domain tempDomain(Point(0,0),
                       Point(segResult.cols-1,
                             segResult.rows-1)
@@ -50,24 +51,25 @@ DigitalSet prepareShape(const DataDistribution& DD, Point initialBorder)
 int main(int argc, char* argv[])
 {
     InputData id = readInput(argc,argv);
-
     boost::filesystem::create_directories(id.outputFolder);
-
-
-    DataDistribution DD(id);
-    Domain imgDomain(Point(0,0),
-                      Point(DD.segResultImg.cols-1,
-                            DD.segResultImg.rows-1));
-    DigitalSet ds = prepareShape(DD,Point(20,20));
-    GraphSegInput gsi(id,ds,DD);
-
 
     std::ofstream ofsInputData(id.outputFolder + "/inputData.txt");
     writeInputData(id,ofsInputData);
     ofsInputData.flush(); ofsInputData.close();
 
     std::ofstream ofsEnergy(id.outputFolder + "/energy.txt");
+    ofsEnergy << "#Grabcut execution time: ";
+    Timer T_grabcut;
+    T_grabcut.start();
+    DataDistribution DD(id);
+    T_grabcut.end(ofsEnergy);
 
+
+    Domain imgDomain(Point(0,0),
+                      Point(DD.segResultImg.cols-1,
+                            DD.segResultImg.rows-1));
+    DigitalSet ds = prepareShape(DD,Point(20,20));
+    GraphSegInput gsi(id,ds,DD);
 
     IterationCallback iterationCallback=[&id,&ofsEnergy](const GraphSegIteration& gfIteration)->void
     {
@@ -78,16 +80,15 @@ int main(int argc, char* argv[])
             writeEnergyData(gfIteration,std::cout);
     };
 
-    Timer T;
-    T.start();
+    Timer T_graphSeg;
+    T_graphSeg.start();
     DigitalSet outputDS=graphSeg(gsi,ofsEnergy,iterationCallback);
 
     ofsEnergy << "#Execution time: ";
-    T.end(ofsEnergy);
+    T_graphSeg.end(ofsEnergy);
     ofsEnergy.flush(); ofsEnergy.close();
 
     outputImages(gsi.dataDistribution.gco,gsi.dataDistribution.segResultImg,outputDS,id.outputFolder);
 
     return 0;
 }
-//output/radius_3/elastica/opt_band_3/neigh_size_3/len_pen_0.00100/data_term_1.00000/gs_1.00000
