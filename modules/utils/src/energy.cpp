@@ -81,8 +81,7 @@ namespace GraphFlow::Utils::Energy
             curve.initFromSCellsVector(orderedSCells);
 
 
-
-            if(curve.size()<10){ value+=pow(1.0/h,2); continue; }
+            if(curve.size()<5.0/h){ value+= alpha*2*M_PI + pow(1.0/h,2); continue; }
 
             Length::EstimationsVector lengthEV;
             Length::mdssClosed<Length::EstimationAlgorithms::ALG_PROJECTED>(kspace,curve.begin(),curve.end(),lengthEV,h,NULL);
@@ -141,7 +140,7 @@ namespace GraphFlow::Utils::Energy
                                                      scell);
             Curve curve;
             curve.initFromSCellsVector(orderedSCells);
-            if(curve.size()<10){ value+=1.0/h; continue; }
+            if(curve.size()<5.0/h){ value+= alpha*2*M_PI + pow(1.0/h,2);  continue; }
 
 
             Length::EstimationsVector lengthEV;
