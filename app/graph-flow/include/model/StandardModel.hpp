@@ -37,7 +37,11 @@ namespace StandardModel
 
             DigitalSet vertexSet = GraphFlow::Utils::Digital::level(dtInterior,context.gfi.inputData.optBand,0);
             vertexSet += GraphFlow::Utils::Digital::level(dtExterior,context.gfi.inputData.optBand,0);
-            vertexSet += context.gfi.pixelMask;
+            
+            for(auto it=context.hcv.at(0)->begin();it!=context.hcv.at(0)->end();++it)
+            {
+                vertexSet.insert( it->source );
+            }
 
             FlowGraph fg(vertexSet,twv,ewv,context.hcv);
             DigitalSet* solutionSet = new DigitalSet(candidateDS.domain());
