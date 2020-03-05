@@ -1,6 +1,5 @@
 #include "graph-flow/utils/energy.h"
-#include "DGtal/io/boards/Board2D.h"
-#include "DGtal/io/colormaps/TickedColorMap.h"
+
 namespace GraphFlow::Utils::Energy
 {
     void computeBoundaryCurve(Curve& boundOut,
