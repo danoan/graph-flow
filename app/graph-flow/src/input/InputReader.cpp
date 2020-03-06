@@ -13,7 +13,8 @@ void usage(char* argv[])
                                          "[-b Curvature penalization (default:1.0)]\n"
                                          "[-O Optimization band (default:2)]\n"
                                          "[-n Maximum number of threads (default:4)]\n"
-                                         "[-N neighborhood size (default:2)]\n"
+                                         "[-N Neighborhood size (default:2)]\n"
+                                         "[-B Border width (automatic gridstep scaling) (default:20)]\n"
                                          "[-P Pixel mask filepath]" << std::endl;
 }
 
@@ -24,7 +25,7 @@ InputData readInput(int argc, char* argv[])
     InputData id;
 
     int opt;
-    while( (opt=getopt(argc,argv,"S:i:r:e:h:a:b:O:n:N:P:"))!=-1)
+    while( (opt=getopt(argc,argv,"S:i:r:e:h:a:b:O:n:N:B:P:"))!=-1)
     {
         switch(opt)
         {
@@ -78,6 +79,11 @@ InputData readInput(int argc, char* argv[])
             case 'N':
             {
                 id.neighborhoodSize = std::atoi(optarg);
+                break;
+            }
+            case 'B':
+            {
+                id.border= std::atoi(optarg);
                 break;
             }
             case 'P':

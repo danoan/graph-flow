@@ -17,6 +17,7 @@ struct InputData
         alpha=0.01;
         beta=1.0;
         optBand=2;
+        border=20;
 
         energy=Elastica;
 
@@ -36,6 +37,7 @@ struct InputData
     double beta;
 
     int optBand;
+    int border;
 
     EnergyType  energy;
 

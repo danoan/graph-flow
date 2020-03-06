@@ -25,7 +25,7 @@ std::pair<DigitalSet,DigitalSet> prepareShapeAndMask(const InputData& id)
     Point lb,ub;
 
     _ds.computeBoundingBox(lb,ub);
-    Point border(20/id.h,20/id.h);
+    Point border(id.border/id.h,id.border/id.h);
     Point shift = -lb+border;
 
     DigitalSet ds = DIPaCUS::Transform::bottomLeftBoundingBoxAtOrigin(_ds,border);
