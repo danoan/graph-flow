@@ -61,6 +61,8 @@ int main(int argc, char* argv[])
     {
         Display::saveDigitalSetAsImage(gfIteration.ds,id.outputFolder+"/" + String::nDigitsString(gfIteration.iteration,4) + ".pgm");
         writeEnergyData(gfIteration,ofsEnergy);
+        if(id.outputEnergy)
+            writeEnergyData(gfIteration,std::cout);
     };
     
     Timer T;

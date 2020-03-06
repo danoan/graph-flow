@@ -13,6 +13,7 @@ struct InputData
 
         iterations=10;
         radius=5;
+        vradius=radius;
         h=0.25;
         alpha=0.01;
         beta=1.0;
@@ -26,12 +27,15 @@ struct InputData
 
         outputFolder="";
         pixelMaskFilepath="";
+
+        outputEnergy=false;
     }
 
     std::string shapeName;
 
     int iterations;
     double radius;
+    double vradius; //Validation radius
     double h;
     double alpha;
     double beta;
@@ -46,6 +50,8 @@ struct InputData
 
     std::string outputFolder;
     std::string pixelMaskFilepath;
+
+    bool outputEnergy;
 };
 
 #endif //GRAPH_FLOW_APP_INPUTDATA_H

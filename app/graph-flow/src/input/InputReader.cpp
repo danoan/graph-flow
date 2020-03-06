@@ -7,6 +7,7 @@ void usage(char* argv[])
                                          "[-S Shape name(triangle, square, pentagon, heptagon, ball, ellipse, flower, bean, wave. default: square)]\n"
                                          "[-i Number of iterations (default: 10)]\n"
                                          "[-r Estimation ball radius (default: 5)]\n"
+                                         "[-v Validation ball radius (default: 5)]\n"
                                          "[-e Energy (elastica, selastica. default: elastica)]\n"
                                          "[-h Grid step (default:0.25)]\n"
                                          "[-a Length penalization (default:0.01)]\n"
@@ -15,7 +16,8 @@ void usage(char* argv[])
                                          "[-n Maximum number of threads (default:4)]\n"
                                          "[-N Neighborhood size (default:2)]\n"
                                          "[-B Border width (automatic gridstep scaling) (default:20)]\n"
-                                         "[-P Pixel mask filepath]" << std::endl;
+                                         "[-P Pixel mask filepath]"
+                                         "[-w Output energy at each iteration]" << std::endl;
 }
 
 
@@ -25,7 +27,7 @@ InputData readInput(int argc, char* argv[])
     InputData id;
 
     int opt;
-    while( (opt=getopt(argc,argv,"S:i:r:e:h:a:b:O:n:N:B:P:"))!=-1)
+    while( (opt=getopt(argc,argv,"S:i:r:v:e:h:a:b:O:n:N:B:P:w"))!=-1)
     {
         switch(opt)
         {
@@ -42,6 +44,11 @@ InputData readInput(int argc, char* argv[])
             case 'r':
             {
                 id.radius= std::atof(optarg);
+                break;
+            }
+            case 'v':
+            {
+                id.vradius = std::atof(optarg);
                 break;
             }
             case 'e':
@@ -89,6 +96,11 @@ InputData readInput(int argc, char* argv[])
             case 'P':
             {
                 id.pixelMaskFilepath = optarg;
+                break;
+            }
+            case 'w':
+            {
+                id.outputEnergy = true;
                 break;
             }
             default:
