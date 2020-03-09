@@ -47,7 +47,7 @@ DigitalSet graphSeg(const GraphSegInput& gfi, std::ostream& os, IterationCallbac
         if(id.iterations==-1)
         {
             //For unlimited iterations, stop if the current best solution is worst than previous best solution
-            if( evaluationPairs[0].second > lastEnergyValue ) break;
+            if( evaluationPairs[0].second >= lastEnergyValue ) break;
         }
         else
         {
