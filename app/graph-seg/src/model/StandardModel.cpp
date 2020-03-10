@@ -36,7 +36,7 @@ namespace StandardModel
         return exp(c);
     }
 
-    double boundaryValue(const InputData& id,const DigitalSet& ds, const DataDistribution& DD)
+    double boundaryValueAlternative(const InputData& id,const DigitalSet& ds, const DataDistribution& DD)
     {
         const cv::Mat& img = DD.fgDistr->img;
 
@@ -56,6 +56,37 @@ namespace StandardModel
         v=v/( (double) boundary.size() );
 
         return v;
+    }
+
+    double boundaryValue(const InputData& id,const DigitalSet& ds, const DataDistribution& DD)
+    {
+        const cv::Mat& img = DD.fgDistr->img;
+
+        DigitalSet boundary(ds.domain());
+        DIPaCUS::Misc::digitalBoundary<DIPaCUS::Neighborhood::FourNeighborhoodPredicate>(boundary,ds);
+
+        Homogeneity homogeneity(img,id.boundaryTermWeight);
+
+        double v=0;
+//        Point neigh[8]={Point(0,1),Point(1,0),Point(-1,0),Point(0,-1),
+//                        Point(1,1),Point(1,-1),Point(-1,1), Point(-1,-1)};
+        Point neigh[4]={Point(0,1),Point(1,0),Point(-1,0),Point(0,-1)};
+        for(auto p:boundary)
+        {
+            for(auto n:neigh)
+            {
+                auto np = p+n;
+                v+=homogeneity.operator()(p,np);
+            }
+
+        }
+
+        if(boundary.empty()) return v;
+        v=v/( (double) boundary.size() );
+
+        return v;
+
+
     }
 
     double regionValue(const InputData& id,const DigitalSet& ds, const DataDistribution& DD)
