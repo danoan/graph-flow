@@ -17,6 +17,7 @@ void usage(char* argv[])
                                          "[-n Maximum number of threads (default:4)]\n"
                                          "[-N neighborhood size (default:2)]\n"
                                          "[-w print energy value]\n"
+                                         "[-s create figure at each iteration]\n"
                                          "[-P Pixel mask filepath]" << std::endl;
 }
 
@@ -27,7 +28,7 @@ InputData readInput(int argc, char* argv[])
     InputData id;
 
     int opt;
-    while( (opt=getopt(argc,argv,"i:r:e:h:d:a:g:b:k:G:O:n:N:P:w"))!=-1)
+    while( (opt=getopt(argc,argv,"i:r:e:h:d:a:g:b:k:G:O:n:N:P:ws"))!=-1)
     {
         switch(opt)
         {
@@ -106,6 +107,11 @@ InputData readInput(int argc, char* argv[])
             case 'w':
             {
                 id.printEnergyValue = true;
+                break;
+            }
+            case 's':
+            {
+                id.createFigureIteration=true;
                 break;
             }
             default:

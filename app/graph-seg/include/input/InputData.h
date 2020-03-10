@@ -32,6 +32,7 @@ struct InputData
         gcoFilepath="";
 
         printEnergyValue=false;
+        createFigureIteration=false;
     }
 
     int iterations;
@@ -57,6 +58,7 @@ struct InputData
     std::string gcoFilepath;
 
     bool printEnergyValue;
+    bool createFigureIteration;
 };
 
 #endif //GRAPH_FLOW_APP_INPUTDATA_H

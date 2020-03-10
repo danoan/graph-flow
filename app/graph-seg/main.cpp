@@ -79,8 +79,10 @@ int main(int argc, char* argv[])
 
     IterationCallback iterationCallback=[&id,&ofsEnergy](const GraphSegIteration& gfIteration)->void
     {
-        Display::saveDigitalSetAsImage(gfIteration.ds,id.outputFolder+"/" + String::nDigitsString(gfIteration.iteration,4) + ".pgm");
         writeEnergyData(gfIteration,ofsEnergy);
+
+        if(id.createFigureIteration)
+            Display::saveDigitalSetAsImage(gfIteration.ds,id.outputFolder+"/" + String::nDigitsString(gfIteration.iteration,4) + ".pgm");
 
         if(id.printEnergyValue)
             writeEnergyData(gfIteration,std::cout);
