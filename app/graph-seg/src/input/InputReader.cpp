@@ -7,6 +7,7 @@ void usage(char* argv[])
                                          "[-r Estimation ball radius (default: 5)]\n"
                                          "[-e Energy (elastica, selastica. default: elastica)]\n"
                                          "[-h Grid step (default:0.25)]\n"
+                                         "[-d Initial dilation (default:0)]\n"
                                          "[-a Length penalization (default:0.01)]\n"
                                          "[-g Regional term penalization (default:1)]\n"
                                          "[-b Boundary term penalization (default:2)]\n"
@@ -26,7 +27,7 @@ InputData readInput(int argc, char* argv[])
     InputData id;
 
     int opt;
-    while( (opt=getopt(argc,argv,"i:r:e:h:a:g:b:k:G:O:n:N:P:w"))!=-1)
+    while( (opt=getopt(argc,argv,"i:r:e:h:d:a:g:b:k:G:O:n:N:P:w"))!=-1)
     {
         switch(opt)
         {
@@ -50,6 +51,11 @@ InputData readInput(int argc, char* argv[])
             case 'h':
             {
                 id.h= std::atof(optarg);
+                break;
+            }
+            case 'd':
+            {
+                id.initialDilation= std::atoi(optarg);
                 break;
             }
             case 'a':

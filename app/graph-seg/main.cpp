@@ -22,16 +22,16 @@ using namespace GraphFlow::Utils;
 
 
 
-DigitalSet prepareShape(const DataDistribution& DD, Point initialBorder)
+DigitalSet prepareShape(const DataDistribution& DD, int initialDilation)
 {
     const cv::Mat& segResult = DD.segResultImg;
 
 
-    Domain tempDomain(Point(0,0),
+    Domain imgDomain(Point(0,0),
                       Point(segResult.cols-1,
                             segResult.rows-1)
     );
-    DigitalSet tempDS(tempDomain);
+    DigitalSet tempDS(imgDomain);
 
     //Convert inputImg to 1-channel grayscale image.
     cv::Mat grayscale(segResult.size(),
@@ -44,8 +44,14 @@ DigitalSet prepareShape(const DataDistribution& DD, Point initialBorder)
     DIPaCUS::Representation::CVMatToDigitalSet(tempDS,
                                                grayscale,
                                                1);
+    Domain dilatedDomain(imgDomain.lowerBound() - Point(initialDilation,initialDilation), imgDomain.upperBound() + Point(initialDilation,initialDilation));
+    DigitalSet dilated(dilatedDomain);
 
-    return tempDS;
+    DIPaCUS::Morphology::dilate(dilated,tempDS,DIPaCUS::Morphology::StructuringElement(DIPaCUS::Morphology::StructuringElement::RECT,initialDilation));
+    DigitalSet finalDS(imgDomain);
+    for(auto p:dilated) if(imgDomain.isInside(p)) finalDS.insert(p);
+
+    return finalDS;
 }
 
 int main(int argc, char* argv[])
@@ -68,7 +74,7 @@ int main(int argc, char* argv[])
     Domain imgDomain(Point(0,0),
                       Point(DD.segResultImg.cols-1,
                             DD.segResultImg.rows-1));
-    DigitalSet ds = prepareShape(DD,Point(20,20));
+    DigitalSet ds = prepareShape(DD,id.initialDilation);
     GraphSegInput gsi(id,ds,DD);
 
     IterationCallback iterationCallback=[&id,&ofsEnergy](const GraphSegIteration& gfIteration)->void
