@@ -91,8 +91,16 @@ namespace StandardModel
 
     double regionValue(const InputData& id,const DigitalSet& ds, const DataDistribution& DD)
     {
+        double fgv=0;
+        double bgv=0;
+        return regionValue(fgv,bgv,id,ds,DD);
+    }
+
+    double regionValue(double& fgv, double& bgv,const InputData& id,const DigitalSet& ds, const DataDistribution& DD)
+    {
         const cv::Mat& img = DD.fgDistr->img;
-        double v=0;
+        bgv=0;
+        fgv=0;
         for(auto p:ds.domain())
         {
             int prow=img.rows-p[1];
@@ -100,14 +108,15 @@ namespace StandardModel
 
             if(ds(p))
             {
-                v+=-log( 1- (*DD.bgDistr)(prow,pcol) );
+                fgv+=-log( 1- (*DD.bgDistr)(prow,pcol) );
             }else
             {
-                v+=-log( 1-(*DD.fgDistr)(prow,pcol) );
+                bgv+=-log( 1-(*DD.fgDistr)(prow,pcol) );
             }
         }
 
-        return v;
+        //bgv-rv. If greater than 0, alpha should be 1, so the shape shrinks.
+        return (fgv+bgv);
     }
 
     double evaluateData(const InputData& id,const DigitalSet& ds, const DataDistribution& DD)
@@ -115,8 +124,9 @@ namespace StandardModel
         double bv = id.boundaryTermWeight*boundaryValue(id,ds,DD);
         double rv = id.regionalTermWeight*regionValue(id,ds,DD);
 
-        return bv+rv;
+//        std::cout << "(" << bv << "," << rv << "), ";
 
+        return bv;
     }
 
     HardConstraintVector prepareHardConstraints(const InputData& id, const DigitalSet& ds, const DigitalSet& pixelMask)

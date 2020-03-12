@@ -30,7 +30,7 @@ public:
         double s = pow(diff[0],2) + pow(diff[1],2) + pow(diff[2],2);
 
         Point pdiff = p1-p2;
-        double d = sqrt( pow(pdiff[0],2) + pow(pdiff[1],2) );
+        double d = pow(pdiff[0],2) + pow(pdiff[1],2);
         double v = exp(-s*1.0/d); 
 
         return v;

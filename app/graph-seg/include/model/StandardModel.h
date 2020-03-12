@@ -67,6 +67,10 @@ namespace StandardModel
     };
 
 
+    double boundaryValue(const InputData& id,const DigitalSet& ds, const DataDistribution& DD);
+
+    double regionValue(const InputData& id,const DigitalSet& ds, const DataDistribution& DD);
+    double regionValue(double& fgv, double& bgv,const InputData& id,const DigitalSet& ds, const DataDistribution& DD);
     double evaluateData(const InputData& inputData,const DigitalSet& ds, const DataDistribution& DD);
 
     template<class TNeighborhoodExplorer>
