@@ -21,7 +21,7 @@ private:
     {
         intersectionSet->clear();
         DBI->operator()(*intersectionSet,p);
-        return pow( DBI->digitalBall().size()/2.0 -(double) intersectionSet->size(),2);
+        return pow( halfBallArea -(double) intersectionSet->size(),2);
     }
 
 public:
@@ -30,7 +30,7 @@ public:
     {
         DBI = new DigitalBallIntersection(radius,ds);
         intersectionSet = new DigitalSet(DBI->domain());
-        curvatureWeight=curvatureWeight;
+        halfBallArea = (double) DBI->digitalBall().size()/2.0;
     }
 
     ~Curvature()
@@ -58,6 +58,7 @@ private:
     double radius;
     double gridStep;
     double curvatureWeight;
+    double halfBallArea;
 
     DigitalBallIntersection* DBI;
     DigitalSet* intersectionSet;

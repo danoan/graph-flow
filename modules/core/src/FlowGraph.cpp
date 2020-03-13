@@ -44,22 +44,28 @@ namespace GraphFlow::Core
         }
 
         Point neighbors[4]={Point(0,1),Point(1,0),Point(-1,0),Point(0,-1)};
+        std::set<Point> visited;
         for(int i=0;i<ewv.size();++i)
         {
             for(auto p:vertexSet)
             {
+                visited.insert(p);
                 for(auto n:neighbors)
                 {
                     Point np = p+n;
+                    if(visited.find(np)!=visited.end()) continue;
+
                     if( vertexSet(np) )
                     {
-                        ListDigraph::Arc a = digraph.addArc( ptn[p],ptn[np] );
+                        ListDigraph::Arc a1 = digraph.addArc( ptn[p],ptn[np] );
+                        ListDigraph::Arc a2 = digraph.addArc( ptn[np],ptn[p] );
     
                         auto& ew = ewv[i];
                         double factor;
                         if(ew->normalize()) factor=1.0/this->ewvMax[i];
                         else factor=1.0;
-                        arcWeightMap[a] = factor*ew->weight()*(*ew)(p,np);
+                        arcWeightMap[a1] = factor*ew->weight()*(*ew)(p,np);
+                        arcWeightMap[a2] = factor*ew->weight()*(*ew)(np,p);
                     }
                 }
             }

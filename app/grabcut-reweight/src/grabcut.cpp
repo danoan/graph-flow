@@ -342,28 +342,34 @@ void includeCurvatureWeights(GCGraph<double>& graph, const cv::Mat& img, const D
     DGtal::Z2i::DigitalSet intersection(shape.domain());
 
     DGtal::Z2i::Point neighborhood[4] = {DGtal::Z2i::Point(1,0),DGtal::Z2i::Point(0,1),DGtal::Z2i::Point(-1,0),DGtal::Z2i::Point(0,-1)};
+    std::set<DGtal::Z2i::Point> visited;
+    double halfBallArea = (double) DBI.digitalBall().size()/2.0;
     for(auto p:optRegion)
     {
         intersection.clear();
         DBI(intersection,p);
         double coeffP=pow( DBI.digitalBall().size()/2.0 -(double) intersection.size(),2);
 
+        visited.insert(p);
         for(auto n:neighborhood)
         {
             auto np = p + n;
+            if(!shape.domain().isInside(np)) continue;
+            if(visited.find(np)!=visited.end()) continue;
+
 
             intersection.clear();
             DBI(intersection,np);
-            double coeffNp=pow( DBI.digitalBall().size()/2.0 -(double) intersection.size(),2);
+            double coeffNp=pow( halfBallArea -(double) intersection.size(),2);
 
-            int vP = (img.rows - p[1])*img.cols+p[0];
-            int vNp = (img.rows - np[1])*img.cols+np[0];
+            int vP = (img.rows-1 - p[1])*img.cols+p[0];
+            int vNp = (img.rows-1 - np[1])*img.cols+np[0];
             double weight = kweight*(coeffP+coeffNp);
 
             graph.addEdges(vP,vNp,weight,weight);
         }
-
     }
+    std::cout << "End curvature weight" << std::endl;
 }
 
 /*

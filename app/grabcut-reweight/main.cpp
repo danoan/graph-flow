@@ -73,7 +73,7 @@ DigitalSet prepareShape(const GrabCutObject& gco)
     cv::Mat gcOutMask=gco.grabCutMask;
 
 
-    grabCut(gco.inputImage,gcOutMask,cv::Rect(),bgModel,fgModel,100,cv::GC_INIT_WITH_MASK);
+    grabCut(gco.inputImage,gcOutMask,cv::Rect(),bgModel,fgModel,1,cv::GC_INIT_WITH_MASK);
 
     cv::Mat segMask= cv::Mat::zeros(gco.inputImage.size(),CV_8UC1);
     cv::compare(gcOutMask,
@@ -153,9 +153,12 @@ int main(int argc, char* argv[]) {
         cv::Mat segResultImg = cv::Mat::zeros(gco.inputImage.size(),CV_8UC3);
         gco.inputImage.copyTo(segResultImg,segMask);
 
+
+        std::cout << "Iteration: " << i << std::endl;
         cv::imshow("GrabCut",
                    segResultImg);
-        cv::waitKey(200);
+        cv::waitKey(50);
+
 
         shape.clear();
         shape = prepareShape(segResultImg);

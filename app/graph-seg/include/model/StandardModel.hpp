@@ -71,6 +71,7 @@ namespace StandardModel
             ti.vars.epVector.push_back(std::make_pair( solutionSet,energyValue));
 
             for(auto ew:ewv) delete ew;
+            for(auto tw:twv) delete tw;
         };
     }
 }
