@@ -50,8 +50,19 @@ namespace StandardModel
                 if(context.ds.domain().isInside(p)) solutionSet->insert(p);
             }
 
-            double elasticaValue = evaluateEnergy(context.gfi.inputData,*solutionSet);
-            double dataFidelityValue= evaluateData(context.gfi.inputData,*solutionSet,context.gfi.dataDistribution);
+            double fgv;
+            double bgv;
+
+            double dataFidelityValue= evaluateData(fgv,bgv,context.gfi.inputData,*solutionSet,context.gfi.dataDistribution);
+
+            double dAlpha;
+            if( (bgv-fgv)>0 ) dAlpha=0.0;
+            else dAlpha=1.0;
+
+//            std::cout << dAlpha << ", ";
+
+            double elasticaValue = evaluateEnergy(context.gfi.inputData,*solutionSet,dAlpha);
+
 
             double energyValue = dataFidelityValue + elasticaValue;
 

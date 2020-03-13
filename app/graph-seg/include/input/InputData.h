@@ -33,6 +33,7 @@ struct InputData
 
         printEnergyValue=false;
         createFigureIteration=false;
+        dynamicAlpha=false;
     }
 
     int iterations;
@@ -59,6 +60,7 @@ struct InputData
 
     bool printEnergyValue;
     bool createFigureIteration;
+    bool dynamicAlpha;
 };
 
 #endif //GRAPH_FLOW_APP_INPUTDATA_H

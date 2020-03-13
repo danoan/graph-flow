@@ -18,6 +18,7 @@ void usage(char* argv[])
                                          "[-N neighborhood size (default:2)]\n"
                                          "[-w print energy value]\n"
                                          "[-s create figure at each iteration]\n"
+                                         "[-A Dynamic alpha (default: false)]\n"
                                          "[-P Pixel mask filepath]" << std::endl;
 }
 
@@ -28,7 +29,7 @@ InputData readInput(int argc, char* argv[])
     InputData id;
 
     int opt;
-    while( (opt=getopt(argc,argv,"i:r:e:h:d:a:g:b:k:G:O:n:N:P:ws"))!=-1)
+    while( (opt=getopt(argc,argv,"i:r:e:h:d:a:g:b:k:G:O:n:N:P:wsA"))!=-1)
     {
         switch(opt)
         {
@@ -112,6 +113,11 @@ InputData readInput(int argc, char* argv[])
             case 's':
             {
                 id.createFigureIteration=true;
+                break;
+            }
+            case 'A':
+            {
+                id.dynamicAlpha=true;
                 break;
             }
             default:

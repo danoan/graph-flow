@@ -17,16 +17,16 @@ void writeEnergyData(std::ostream& os)
     << String::fixedStrLength(colLength,"Energy value") << "\n";
 }
 
-double evaluateEnergy(const InputData& id, const DigitalSet& ds)
+double evaluateEnergy(const InputData& id, const DigitalSet& ds, double dAlpha)
 {
     using namespace GraphFlow::Utils;
 
-    double s=0;
-    if(id.energy==InputData::EnergyType::Elastica) s+=Energy::elastica(ds,id.radius,id.h,id.alpha,id.curvatureTermWeight);
-    else if(id.energy==InputData::EnergyType::SElastica) s+=Energy::sElastica(ds,id.radius,id.h,id.alpha,id.curvatureTermWeight);
-    else throw std::runtime_error("Unrecognized energy!");
+    double alpha=id.alpha;
+    if(id.dynamicAlpha) alpha=dAlpha;
 
-    return s;
+    if(id.energy==InputData::EnergyType::Elastica) return Energy::elastica(ds,id.radius,id.h,alpha,id.curvatureTermWeight);
+    else if(id.energy==InputData::EnergyType::SElastica) return Energy::sElastica(ds,id.radius,id.h,alpha,id.curvatureTermWeight);
+    else throw std::runtime_error("Unrecognized energy!");
 }
 
 DigitalSet getPixelMask(const std::string& pixelMaskFilepath, const Domain& domain, const Point& shift)

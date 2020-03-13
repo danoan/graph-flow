@@ -13,7 +13,7 @@ DigitalSet graphSeg(const GraphSegInput& gfi, std::ostream& os, IterationCallbac
     StandardModel::MorphologyNeighborhood neighborhood(StandardModel::MorphologyNeighborhood::MorphologyElement::CIRCLE,id.neighborhoodSize);
     StandardModel::HardConstraintVector hcv;
 
-    double lastEnergyValue= StandardModel::evaluateData(id,ds,gfi.dataDistribution) + evaluateEnergy(id,ds);
+    double lastEnergyValue= StandardModel::evaluateData(id,ds,gfi.dataDistribution) + evaluateEnergy(id,ds,id.alpha);
     int i=0;
     while(true)
     {

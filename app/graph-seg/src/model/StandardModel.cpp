@@ -115,18 +115,24 @@ namespace StandardModel
             }
         }
 
-        //bgv-rv. If greater than 0, alpha should be 1, so the shape shrinks.
+        //bgv-fgv. If greater than 0, alpha should be 1, so the shape shrinks.
         return (fgv+bgv);
+    }
+
+    double evaluateData(double& fgv, double& bgv, const InputData& id,const DigitalSet& ds, const DataDistribution& DD)
+    {
+        double bv = id.boundaryTermWeight*boundaryValue(id,ds,DD);
+        double rv = id.regionalTermWeight*regionValue(fgv,bgv,id,ds,DD);
+
+//        std::cout << "(" << bv << "," << rv << "), ";
+
+        return rv+bv;
     }
 
     double evaluateData(const InputData& id,const DigitalSet& ds, const DataDistribution& DD)
     {
-        double bv = id.boundaryTermWeight*boundaryValue(id,ds,DD);
-        double rv = id.regionalTermWeight*regionValue(id,ds,DD);
-
-//        std::cout << "(" << bv << "," << rv << "), ";
-
-        return bv;
+        double fgv,bgv;
+        return evaluateData(fgv,bgv,id,ds,DD);
     }
 
     HardConstraintVector prepareHardConstraints(const InputData& id, const DigitalSet& ds, const DigitalSet& pixelMask)

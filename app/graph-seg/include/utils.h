@@ -20,7 +20,7 @@ typedef BTools::Utils::GrabCutIO::GrabCutObject GrabCutObject;
 
 void writeEnergyData(const GraphSegIteration& gsIteration,std::ostream& os);
 void writeEnergyData(std::ostream& os);
-double evaluateEnergy(const InputData& id, const DigitalSet& ds);
+double evaluateEnergy(const InputData& id, const DigitalSet& ds, double dAlpha);
 DigitalSet getPixelMask(const std::string& pixelMaskFilepath, const Domain& domain, const Point& shift);
 
 void initGMMs( const cv::Mat& img, const cv::Mat& mask, GMM& bgdGMM, GMM& fgdGMM );
