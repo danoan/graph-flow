@@ -13,6 +13,7 @@ namespace GraphFlow::Core
         virtual bool normalize() const=0;
         virtual HardConstraintIterator begin()=0;
         virtual HardConstraintIterator end()=0;
+        virtual ~HardConstraint(){}
     };
 }
 

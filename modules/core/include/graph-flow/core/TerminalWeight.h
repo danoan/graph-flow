@@ -15,6 +15,7 @@ namespace GraphFlow::Core
         virtual double weight() const=0;
         virtual TerminalType type() const=0;
         virtual bool normalize() const=0;
+        virtual ~TerminalWeight(){}
     };
 }
 

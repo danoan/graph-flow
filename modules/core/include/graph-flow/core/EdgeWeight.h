@@ -12,6 +12,7 @@ namespace GraphFlow::Core
         virtual double operator()(const Point& p1, const Point& p2)=0;
         virtual double weight() const=0;
         virtual bool normalize() const=0;
+        virtual ~EdgeWeight(){}
     };
 }
 
