@@ -35,7 +35,8 @@ target_link_libraries(graph-flow-utils
         -ldipacus-base
         -ldipacus-components
         -lboost_system
-        ${DGTAL_LIBRARIES})
+        ${DGTAL_LIBRARIES}
+        ${OpenCV_LIBS})
 
 install(DIRECTORY include
         DESTINATION ${CMAKE_INSTALL_PREFIX})

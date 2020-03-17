@@ -39,6 +39,7 @@ target_link_libraries(grabcut-reweight-app
         -lgraph-flow-core
         -lgraph-flow-utils
         -lbtools-utils
+        -lboost_system
         -lboost_filesystem
         -lpthread
         ${DGTAL_LIBRARIES}

@@ -39,6 +39,7 @@ target_link_libraries(graph-flow-app
         -lbtools-utils
         -lgraph-flow-core
         -lgraph-flow-utils
+        -lboost_system
         -lboost_filesystem
         -lpthread
         ${DGTAL_LIBRARIES})

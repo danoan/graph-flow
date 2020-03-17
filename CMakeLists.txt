@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.12)
 project(graph-flow)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -30,6 +30,9 @@ set(LEMON_LIBS_DIR ${CMAKE_PREFIX_PATH}/lib CACHE PATH "Lemon libraries location
 
 set(BOOST_INCLUDE_DIRS /usr/local/include/boost CACHE PATH "Boost include location path." )
 set(BOOST_LIBS_DIR /usr/local/lib CACHE PATH "Boost libraries location path.")
+
+set(CREATE_SHARED_LIBRARIES ON CACHE BOOL "Create shared libraries. If off, create static libraries.")
+set(USE_REMOTE_REPOSITORIES ON CACHE BOOL "Pull external repositories from GitHub.")
 
 if (${USE_REMOTE_REPOSITORIES})
     add_subdirectory(ext-projects)

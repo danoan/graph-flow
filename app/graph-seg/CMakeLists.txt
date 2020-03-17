@@ -41,6 +41,7 @@ target_link_libraries(graph-seg-app
         -lbtools-utils
         -lgraph-flow-core
         -lgraph-flow-utils
+        -lboost_system
         -lboost_filesystem
         -lpthread
         ${DGTAL_LIBRARIES}
