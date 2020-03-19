@@ -1,4 +1,5 @@
 #include <boost/filesystem.hpp>
+#include <opencv2/highgui.hpp>
 
 #include <DGtal/helpers/StdDefs.h>
 #include <DIPaCUS/components/Transform.h>
@@ -6,7 +7,6 @@
 
 #include <graph-flow/utils/display.h>
 #include <graph-flow/utils/string.h>
-#include <opencv/cv.hpp>
 #include <graph-flow/utils/digital.h>
 
 #include "input/InputData.h"

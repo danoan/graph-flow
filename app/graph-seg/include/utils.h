@@ -1,6 +1,8 @@
 #ifndef GRAPH_FLOW_UTILS_H
 #define GRAPH_FLOW_UTILS_H
 
+#include <opencv2/imgproc/types_c.h>
+
 #include <DGtal/helpers/StdDefs.h>
 #include <BTools/utils/imgUtils.h>
 #include <BTools/utils/model/GrabCutObject.h>

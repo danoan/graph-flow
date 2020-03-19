@@ -42,6 +42,7 @@
 //#include "precomp.hpp"
 #include "gcgraph.hpp"
 #include <limits>
+#include <opencv2/core/types_c.h>
 
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
