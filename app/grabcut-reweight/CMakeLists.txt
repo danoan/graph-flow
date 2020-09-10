@@ -38,6 +38,7 @@ target_link_libraries(grabcut-reweight-app
         -ldipacus-derivates
         -lgraph-flow-core
         -lgraph-flow-utils
+        -lbtools-seedio
         -lbtools-utils
         -lboost_system
         -lboost_filesystem

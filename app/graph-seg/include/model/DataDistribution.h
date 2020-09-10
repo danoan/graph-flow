@@ -1,7 +1,7 @@
 #ifndef GRAPH_FLOW_DATADISTRIBUTION_H
 #define GRAPH_FLOW_DATADISTRIBUTION_H
 
-#include <BTools/utils/model/GrabCutObject.h>
+#include <BTools/io/seed/GrabCutObject.h>
 
 #include "input/InputData.h"
 #include "model/GMM.h"
@@ -11,14 +11,14 @@
 
 struct DataDistribution
 {
-    typedef BTools::Utils::GrabCutIO::GrabCutObject GrabCutObject;
+    typedef BTools::IO::Seed::GrabCutObject GrabCutObject;
 
     void rerunGrabcut(const InputData& id)
     {
-        GrabCutObject _gco = BTools::Utils::GrabCutIO::read(id.gcoFilepath);
+        GrabCutObject _gco = BTools::IO::Seed::read(id.gcoFilepath);
 
         cv::Mat fgMask,bgMask,pbfgMask;
-        BTools::Utils::GrabCutIO::getSeedMasks(_gco,fgMask,bgMask,pbfgMask);
+        BTools::IO::Seed::getSeedMasks(_gco,fgMask,bgMask,pbfgMask);
 
         gco.inputImage = _gco.inputImage;
         gco.seeds = _gco.seeds;

@@ -5,7 +5,7 @@
 
 #include <DGtal/helpers/StdDefs.h>
 #include <BTools/utils/imgUtils.h>
-#include <BTools/utils/model/GrabCutObject.h>
+#include <BTools/io/seed/GrabCutObject.h>
 
 #include <graph-flow/utils/string.h>
 #include <graph-flow/utils/energy.h>
@@ -18,7 +18,7 @@ typedef DGtal::Z2i::DigitalSet DigitalSet;
 typedef DGtal::Z2i::Domain Domain;
 typedef DGtal::Z2i::Point Point;
 
-typedef BTools::Utils::GrabCutIO::GrabCutObject GrabCutObject;
+typedef BTools::IO::Seed::GrabCutObject GrabCutObject;
 
 void writeEnergyData(const GraphSegIteration& gsIteration,std::ostream& os);
 void writeEnergyData(std::ostream& os);

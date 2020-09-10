@@ -38,6 +38,7 @@ target_link_libraries(graph-seg-app
         -ldipacus-base
         -ldipacus-components
         -ldipacus-derivates
+        -lbtools-seedio
         -lbtools-utils
         -lgraph-flow-core
         -lgraph-flow-utils

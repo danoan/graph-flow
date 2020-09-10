@@ -2,7 +2,7 @@
 
 #include <DGtal/helpers/StdDefs.h>
 #include <DIPaCUS/components/Transform.h>
-#include <BTools/utils/model/GrabCutObject.h>
+#include <BTools/io/seed/GrabCutObject.h>
 
 #include <graph-flow/utils/display.h>
 #include <graph-flow/utils/string.h>

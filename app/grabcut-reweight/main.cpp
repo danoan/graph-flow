@@ -3,7 +3,7 @@
 
 #include <DGtal/helpers/StdDefs.h>
 #include <DIPaCUS/components/Transform.h>
-#include <BTools/utils/model/GrabCutObject.h>
+#include <BTools/io/seed/GrabCutObject.h>
 
 #include <graph-flow/utils/display.h>
 #include <graph-flow/utils/string.h>
@@ -14,7 +14,7 @@
 
 using namespace DGtal::Z2i;
 
-typedef BTools::Utils::GrabCutIO::GrabCutObject GrabCutObject;
+typedef BTools::IO::Seed::GrabCutObject GrabCutObject;
 
 
 void grabCut( cv::InputArray _img, cv::InputOutputArray _mask, cv::Rect rect,
@@ -98,7 +98,7 @@ int main(int argc, char* argv[]) {
 
     boost::filesystem::create_directories(id.outputFolder);
 
-    GrabCutObject gco = BTools::Utils::GrabCutIO::read(id.gcoFilepath);
+    GrabCutObject gco = BTools::IO::Seed::read(id.gcoFilepath);
 
     Domain imgDomain(Point(0, 0),
                      Point(gco.inputImage.cols - 1,
