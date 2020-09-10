@@ -2,7 +2,7 @@ import sys,os
 
 SCRIPT_FOLDER = os.path.dirname( os.path.realpath(__file__) )
 PROJECT_FOLDER = SCRIPT_FOLDER
-for i in range(4):
+for i in range(5):
     PROJECT_FOLDER = os.path.dirname(PROJECT_FOLDER)
 
 REPORT_GENERATOR_FOLDER="%s/%s" % (PROJECT_FOLDER,"repGen")

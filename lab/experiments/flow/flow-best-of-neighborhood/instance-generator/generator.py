@@ -63,6 +63,7 @@ def summary_flow(c):
                       flow_images_folder_path,
                       "%s/summary.svg" % (flow_images_folder_path,),
                       "%s%d" % ("-j",jump),
+                      "%s%s" % ("-c","classic"),
                       "%s%f" % ("-r",opt_radius),
                       "%s%f" % ("-h",gs['value'])])
 
@@ -70,6 +71,7 @@ def summary_flow(c):
                       flow_images_folder_path,
                       "%s/summary.eps" % (flow_images_folder_path,),
                       "%s%d" % ("-j",jump),
+                      "%s%s" % ("-c","classic"),
                       "%s%f" % ("-r",opt_radius),
                       "%s%f" % ("-h",gs['value'])])
 

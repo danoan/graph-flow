@@ -8,7 +8,7 @@ class Param:
 GRID_STEP=[1.0,0.5,0.25]
 SHAPES=["bean","square","flower","triangle","ellipse"]
 RADIUS=[3,5,7]
-ENERGY=["elastica","selastica"]
+ENERGY=["elastica"]
 LENGTH_PENALIZATION=[0.001,0.01]
 ITERATIONS=-1
 OPT_BAND=[2,3]
