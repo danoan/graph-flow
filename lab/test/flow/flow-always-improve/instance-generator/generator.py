@@ -4,10 +4,9 @@ import subprocess,sys,os,time
 from param_combinator import *
 from config import *
 
-SCRIPT_FOLDER="set in read  input"
-BINARY_FOLDER="set in read  input"
-OUTPUT_FOLDER="set in read  input"
+GRAPH_FLOW_APP="set in read  input"
 SUMMARY_FLOW_APP="set in read  input"
+OUTPUT_FOLDER="set in read  input"
 
 def resolve_output_folder(c):
     output_folder=OUTPUT_FOLDER
@@ -36,8 +35,7 @@ def exhaustive_gc_flow(c):
 
     print("\n*****Running: ", s,"\n")
 
-    binary = "%s/%s" % (BINARY_FOLDER,"graph-flow/graph-flow-app")
-    subprocess.call( [binary,
+    subprocess.call( [GRAPH_FLOW_APP,
                       "%s%s" % ("-S",shape['value']),
                       "%s%d" % ("-i",ITERATIONS),
                       "%s%d" % ("-r",radius['value']),
@@ -52,7 +50,6 @@ def exhaustive_gc_flow(c):
                       ] )
 
 def summary_flow(c):
-    binary = SUMMARY_FLOW_APP
     flow_images_folder_path=resolve_output_folder(c)
 
     shape,radius,energy,opt_band,neigh_size,length_pen,gs = c
@@ -60,7 +57,7 @@ def summary_flow(c):
     opt_radius = 1.0/(length_pen['value']**0.5)
 
     jump=5
-    subprocess.call( [binary,
+    subprocess.call( [SUMMARY_FLOW_APP,
                       flow_images_folder_path,
                       "%s/summary.svg" % (flow_images_folder_path,),
                       "%s%d" % ("-j",jump),
@@ -68,7 +65,7 @@ def summary_flow(c):
                       "%s%f" % ("-r",opt_radius),
                       "%s%f" % ("-h",gs['value'])])
 
-    subprocess.call( [binary,
+    subprocess.call( [SUMMARY_FLOW_APP,
                       flow_images_folder_path,
                       "%s/summary.eps" % (flow_images_folder_path,),
                       "%s%d" % ("-j",jump),
@@ -78,15 +75,14 @@ def summary_flow(c):
 
 
 def read_input():
-    if len(sys.argv)<3:
-        print("Parameters missing! PROJECT_FOLDER RELATIVE_BUILD_FOLDER SUMMARY_FLOW_APP")
+    if len(sys.argv)<4:
+        print("Parameters missing! GRAPH_FLOW_APP SUMMARY_FLOW_APP OUTPUT_FOLDER")
         exit(1)
 
-    global BINARY_FOLDER, OUTPUT_FOLDER, SCRIPT_FOLDER, SUMMARY_FLOW_APP
-    PROJECT_FOLDER=sys.argv[1]
-    BINARY_FOLDER="%s/%s/%s" % (PROJECT_FOLDER,sys.argv[2],"app")
-    SUMMARY_FLOW_APP=sys.argv[3]
-    OUTPUT_FOLDER=sys.argv[4]
+    global GRAPH_FLOW_APP, SUMMARY_FLOW_APP, OUTPUT_FOLDER
+    GRAPH_FLOW_APP=sys.argv[1]
+    SUMMARY_FLOW_APP=sys.argv[2]
+    OUTPUT_FOLDER=sys.argv[3]
 
 
 def total_combinations():
@@ -103,8 +99,6 @@ def main():
         if(valid_combination(c)):
             exhaustive_gc_flow(c)
             summary_flow(c)
-
-    render_template("flow",CONFIG_LIST,OUTPUT_FOLDER)
 
 if __name__=='__main__':
     main()

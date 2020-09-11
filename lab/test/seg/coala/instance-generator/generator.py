@@ -5,9 +5,9 @@ from param_combinator import *
 from config import *
 
 SCRIPT_FOLDER="set in read  input"
-BINARY_FOLDER="set in read  input"
-OUTPUT_FOLDER="set in read  input"
+GRAPH_SEG_APP="set in read  input"
 SUMMARY_FLOW_APP="set in read  input"
+OUTPUT_FOLDER="set in read  input"
 
 def resolve_output_folder(c):
     output_folder=OUTPUT_FOLDER
@@ -39,8 +39,7 @@ def exhaustive_gc_flow(c):
 
     print("\n*****Running: ", s,"\n")
 
-    binary = "%s/%s" % (BINARY_FOLDER,"graph-seg/graph-seg-app")
-    subprocess.call( [binary,
+    subprocess.call( [GRAPH_SEG_APP,
                       "%s%d" % ("-i",ITERATIONS),
                       "%s%d" % ("-r",radius['value']),
                       "%s%f" % ("-h", gs['value']),
@@ -68,15 +67,15 @@ def summary_flow(c):
 
 
 def read_input():
-    if len(sys.argv)<3:
-        print("Parameters missing! PROJECT_FOLDER RELATIVE_BUILD_FOLDER SUMMARY_FLOW_APP")
+    if len(sys.argv)<5:
+        print("Parameters missing! SCRIPT_FOLDER, GRAPH_SEG_APP, SUMMARY_FLOW_APP, OUTPUT_FOLDER")
         exit(1)
 
-    global BINARY_FOLDER, OUTPUT_FOLDER, SCRIPT_FOLDER, SUMMARY_FLOW_APP
-    PROJECT_FOLDER=sys.argv[1]
-    BINARY_FOLDER="%s/%s/%s" % (PROJECT_FOLDER,sys.argv[2],"app")
+    global SCRIPT_FOLDER, GRAPH_SEG_APP,SUMMARY_FLOW_APP,OUTPUT_FOLDER
+
+    SCRIPT_FOLDER=sys.argv[1]
+    GRAPH_SEG_APP=sys.argv[2]
     SUMMARY_FLOW_APP=sys.argv[3]
-    SCRIPT_FOLDER="{}/lab/experiments/seg/coala".format(PROJECT_FOLDER)
     OUTPUT_FOLDER=sys.argv[4]
 
 
@@ -94,8 +93,6 @@ def main():
         if(valid_combination(c)):
             exhaustive_gc_flow(c)
             summary_flow(c)
-
-    render_template("seg",CONFIG_LIST,OUTPUT_FOLDER)
 
 if __name__=='__main__':
     main()
