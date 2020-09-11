@@ -20,8 +20,6 @@
 
 [DGtal0.9](https://dgtal.org/download/)
 
-[jinja2.11](https://github.com/pallets/jinja)
-
 ## Build and Install
 
 In order to build graph-flow, you are going to need cmake.
@@ -58,8 +56,8 @@ Evolve the digital curvature flow for a given digital shape.
 ./shape-flow -Sflower -r15 -h0.1
 ```
 
-<img alt="Triangle flow" src="https://github.com/danoan/graph-flow/blob/master/doc/images/triangle.gif" height="200" />
-<img alt="Flower flow" src="https://github.com/danoan/graph-flow/blob/master/doc/images/flower.gif" height="200" />
+<img alt="Triangle flow" src="https://github.com/danoan/graph-flow/blob/master/doc/images/triangle.gif" width="1000" />
+<img alt="Flower flow" src="https://github.com/danoan/graph-flow/blob/master/doc/images/flower.gif" width="1000" />
 
 
 ### interactive-seg
@@ -67,7 +65,7 @@ Evolve the digital curvature flow for a given digital shape.
 Load a image, select foreground/background seeds and then execute the graph-seg algorithm.
 
 ```
-./interactive-seg.sh -I images/coala.jpg output/coala
+./interactive-seg.sh -I input/images/coala.jpg output/coala
 ```
 <img alt="Coala seeds" src="https://github.com/danoan/graph-flow/blob/master/doc/images/coala-seeds.png" height="200" /> <img alt="Coala segmentation" src="https://github.com/danoan/graph-flow/blob/master/doc/images/coala-seg.png" height="200" />
 
