@@ -52,8 +52,8 @@ We give output examples of the main applications: graph-flow-app and interactive
 Evolve the digital curvature flow for a given digital shape.
 
 ```
-./shape-flow -Striangle -r15 -h0.1
-./shape-flow -Sflower -r15 -h0.1
+./graph-flow-app -Striangle -r15 -h0.1
+./graph-flow-app -Sflower -r15 -h0.1
 ```
 
 <img alt="Triangle flow" src="https://github.com/danoan/graph-flow/blob/master/doc/images/triangle.gif" width="1000" />
