@@ -42,7 +42,8 @@ target_link_libraries(graph-flow-app
         -lboost_system
         -lboost_filesystem
         -lpthread
-        ${DGTAL_LIBRARIES})
+        ${DGTAL_LIBRARIES}
+        ${OpenCV_LIBS})
 
 install(TARGETS graph-flow-app
         DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)

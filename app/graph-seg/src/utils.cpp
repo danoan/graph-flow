@@ -22,7 +22,6 @@ double evaluateEnergy(const InputData& id, const DigitalSet& ds, double dAlpha)
     using namespace GraphFlow::Utils;
 
     double alpha=id.alpha;
-    if(id.dynamicAlpha) alpha=dAlpha;
 
     if(id.energy==InputData::EnergyType::Elastica) return Energy::elastica(ds,id.radius,id.h,alpha,id.curvatureTermWeight);
     else if(id.energy==InputData::EnergyType::SElastica) return Energy::sElastica(ds,id.radius,id.h,alpha,id.curvatureTermWeight);

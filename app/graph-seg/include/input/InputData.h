@@ -5,62 +5,62 @@
 
 struct InputData
 {
-    enum EnergyType{Elastica,SElastica};
+  enum EnergyType{Elastica,SElastica};
 
-    InputData()
-    {
-        iterations=10;
-        radius=5;
-        h=0.25;
-        alpha=0.01;
-        initialDilation=0;
+  InputData()
+  {
+    iterations=10;
+    radius=5;
+    h=0.25;
+    alpha=0.01;
+    initialDilation=0;
 
-        regionalTermWeight=1;
-        boundaryTermWeight=2;
-        curvatureTermWeight=0.5;
+    regionalTermWeight=1;
+    boundaryTermWeight=2;
+    curvatureTermWeight=0.5;
 
-        optBand=2;
-        grabcutIterations=1;
+    optBand=2;
+    grabcutIterations=1;
 
-        energy=Elastica;
+    energy=Elastica;
 
-        nThreads=4;
-        neighborhoodSize=2;
+    nThreads=4;
+    neighborhoodSize=2;
 
-        outputFolder="";
-        pixelMaskFilepath="";
-        gcoFilepath="";
+    outputFolder="";
+    pixelMaskFilepath="";
+    gcoFilepath="";
 
-        printEnergyValue=false;
-        createFigureIteration=false;
-        dynamicAlpha=false;
-    }
+    printEnergyValue=false;
+    saveAllFigures=false;
+    displayFlow=false;
+  }
 
-    int iterations;
-    double radius;
-    double h;
-    int initialDilation;
+  int iterations;
+  double radius;
+  double h;
+  int initialDilation;
 
-    double alpha;
-    int optBand;
-    int grabcutIterations;
+  double alpha;
+  int optBand;
+  int grabcutIterations;
 
-    double regionalTermWeight;
-    double boundaryTermWeight;
-    double curvatureTermWeight;
+  double regionalTermWeight;
+  double boundaryTermWeight;
+  double curvatureTermWeight;
 
-    EnergyType  energy;
+  EnergyType  energy;
 
-    int nThreads;
-    int neighborhoodSize;
+  int nThreads;
+  int neighborhoodSize;
 
-    std::string outputFolder;
-    std::string pixelMaskFilepath;
-    std::string gcoFilepath;
+  std::string outputFolder;
+  std::string pixelMaskFilepath;
+  std::string gcoFilepath;
 
-    bool printEnergyValue;
-    bool createFigureIteration;
-    bool dynamicAlpha;
+  bool printEnergyValue;
+  bool saveAllFigures;
+  bool displayFlow;
 };
 
 #endif //GRAPH_FLOW_APP_INPUTDATA_H
