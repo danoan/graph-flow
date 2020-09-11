@@ -27,13 +27,6 @@ target_include_directories(graph-seg-app PRIVATE
         ${BTOOLS_INCLUDE_DIRS}
         ${BOOST_INCLUDE_DIRS})
 
-target_link_directories(graph-seg-app PRIVATE
-        ${CMAKE_BINARY_DIR}/modules/utils
-        ${CMAKE_BINARY_DIR}/modules/core
-        ${DIPACUS_LIBS_DIR}
-        ${BTOOLS_LIBS_DIR}
-        ${BOOST_LIBS_DIR})
-
 target_link_libraries(graph-seg-app
         -ldipacus-base
         -ldipacus-components

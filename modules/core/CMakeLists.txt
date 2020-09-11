@@ -26,13 +26,6 @@ target_include_directories(graph-flow-core PRIVATE
         ${BOOST_INCLUDE_DIRS}
         ${DGTAL_INCLUDE_DIRS})
 
-target_link_directories(graph-flow-core PRIVATE
-        ${CMAKE_BINARY_DIR}/modules/utils
-        ${LEMON_LIBS_DIR}
-        ${DIPACUS_LIBS_DIR}
-        ${BOOST_LIBS_DIR}
-        ${DGTAL_LIBS_DIR})
-
 target_link_libraries(graph-flow-core
         -ldipacus-base
         -lgraph-flow-utils

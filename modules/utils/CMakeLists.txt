@@ -26,11 +26,6 @@ target_include_directories(graph-flow-utils PRIVATE
         ${DGTAL_INCLUDE_DIRS}
         ${BOOST_INCLUDE_DIRS})
 
-target_link_directories(graph-flow-utils PRIVATE
-        ${DIPACUS_LIBS_DIR}
-        ${BOOST_LIBS_DIR}
-        ${DGTAL_LIBS_DIR})
-
 target_link_libraries(graph-flow-utils
         -ldipacus-base
         -ldipacus-components

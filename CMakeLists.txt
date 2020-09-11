@@ -1,7 +1,7 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.2)
 project(graph-flow)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(EXTPROJECTS_SOURCE_DIR ${CMAKE_SOURCE_DIR}/ext-projects/source)
 
 find_package(DGtal REQUIRED)
@@ -41,6 +41,14 @@ endif ()
 set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/install" CACHE PATH "graph-flow binaries and libraries install location." )
 set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib:${BOOST_LIBS_DIR}:${DIPACUS_LIBS_DIR}:${GCURVE_LIBS_DIR}:${LEMON_LIBS_DIR}")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
+link_directories(${CMAKE_BINARY_DIR}/modules/utils
+        ${CMAKE_BINARY_DIR}/modules/core
+        ${LEMON_LIBS_DIR}
+        ${DIPACUS_LIBS_DIR}
+        ${BTOOLS_LIBS_DIR}
+        ${BOOST_LIBS_DIR}
+        ${DGTAL_LIBS_DIR})
 
 
 add_subdirectory(modules/core)
