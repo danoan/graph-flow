@@ -93,12 +93,12 @@ namespace StandardModel
     {
         double fgv=0;
         double bgv=0;
-        return regionValue(fgv,bgv,id,ds,DD);
+        return regionValue(fgv,bgv,ds,*DD.fgDistr,*DD.bgDistr);
     }
 
-    double regionValue(double& fgv, double& bgv,const InputData& id,const DigitalSet& ds, const DataDistribution& DD)
+    double regionValue(double& fgv, double& bgv,const DigitalSet& ds, const CVMatDistribution& fgDistr, const CVMatDistribution& bgDistr)
     {
-        const cv::Mat& img = DD.fgDistr->img;
+        const cv::Mat& img = fgDistr.img;
         bgv=0;
         fgv=0;
         for(auto p:ds.domain())
@@ -108,10 +108,10 @@ namespace StandardModel
 
             if(ds(p))
             {
-                fgv+=-log( 1- (*DD.bgDistr)(prow,pcol) );
+                fgv+=-log( (fgDistr)(prow,pcol) );
             }else
             {
-                bgv+=-log( 1-(*DD.fgDistr)(prow,pcol) );
+                bgv+=-log( (bgDistr)(prow,pcol) );
             }
         }
 
@@ -122,7 +122,7 @@ namespace StandardModel
     double evaluateData(double& fgv, double& bgv, const InputData& id,const DigitalSet& ds, const DataDistribution& DD)
     {
         double bv = id.boundaryTermWeight*boundaryValue(id,ds,DD);
-        double rv = id.regionalTermWeight*regionValue(fgv,bgv,id,ds,DD);
+        double rv = id.regionalTermWeight*regionValue(fgv,bgv,ds,*DD.fgDistr,*DD.bgDistr);
 
 //        std::cout << "(" << bv << "," << rv << "), ";
 
