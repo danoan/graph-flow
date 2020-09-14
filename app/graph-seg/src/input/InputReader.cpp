@@ -8,7 +8,6 @@ void usage(char* argv[])
                                        "[-r Estimation ball radius (default: 5)]\n"
                                        "[-e Energy (elastica, selastica. default: elastica)]\n"
                                        "[-h Grid step (default:0.25)]\n"
-                                       "[-d Initial dilation (default:0)]\n"
                                        "[-a Length penalization (default:0.01)]\n"
                                        "[-g Regional term penalization (default:1)]\n"
                                        "[-k Curvature term penalization (default:0.5)]\n"
@@ -29,7 +28,7 @@ InputData readInput(int argc, char* argv[])
   InputData id;
 
   int opt;
-  while( (opt=getopt(argc,argv,"i:r:e:h:d:a:g:k:G:O:n:N:P:wsv"))!=-1)
+  while( (opt=getopt(argc,argv,"i:r:e:h:a:g:k:G:O:n:N:P:wsv"))!=-1)
   {
     switch(opt)
     {
@@ -53,11 +52,6 @@ InputData readInput(int argc, char* argv[])
       case 'h':
       {
         id.h= std::atof(optarg);
-        break;
-      }
-      case 'd':
-      {
-        id.initialDilation= std::atoi(optarg);
         break;
       }
       case 'a':
@@ -141,7 +135,6 @@ void writeInputData(const InputData& id, std::ostream& os)
      << "Estimation radius:" << id.radius << "\n"
      << "Grid step:" << id.h  << "\n"
      << "Opt band:" << id.optBand  << "\n"
-     << "Initial dilation:" << id.initialDilation<< "\n"
      << "Grabcut iterations:" << id.grabcutIterations  << "\n"
      << "Energy:" << resolveEnergyName(id.energy) << "\n"
      << "Length penalization:" << id.alpha  << "\n"

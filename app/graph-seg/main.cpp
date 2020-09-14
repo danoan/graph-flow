@@ -22,7 +22,7 @@ using namespace GraphFlow::Utils;
 
 
 
-DigitalSet prepareShape(const DataDistribution& DD, int initialDilation)
+DigitalSet prepareShape(const DataDistribution& DD)
 {
   const cv::Mat& segResult = DD.segResultImg;
 
@@ -44,14 +44,7 @@ DigitalSet prepareShape(const DataDistribution& DD, int initialDilation)
   DIPaCUS::Representation::CVMatToDigitalSet(tempDS,
                                              grayscale,
                                              1);
-  Domain dilatedDomain(imgDomain.lowerBound() - Point(initialDilation,initialDilation), imgDomain.upperBound() + Point(initialDilation,initialDilation));
-  DigitalSet dilated(dilatedDomain);
-
-  DIPaCUS::Morphology::dilate(dilated,tempDS,DIPaCUS::Morphology::StructuringElement(DIPaCUS::Morphology::StructuringElement::RECT,initialDilation));
-  DigitalSet finalDS(imgDomain);
-  for(auto p:dilated) if(imgDomain.isInside(p)) finalDS.insert(p);
-
-  return finalDS;
+  return tempDS;
 }
 
 int main(int argc, char* argv[])
@@ -74,7 +67,7 @@ int main(int argc, char* argv[])
   Domain imgDomain(Point(0,0),
                    Point(DD.segResultImg.cols-1,
                          DD.segResultImg.rows-1));
-  DigitalSet ds = prepareShape(DD,id.initialDilation);
+  DigitalSet ds = prepareShape(DD);
   GraphSegInput gsi(id,ds,DD);
 
   std::string windowName="IterationViewer";

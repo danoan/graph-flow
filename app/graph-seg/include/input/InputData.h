@@ -13,7 +13,6 @@ struct InputData
     radius=5;
     h=0.25;
     alpha=0.01;
-    initialDilation=0;
 
     regionalTermWeight=1;
     curvatureTermWeight=0.5;
@@ -38,7 +37,6 @@ struct InputData
   int iterations;
   double radius;
   double h;
-  int initialDilation;
 
   double alpha;
   int optBand;
