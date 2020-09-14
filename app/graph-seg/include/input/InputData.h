@@ -16,7 +16,6 @@ struct InputData
     initialDilation=0;
 
     regionalTermWeight=1;
-    boundaryTermWeight=2;
     curvatureTermWeight=0.5;
 
     optBand=2;
@@ -46,7 +45,6 @@ struct InputData
   int grabcutIterations;
 
   double regionalTermWeight;
-  double boundaryTermWeight;
   double curvatureTermWeight;
 
   EnergyType  energy;

@@ -11,7 +11,6 @@ void usage(char* argv[])
                                        "[-d Initial dilation (default:0)]\n"
                                        "[-a Length penalization (default:0.01)]\n"
                                        "[-g Regional term penalization (default:1)]\n"
-                                       "[-b Boundary term penalization (default:2)]\n"
                                        "[-k Curvature term penalization (default:0.5)]\n"
                                        "[-G Grabcut iterations (default:1)]\n"
                                        "[-O Optimization band (default:2)]\n"
@@ -30,7 +29,7 @@ InputData readInput(int argc, char* argv[])
   InputData id;
 
   int opt;
-  while( (opt=getopt(argc,argv,"i:r:e:h:d:a:g:b:k:G:O:n:N:P:wsv"))!=-1)
+  while( (opt=getopt(argc,argv,"i:r:e:h:d:a:g:k:G:O:n:N:P:wsv"))!=-1)
   {
     switch(opt)
     {
@@ -69,11 +68,6 @@ InputData readInput(int argc, char* argv[])
       case 'g':
       {
         id.regionalTermWeight = std::atof(optarg);
-        break;
-      }
-      case 'b':
-      {
-        id.boundaryTermWeight = std::atof(optarg);
         break;
       }
       case 'k':
@@ -152,7 +146,6 @@ void writeInputData(const InputData& id, std::ostream& os)
      << "Energy:" << resolveEnergyName(id.energy) << "\n"
      << "Length penalization:" << id.alpha  << "\n"
      << "Regional term:" << id.regionalTermWeight << "\n"
-     << "Boundary term:" << id.boundaryTermWeight << "\n"
      << "Curvature term:" << id.curvatureTermWeight << "\n"
      << "Iterations:" << id.iterations  << "\n"
      << "Neighborhood size:" << id.neighborhoodSize  << "\n"

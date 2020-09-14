@@ -67,9 +67,6 @@ namespace StandardModel
     };
 
 
-    double boundaryValue(const InputData& id,const DigitalSet& ds, const DataDistribution& DD);
-
-    double regionValue(const InputData& id,const DigitalSet& ds, const DataDistribution& DD);
     double regionValue(double& fgv, double& bgv,const DigitalSet& ds, const CVMatDistribution& fgDistr, const CVMatDistribution& bgDistr);
 
     double evaluateData(double& fgv, double& bgv,const InputData& inputData,const DigitalSet& ds, const DataDistribution& DD);

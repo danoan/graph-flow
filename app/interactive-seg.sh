@@ -10,7 +10,6 @@ INPUT_IMAGE="${PROJECT_FOLDER}/input/images/coala.jpg"
 usage(){ echo "Usage: $0 "
 echo "[-r Ball radius (default: 5)]"
 echo "[-g Data regional term (default: 1.0) ]"
-echo "[-b Data boundary term (default: 2.0) ]"
 echo "[-k Squared curvature weight (default:2.5) ]"
 echo "[-a Length weight (default:0.01) ]"
 echo "[-i Max iterations (default:30) ]"
@@ -21,13 +20,12 @@ echo " OUTPUT_FOLDER" 1>&2; exit 1;}
 
 r="7"
 g="1.0"
-b="2.0"
 k="2.5"
 a="0.01"
 i="30"
 w=""
 G="1"
-while getopts ":r:g:b:k:a:i:G:I:w" o; do
+while getopts ":r:g:k:a:i:G:I:w" o; do
     case "${o}" in
         r)
             r=$OPTARG
@@ -35,9 +33,6 @@ while getopts ":r:g:b:k:a:i:G:I:w" o; do
         g)
             g=$OPTARG
             ;;
-	    b)
-	        b=$OPTARG
-	        ;;
 	    k)
 	        k=$OPTARG
 	        ;;
@@ -106,7 +101,7 @@ then
     "${SP_OUT}/gc-object.xml" \
     -u "${SP_OUT}/mask-pbfg-0.pgm" -s
 
-    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -b"$b" -k"$k" -a"$a" -G"${G}" -i"$i" -v -s "${w}" "${SP_OUT}/graph-seg"
+    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -k"$k" -a"$a" -G"${G}" -i"$i" -v -s "${w}" "${SP_OUT}/graph-seg"
 fi
 
 
@@ -126,6 +121,6 @@ do
     "${GRAB_CUT_APP}" "${INPUT_IMAGE}" "${SP_OUT}/mask-fg-0.pgm" "${SP_OUT}/mask-bg-0.pgm" "${SP_OUT}/gc-object.xml" \
     -u "${SP_OUT}/mask-pbfg-0.pgm" -s
 
-    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -b"$b" -k"$k" -a"$a" -i"$i" -G"${G}" -v -s "${w}" "${SP_OUT}/graph-seg"
+    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -k"$k" -a"$a" -i"$i" -G"${G}" -v -s "${w}" "${SP_OUT}/graph-seg"
 done
 
