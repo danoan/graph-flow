@@ -81,7 +81,15 @@ int main(int argc, char* argv[])
       cv::Mat cvImg = cv::Mat::zeros( size[1],size[0],CV_8UC1);
       DIPaCUS::Representation::digitalSetToCVMat(cvImg,gfIteration.ds);
       cv::imshow(windowName,cvImg);
-      cv::waitKey(10);
+
+
+      if(gfIteration.iterationState==GraphFlowIteration::End){
+        std::cout << "End of flow. Press any key to continue." << std::endl;
+        cv::waitKey(0);
+      }else{
+        cv::waitKey(10);  
+      }      
+      
     }
 
   };

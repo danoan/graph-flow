@@ -107,8 +107,16 @@ int main(int argc, char* argv[])
       cv::Mat bcImage;
       BTools::Utils::setHighlightMask(bcImage,DD.gco.inputImage,foregroundMask);
       cv::imshow(windowName,bcImage);
-      cv::waitKey(10);
+
+      if(gfIteration.iterationState==GraphSegIteration::End){
+        std::cout << "End of segmentation. Press any key to continue." << std::endl;
+        cv::waitKey(0);
+      }else{
+        cv::waitKey(10);  
+      }
+      
     }
+    
 
   };
 

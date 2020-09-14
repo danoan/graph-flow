@@ -17,7 +17,7 @@ void graphFlow(const GraphFlowInput& gfi, std::ostream& os, IterationCallback& i
     int i=0;
     while(true)
     {
-        icb(GraphFlowIteration(i,lastEnergyValue,ds));
+        icb(GraphFlowIteration(i,lastEnergyValue,ds,GraphFlowIteration::Running));
         if(i==id.iterations) break;
 
         StandardModel::Context context(gfi,ds,hcv,neighborhood);
@@ -56,4 +56,6 @@ void graphFlow(const GraphFlowInput& gfi, std::ostream& os, IterationCallback& i
         lastEnergyValue=evaluationPairs[0].second;
         ++i;
     }
+
+  icb(GraphFlowIteration(i,lastEnergyValue,ds,GraphFlowIteration::End));
 }

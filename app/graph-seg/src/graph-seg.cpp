@@ -17,7 +17,7 @@ DigitalSet graphSeg(const GraphSegInput& gfi, std::ostream& os, IterationCallbac
     int i=0;
     while(true)
     {
-        icb(GraphSegIteration(i,lastEnergyValue,ds));
+        icb(GraphSegIteration(i,lastEnergyValue,ds,GraphSegIteration::Running));
         if(i==id.iterations) break;
         if(ds.empty()) break;
 
@@ -57,6 +57,8 @@ DigitalSet graphSeg(const GraphSegInput& gfi, std::ostream& os, IterationCallbac
         lastEnergyValue=evaluationPairs[0].second;
         ++i;
     }
+
+    icb(GraphSegIteration(i,lastEnergyValue,ds,GraphSegIteration::End));
 
     return ds;
 }
