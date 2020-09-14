@@ -63,6 +63,26 @@ struct DataDistribution
 
         gco.segMask.setTo(255,fgMask);
         gco.inputImage.copyTo(segResultImg,gco.segMask);
+
+        setSeeds(fgMask,bgMask);
+    }
+
+    void setSeeds(const cv::Mat& fgMask,const cv::Mat& bgMask){
+      for(int r=0;r<fgMask.rows;++r){
+        const unsigned char* Ri = fgMask.ptr<unsigned char>(r);
+        for(int c=0;c<fgMask.cols;++c){
+          if( Ri[c]==255 ) fgSeeds.insert( Point(c,fgMask.rows - r-1) );
+        }
+      }
+
+      for(int r=0;r<bgMask.rows;++r){
+        const unsigned char* Ri = bgMask.ptr<unsigned char>(r);
+        for(int c=0;c<bgMask.cols;++c){
+          if( Ri[c]==255 ) bgSeeds.insert( Point(c,bgMask.rows - r-1) );
+        }
+      }
+
+
     }
 
     DataDistribution(const InputData& id):inputData(id),fgGMM(fgModel),bgGMM(bgModel)
@@ -82,6 +102,9 @@ struct DataDistribution
 
     CVMatDistribution* fgDistr;
     CVMatDistribution* bgDistr;
+
+    std::set<Point> fgSeeds;
+    std::set<Point> bgSeeds;
 };
 
 #endif //GRAPH_FLOW_DATADISTRIBUTION_H
