@@ -15,6 +15,7 @@ echo "[-a Length weight (default:0.01) ]"
 echo "[-i Max iterations (default:30) ]"
 echo "[-G Grabcut iterations (default:1) ]"
 echo "[-w Print energy value ]"
+echo "[-s Save all figures ]"
 echo "[-I INPUT_IMAGE_PATH (default:$INPUT_IMAGE) ]"
 echo " OUTPUT_FOLDER" 1>&2; exit 1;}
 
@@ -24,8 +25,9 @@ k="2.5"
 a="0.01"
 i="30"
 w=""
+s=""
 G="1"
-while getopts ":r:g:k:a:i:G:I:w" o; do
+while getopts ":r:g:k:a:i:G:I:ws" o; do
     case "${o}" in
         r)
             r=$OPTARG
@@ -47,6 +49,9 @@ while getopts ":r:g:k:a:i:G:I:w" o; do
 	        ;;
 	    w)
 	        w="-w"
+	        ;;
+	    s)
+	        s="-s"
 	        ;;
 	    I)
 	        INPUT_IMAGE=$OPTARG
@@ -101,7 +106,7 @@ then
     "${SP_OUT}/gc-object.xml" \
     -u "${SP_OUT}/mask-pbfg-0.pgm" -s
 
-    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -k"$k" -a"$a" -G"${G}" -i"$i" -v -s "${w}" "${SP_OUT}/graph-seg"
+    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -k"$k" -a"$a" -G"${G}" -i"$i" -v ${s} ${w} "${SP_OUT}/graph-seg"
 fi
 
 
@@ -121,6 +126,6 @@ do
     "${GRAB_CUT_APP}" "${INPUT_IMAGE}" "${SP_OUT}/mask-fg-0.pgm" "${SP_OUT}/mask-bg-0.pgm" "${SP_OUT}/gc-object.xml" \
     -u "${SP_OUT}/mask-pbfg-0.pgm" -s
 
-    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -k"$k" -a"$a" -i"$i" -G"${G}" -v -s "${w}" "${SP_OUT}/graph-seg"
+    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -k"$k" -a"$a" -i"$i" -G"${G}" -v ${s} ${w} "${SP_OUT}/graph-seg"
 done
 
