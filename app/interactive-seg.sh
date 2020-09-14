@@ -14,6 +14,7 @@ echo "[-b Data boundary term (default: 2.0) ]"
 echo "[-k Squared curvature weight (default:2.5) ]"
 echo "[-a Length weight (default:0.01) ]"
 echo "[-i Max iterations (default:30) ]"
+echo "[-w Print energy value ]"
 echo "[-I INPUT_IMAGE_PATH (default:$INPUT_IMAGE) ]"
 echo " OUTPUT_FOLDER" 1>&2; exit 1;}
 
@@ -23,7 +24,8 @@ b="2.0"
 k="2.5"
 a="0.01"
 i="30"
-while getopts ":r:g:b:k:a:i:I:" o; do
+w=""
+while getopts ":r:g:b:k:a:i:I:w" o; do
     case "${o}" in
         r)
             r=$OPTARG
@@ -42,6 +44,9 @@ while getopts ":r:g:b:k:a:i:I:" o; do
 	        ;;
 	    i)
 	        i=$OPTARG
+	        ;;
+	    w)
+	        w="-w"
 	        ;;
 	    I)
 	        INPUT_IMAGE=$OPTARG
@@ -96,7 +101,7 @@ then
     "${SP_OUT}/gc-object.xml" \
     -u "${SP_OUT}/mask-pbfg-0.pgm" -s
 
-    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -b"$b" -k"$k" -a"$a" -i"$i" -v -s "${SP_OUT}/graph-seg"
+    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -b"$b" -k"$k" -a"$a" -i"$i" -v -s ${w} "${SP_OUT}/graph-seg"
 fi
 
 
@@ -116,6 +121,6 @@ do
     "${GRAB_CUT_APP}" "${INPUT_IMAGE}" "${SP_OUT}/mask-fg-0.pgm" "${SP_OUT}/mask-bg-0.pgm" "${SP_OUT}/gc-object.xml" \
     -u "${SP_OUT}/mask-pbfg-0.pgm" -s
 
-    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -b"$b" -k"$k" -a"$a" -i"$i" -v -s "${SP_OUT}/graph-seg"
+    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -b"$b" -k"$k" -a"$a" -i"$i" -v -s ${w} "${SP_OUT}/graph-seg"
 done
 
