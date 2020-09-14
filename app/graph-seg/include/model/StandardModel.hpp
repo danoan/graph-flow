@@ -28,6 +28,9 @@ typename TNeighborhoodExplorer::VisitNeighborFunction visitNeighbor(TNeighborhoo
         //Include fg seeds in the current candidate
         for(auto pt:context.gfi.dataDistribution.fgSeeds) candidateDS.insert(pt);
 
+        //Remove bg seeds from the current candidate
+        for(auto pt:context.gfi.dataDistribution.bgSeeds) candidateDS.erase(pt);        
+
 
         Point lb,ub;
         candidateDS.computeBoundingBox(lb,ub);
