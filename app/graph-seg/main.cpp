@@ -109,6 +109,10 @@ int main(int argc, char* argv[])
       }
       
     }
+
+    if(gfIteration.iterationState==GraphSegIteration::End){
+      Display::saveDigitalSetAsImage(ds,id.outputFolder+"/mask-seg.pgm");
+    }
     
 
   };

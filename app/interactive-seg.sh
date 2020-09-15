@@ -2,7 +2,7 @@
 SCRIPT_FOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 PROJECT_FOLDER="$(cd "$SCRIPT_FOLDER" && cd .. && pwd)"
-GRAPH_SEG_BIN="${PROJECT_FOLDER}/cmake-build-release/app/graph-seg"
+GRAPH_SEG_BIN="${PROJECT_FOLDER}/install/bin"
 
 BTOOLS_BIN="${PROJECT_FOLDER}/ext-projects/cmake-build-release/bin"
 INPUT_IMAGE="${PROJECT_FOLDER}/input/images/coala.jpg"
@@ -104,7 +104,7 @@ then
     "${GRAB_CUT_APP}" "${INPUT_IMAGE}" "${SP_OUT}/mask-fg-0.pgm" \
     "${SP_OUT}/mask-bg-0.pgm" \
     "${SP_OUT}/gc-object.xml" \
-    -u "${SP_OUT}/mask-pbfg-0.pgm" -s
+    -u "${SP_OUT}/mask-pbfg-0.pgm" -d
 
     "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -k"$k" -a"$a" -G"${G}" -i"$i" -v ${s} ${w} "${SP_OUT}/graph-seg"
 fi
@@ -116,7 +116,8 @@ do
     "${SEED_SELECTOR_APP}" "${INPUT_IMAGE}" "$OUTPUT_FOLDER" \
     -u "${SP_OUT}/mask-pbfg-0.pgm" \
     -f "${SP_OUT}/mask-fg-0.pgm" \
-    -b "${SP_OUT}/mask-bg-0.pgm" -o
+    -b "${SP_OUT}/mask-bg-0.pgm" \
+    -s "${SP_OUT}/graph-seg/mask-seg.pgm" -o
 
     if [ $? -eq 0 ]
     then
@@ -124,7 +125,7 @@ do
     fi
 
     "${GRAB_CUT_APP}" "${INPUT_IMAGE}" "${SP_OUT}/mask-fg-0.pgm" "${SP_OUT}/mask-bg-0.pgm" "${SP_OUT}/gc-object.xml" \
-    -u "${SP_OUT}/mask-pbfg-0.pgm" -s
+    -u "${SP_OUT}/mask-pbfg-0.pgm" -s "${SP_OUT}/graph-seg/mask-seg.pgm"
 
     "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -k"$k" -a"$a" -i"$i" -G"${G}" -v ${s} ${w} "${SP_OUT}/graph-seg"
 done
