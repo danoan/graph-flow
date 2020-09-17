@@ -17,14 +17,11 @@
 
 #include "weight/Curvature.h"
 #include "weight/Homogeneity.h"
-#include "weight/Variance.h"
-#include "weight/Blur.h"
 
 #include "constraint/FixedPixels.h"
 
 #include "model/GraphSegInput.h"
 #include "model/DataDistribution.h"
-#include "model/Stats.h"
 #include "input/InputData.h"
 
 #include "utils.h"
