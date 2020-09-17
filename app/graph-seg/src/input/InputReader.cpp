@@ -6,7 +6,6 @@ void usage(char* argv[])
   std::cerr << "Usage: " << argv[0] << " GrabcutObjectFilepath OutputFolder \n"
                                        "[-i Number of iterations (default: 10)]\n"
                                        "[-r Estimation ball radius (default: 5)]\n"
-                                       "[-e Energy (elastica, selastica. default: elastica)]\n"
                                        "[-h Grid step (default:0.25)]\n"
                                        "[-a Length penalization (default:0.01)]\n"
                                        "[-g Regional term penalization (default:1)]\n"
@@ -28,7 +27,7 @@ InputData readInput(int argc, char* argv[])
   InputData id;
 
   int opt;
-  while( (opt=getopt(argc,argv,"i:r:e:h:a:g:k:G:O:n:N:P:wsv"))!=-1)
+  while( (opt=getopt(argc,argv,"i:r:h:a:g:k:G:O:n:N:P:wsv"))!=-1)
   {
     switch(opt)
     {
@@ -40,13 +39,6 @@ InputData readInput(int argc, char* argv[])
       case 'r':
       {
         id.radius= std::atof(optarg);
-        break;
-      }
-      case 'e':
-      {
-        if(strcmp(optarg,"elastica")==0) id.energy=InputData::EnergyType::Elastica;
-        else if(strcmp(optarg,"selastica")==0) id.energy=InputData::EnergyType::SElastica;
-        else throw std::runtime_error("Unrecognized energy!");
         break;
       }
       case 'h':
@@ -122,12 +114,6 @@ InputData readInput(int argc, char* argv[])
   return id;
 }
 
-std::string resolveEnergyName(InputData::EnergyType et)
-{
-  if(et==InputData::EnergyType::Elastica) return "elastica";
-  else if(et==InputData::EnergyType::SElastica) return "selastica";
-  else return "unknown";
-}
 
 void writeInputData(const InputData& id, std::ostream& os)
 {
@@ -136,7 +122,6 @@ void writeInputData(const InputData& id, std::ostream& os)
      << "Grid step:" << id.h  << "\n"
      << "Opt band:" << id.optBand  << "\n"
      << "Grabcut iterations:" << id.grabcutIterations  << "\n"
-     << "Energy:" << resolveEnergyName(id.energy) << "\n"
      << "Length penalization:" << id.alpha  << "\n"
      << "Regional term:" << id.regionalTermWeight << "\n"
      << "Curvature term:" << id.curvatureTermWeight << "\n"

@@ -20,7 +20,7 @@ def resolve_output_folder(c):
 def exhaustive_gc_flow(c):
 
     outputFolder = resolve_output_folder(c)
-    radius,energy,opt_band,neigh_size,length_pen,data_regional,data_boundary,curvature_term,gs = c
+    radius,opt_band,neigh_size,length_pen,data_regional,data_boundary,curvature_term,gs = c
 
     gcoFilepath="{}/input/gc-object.xml".format(SCRIPT_FOLDER)
 
@@ -34,7 +34,6 @@ def exhaustive_gc_flow(c):
                  "%s%f" % ("-O",opt_band['value']),
                  "%s%d" % ("-n", NUM_THREADS),
                  "%s%s" % ("-N",neigh_size['value']),
-                 "%s%s" % ("-e",energy['value'])
 
                  ])
 
@@ -52,7 +51,6 @@ def exhaustive_gc_flow(c):
                       "%s%f" % ("-O",opt_band['value']),
                       "%s%d" % ("-n", NUM_THREADS),
                       "%s%s" % ("-N",neigh_size['value']),
-                      "%s%s" % ("-e",energy['value']),
                       gcoFilepath,
                       outputFolder
                       ] )

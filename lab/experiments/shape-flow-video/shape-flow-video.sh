@@ -9,8 +9,7 @@ DATA_FOLDER="${SCRIPT_PATH}/data"
 CACHE_TEMP_PATH="${SCRIPT_PATH}/cache"
 mkdir -p $CACHE_TEMP_PATH
 
-#SHAPES="square 150 triangle 250 flower 300 bean 300"
-SHAPES="triangle 250 bean 400"
+SHAPES="square 150 triangle 250 flower 300 bean 400"
 
 flow()
 {

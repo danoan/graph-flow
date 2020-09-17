@@ -5,8 +5,6 @@
 
 struct InputData
 {
-  enum EnergyType{Elastica,SElastica};
-
   InputData()
   {
     iterations=10;
@@ -19,8 +17,6 @@ struct InputData
 
     optBand=2;
     grabcutIterations=1;
-
-    energy=Elastica;
 
     nThreads=4;
     neighborhoodSize=2;
@@ -44,9 +40,6 @@ struct InputData
 
   double regionalTermWeight;
   double curvatureTermWeight;
-
-  EnergyType  energy;
-
   int nThreads;
   int neighborhoodSize;
 

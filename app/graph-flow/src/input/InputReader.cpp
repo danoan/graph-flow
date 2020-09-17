@@ -8,7 +8,6 @@ void usage(char* argv[])
                                        "[-i Number of iterations (default: 10)]\n"
                                        "[-r Estimation ball radius (default: 5)]\n"
                                        "[-v Validation ball radius (default: 5)]\n"
-                                       "[-e Energy (elastica, selastica. default: elastica)]\n"
                                        "[-h Grid step (default:0.25)]\n"
                                        "[-a Length penalization (default:0.01)]\n"
                                        "[-b Curvature penalization (default:1.0)]\n"
@@ -29,7 +28,7 @@ InputData readInput(int argc, char* argv[])
   InputData id;
 
   int opt;
-  while( (opt=getopt(argc,argv,"S:i:r:v:e:h:a:b:O:n:N:B:P:wds"))!=-1)
+  while( (opt=getopt(argc,argv,"S:i:r:v:h:a:b:O:n:N:B:P:wds"))!=-1)
   {
     switch(opt)
     {
@@ -51,13 +50,6 @@ InputData readInput(int argc, char* argv[])
       case 'v':
       {
         id.vradius = std::atof(optarg);
-        break;
-      }
-      case 'e':
-      {
-        if(strcmp(optarg,"elastica")==0) id.energy=InputData::EnergyType::Elastica;
-        else if(strcmp(optarg,"selastica")==0) id.energy=InputData::EnergyType::SElastica;
-        else throw std::runtime_error("Unrecognized energy!");
         break;
       }
       case 'h':
@@ -127,13 +119,6 @@ InputData readInput(int argc, char* argv[])
   return id;
 }
 
-std::string resolveEnergyName(InputData::EnergyType et)
-{
-  if(et==InputData::EnergyType::Elastica) return "elastica";
-  else if(et==InputData::EnergyType::SElastica) return "selastica";
-  else return "unknown";
-}
-
 void writeInputData(const InputData& id, std::ostream& os)
 {
   os << "Shape name:" << id.shapeName << "\n"
@@ -141,7 +126,6 @@ void writeInputData(const InputData& id, std::ostream& os)
      << "Validation radius:" << id.vradius << "\n"
      << "Grid step:" << id.h  << "\n"
      << "Opt band:" << id.optBand  << "\n"
-     << "Energy type:" << resolveEnergyName(id.energy) << "\n"
      << "Length penalization:" << id.alpha  << "\n"
      << "Curvature penalization:" << id.beta  << "\n"
      << "Iterations:" << id.iterations  << "\n"
