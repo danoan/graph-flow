@@ -9,7 +9,6 @@ GRID_STEP=[1.0]
 RADIUS=[3,5,9]
 LENGTH_PENALIZATION=[0,0.05,0.01]
 DATA_REGIONAL_TERM=[1,2]
-DATA_BOUNDARY_TERM=[1,2]
 CURVATURE_TERM=[2.5]
 ITERATIONS=100
 OPT_BAND=[2]
@@ -28,7 +27,7 @@ def resolve_std(prefix,s):
     return "%s%s" % (prefix,s)
 
 def valid_combination(c):
-    radius,opt_band,neigh_size,length_pen,data_regional,data_boundary,curvature_term,gs = c
+    radius,opt_band,neigh_size,length_pen,data_regional,curvature_term,gs = c
 
     flag=True
 
@@ -39,7 +38,6 @@ CONFIG_LIST=[ Param("Radius","radius_","radius",RADIUS,resolve_int),
               Param("Neigh Size","neigh_size_","neigh_size",NEIGH_SIZE,resolve_int),
               Param("Length Penalization","len_pen_","lenght_pen",LENGTH_PENALIZATION,resolve_double),
               Param("Data Regional Term","data_regional","data_regional",DATA_REGIONAL_TERM,resolve_double),
-              Param("Data Boundary Term","data_boundary","data_boundary",DATA_BOUNDARY_TERM,resolve_double),
               Param("Curvature Term","curvature_term","curvature_term",CURVATURE_TERM,resolve_double),
               Param("Grid Step","gs_","grid_step",GRID_STEP,resolve_double)]
 
