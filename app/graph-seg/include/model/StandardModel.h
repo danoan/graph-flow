@@ -3,7 +3,6 @@
 
 #include <graph-flow/core/FlowGraph.h>
 #include <graph-flow/core/neighborhood/MorphologyNeighborhood.h>
-#include <graph-flow/core/neighborhood/RandomNeighborhood.h>
 
 #include <graph-flow/core/TerminalWeight.h>
 #include <graph-flow/core/EdgeWeight.h>
@@ -40,7 +39,6 @@ namespace StandardModel
 
     typedef GraphFlow::Core::FlowGraph FlowGraph;
     typedef GraphFlow::Core::Neighborhood::Morphology MorphologyNeighborhood;
-//    typedef GraphFlow::Core::Neighborhood::Random MorphologyNeighborhood;
 
     HardConstraintVector prepareHardConstraints(const InputData& id, const DigitalSet& ds, const DigitalSet& pixelMask);
     TerminalWeightVector prepareTerminalWeights(const InputData& id, const DTL2& dtInterior, const DTL2& dtExterior,const DataDistribution& DD,const DigitalSet& ds);
