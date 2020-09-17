@@ -1,6 +1,6 @@
-#include "StandardModel.h"
+#include "GraphModel.h"
 
-namespace StandardModel
+namespace Graph
 {
 template<class TNeighborhoodExplorer>
 typename TNeighborhoodExplorer::VisitNeighborFunction visitNeighbor(TNeighborhoodExplorer& neighExplorer)

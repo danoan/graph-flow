@@ -7,7 +7,7 @@ add_executable(graph-seg-app
         src/input/InputReader.cpp
         src/utils.cpp
         src/graph-seg.cpp
-        src/model/StandardModel.cpp
+        src/model/GraphContext.cpp
         src/model/GMM.cpp
         main.cpp)
 

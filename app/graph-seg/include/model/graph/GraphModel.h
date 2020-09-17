@@ -9,15 +9,13 @@
 #include <graph-flow/core/HardConstraint.h>
 #include <graph-flow/utils/digital.h>
 
+#include "constraint/ForegroundHard.h"
+#include "constraint/BackgroundHard.h"
+
 #include "weight/Foreground.h"
 #include "weight/Background.h"
-#include "weight/ForegroundHard.h"
-#include "weight/BackgroundHard.h"
-
 #include "weight/Curvature.h"
 #include "weight/Homogeneity.h"
-
-#include "constraint/FixedPixels.h"
 
 #include "model/GraphSegInput.h"
 #include "model/DataDistribution.h"
@@ -25,7 +23,7 @@
 
 #include "utils.h"
 
-namespace StandardModel
+namespace Graph
 {
     typedef GraphFlow::Utils::Digital::DTL2 DTL2;
 
@@ -40,37 +38,18 @@ namespace StandardModel
     typedef GraphFlow::Core::FlowGraph FlowGraph;
     typedef GraphFlow::Core::Neighborhood::Morphology MorphologyNeighborhood;
 
-    HardConstraintVector prepareHardConstraints(const InputData& id, const DigitalSet& ds, const DigitalSet& pixelMask);
+    HardConstraintVector prepareHardConstraints(const InputData& id, const DigitalSet& ds);
     TerminalWeightVector prepareTerminalWeights(const InputData& id, const DTL2& dtInterior, const DTL2& dtExterior,const DataDistribution& DD,const DigitalSet& ds);
     EdgeWeightVector prepareEdgeWeightVector(const InputData& id, const DigitalSet& ds, const cv::Mat& colorImage);
 
-    struct Context
-    {
-        typedef GraphFlow::Core::Neighborhood::Morphology MorphologyNeighborhood;
-
-        Context(const GraphSegInput& gfi, const DigitalSet& ds, const HardConstraintVector& hcv, const MorphologyNeighborhood& neighborhood):
-                gfi(gfi),
-                ds(ds),
-                neighborhood(neighborhood),
-                hcv(hcv){}
-
-        const GraphSegInput& gfi;
-        const DigitalSet& ds;
-
-        MorphologyNeighborhood neighborhood;
-        const HardConstraintVector& hcv;
-    };
-
-
+    
     double regionValue(double& fgv, double& bgv,const DigitalSet& ds, const CVMatDistribution& fgDistr, const CVMatDistribution& bgDistr);
-
-    double evaluateData(double& fgv, double& bgv,const InputData& inputData,const DigitalSet& ds, const DataDistribution& DD);
     double evaluateData(const InputData& inputData,const DigitalSet& ds, const DataDistribution& DD);
 
     template<class TNeighborhoodExplorer>
     typename TNeighborhoodExplorer::VisitNeighborFunction visitNeighbor(TNeighborhoodExplorer& neighExplorer);
 }
 
-#include "StandardModel.hpp"
+#include "GraphModel.hpp"
 
 #endif //GRAPH_FLOW_STANDARDMODEL_H

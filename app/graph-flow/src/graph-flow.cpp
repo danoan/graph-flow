@@ -1,61 +1,68 @@
+#include <model/graph/GraphContext.h>
 #include "graph-flow.h"
 
+namespace App {
 
-void graphFlow(const GraphFlowInput& gfi, std::ostream& os, IterationCallback& icb)
-{
-    using namespace DGtal::Z2i;
-    using namespace GraphFlow::Utils;
-    using namespace GraphFlow::Core;
-    
-    const InputData& id = gfi.inputData;
-    DigitalSet ds = gfi.inputDS;
+template<class TNeighExplorerIterator>
+Candidate selectBestCandidate(TNeighExplorerIterator begin,TNeighExplorerIterator end){
+  std::vector<Candidate> candidates;
+  for (auto it = begin; it!=end; ++it) {
+    candidates.insert(candidates.end(),
+                      it->vars.candidatesVector.begin(),
+                      it->vars.candidatesVector.end());
+  }
 
-    StandardModel::MorphologyNeighborhood neighborhood(StandardModel::MorphologyNeighborhood::MorphologyElement::CIRCLE,id.neighborhoodSize);
-    StandardModel::HardConstraintVector hcv = StandardModel::prepareHardConstraints(id,ds,gfi.pixelMask);
+  std::sort(candidates.begin(),
+            candidates.end(),
+            [](const Candidate& c1, const Candidate& c2) {
+              return c1.value < c2.value;
+            });
 
-    double lastEnergyValue= evaluateEnergy(id,ds);
-    int i=0;
-    while(true)
-    {
-        icb(GraphFlowIteration(i,lastEnergyValue,ds,GraphFlowIteration::Running));
-        if(i==id.iterations) break;
+  return candidates[0];
+}
 
-        StandardModel::Context context(gfi,ds,hcv,neighborhood);
-        auto range = magLac::Core::addRange(context.neighborhood.begin(),context.neighborhood.end(),1);
-        auto neighExplorer = createNeighborExplorer<UserVars,Params>(range,context);
+void graphFlow(const GraphFlowInput &gfi, std::ostream &os, IterationCallback &icb) {
+  using namespace DGtal::Z2i;
+  using namespace GraphFlow::Utils;
+  using namespace GraphFlow::Core;
+
+  const InputData &id = gfi.inputData;
+  DigitalSet ds = gfi.inputDS;
+
+  Graph::MorphologyNeighborhood neighborhood(Graph::MorphologyNeighborhood::MorphologyElement::CIRCLE, id.neighborhoodSize);
+
+  double lastEnergyValue = Utils::evaluateEnergy(id, ds);
+  int itNumber = 0;
+  bool execute = true;
+
+  icb(GraphFlowIteration(itNumber, lastEnergyValue, ds, GraphFlowIteration::Init));
+  while (execute) {
+    Graph::Context context(gfi, ds, neighborhood);
+    auto range = magLac::Core::addRange(context.neighborhood.begin(), context.neighborhood.end(), 1);
+    auto neighExplorer = createNeighborExplorer<UserVars, Params>(range, context);
+
+    neighExplorer.start(Graph::visitNeighbor(neighExplorer), id.nThreads);
+
+    Candidate bestCandidate = selectBestCandidate(neighExplorer.begin(),neighExplorer.end());
 
 
-        neighExplorer.start(StandardModel::visitNeighbor(neighExplorer),id.nThreads);
-        
-        //Select best solution
-        std::vector<UserVars::EvaluationPair> evaluationPairs;
-        for(auto it=neighExplorer.begin();it!=neighExplorer.end();++it)
-        {
-            evaluationPairs.insert(evaluationPairs.end(),
-                                   it->vars.epVector.begin(),
-                                   it->vars.epVector.end());
-        }
-        
-        std::sort(evaluationPairs.begin(),evaluationPairs.end(),[](const UserVars::EvaluationPair& ep1, const UserVars::EvaluationPair&  ep2){ return ep1.second < ep2.second;});
-        
-        const DigitalSet* bestDS = evaluationPairs[0].first;
-        ds.clear();
-        ds.insert(bestDS->begin(),bestDS->end());
-        
-        //Stop conditions
-        if(id.iterations==-1)
-        {
-            //For unlimited iterations, stop if the current best solution is worst than previous best solution
-            if( evaluationPairs[0].second >= lastEnergyValue ) break;
-        }
-        else
-        {
-            if( fabs(evaluationPairs[0].second-lastEnergyValue) < 1e-6 ) break;
-        }
-        
-        lastEnergyValue=evaluationPairs[0].second;
-        ++i;
+    ds.clear();
+    ds.insert(bestCandidate.ds->begin(), bestCandidate.ds->end());
+    icb(GraphFlowIteration(itNumber, lastEnergyValue, ds, GraphFlowIteration::Running));
+
+    //Stop conditions
+    if (id.iterations==-1) {
+      //For unlimited iterations, stop if the current best solution is worst than previous best solution
+      if (bestCandidate.value>= lastEnergyValue) execute = false;
+    } else {
+      if (fabs(bestCandidate.value - lastEnergyValue) < 1e-6) execute = false;
+      else if(itNumber >= id.iterations) execute= false;
     }
 
-  icb(GraphFlowIteration(i,lastEnergyValue,ds,GraphFlowIteration::End));
+    lastEnergyValue = bestCandidate.value;
+    ++itNumber;
+  }
+
+  icb(GraphFlowIteration(itNumber, lastEnergyValue, ds, GraphFlowIteration::End));
+}
 }

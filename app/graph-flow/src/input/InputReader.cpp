@@ -1,8 +1,8 @@
 #include <cstring>
 #include "input/InputReader.h"
 
-void usage(char* argv[])
-{
+namespace App {
+void usage(char *argv[]) {
   std::cerr << "Usage: " << argv[0] << " OutputFolder \n"
                                        "[-S Shape name(triangle, square, pentagon, heptagon, ball, ellipse, flower, bean, wave. default: square)]\n"
                                        "[-i Number of iterations (default: 10)]\n"
@@ -21,94 +21,73 @@ void usage(char* argv[])
                                        "[-s Save figures]" << std::endl;
 }
 
-
-
-InputData readInput(int argc, char* argv[])
-{
+InputData readInput(int argc, char *argv[]) {
   InputData id;
 
   int opt;
-  while( (opt=getopt(argc,argv,"S:i:r:v:h:a:b:O:n:N:B:P:wds"))!=-1)
-  {
-    switch(opt)
-    {
-      case 'S':
-      {
+  while ((opt = getopt(argc, argv, "S:i:r:v:h:a:b:O:n:N:B:P:wds"))!=-1) {
+    switch (opt) {
+      case 'S': {
         id.shapeName = optarg;
         break;
       }
-      case 'i':
-      {
+      case 'i': {
         id.iterations = std::atoi(optarg);
         break;
       }
-      case 'r':
-      {
-        id.radius= std::atof(optarg);
+      case 'r': {
+        id.radius = std::atof(optarg);
         break;
       }
-      case 'v':
-      {
+      case 'v': {
         id.vradius = std::atof(optarg);
         break;
       }
-      case 'h':
-      {
-        id.h= std::atof(optarg);
+      case 'h': {
+        id.h = std::atof(optarg);
         break;
       }
-      case 'a':
-      {
+      case 'a': {
         id.alpha = std::atof(optarg);
         break;
       }
-      case 'b':
-      {
+      case 'b': {
         id.beta = std::atof(optarg);
         break;
       }
-      case 'O':
-      {
+      case 'O': {
         id.optBand = std::atoi(optarg);
         break;
       }
-      case 'n':
-      {
-        id.nThreads= std::atoi(optarg);
+      case 'n': {
+        id.nThreads = std::atoi(optarg);
         break;
       }
-      case 'N':
-      {
+      case 'N': {
         id.neighborhoodSize = std::atoi(optarg);
         break;
       }
-      case 'B':
-      {
-        id.border= std::atoi(optarg);
+      case 'B': {
+        id.border = std::atoi(optarg);
         break;
       }
-      case 'P':
-      {
+      case 'P': {
         id.pixelMaskFilepath = optarg;
         break;
       }
-      case 'w':
-      {
+      case 'w': {
         id.printEnergyValue = true;
         break;
       }
-      case 'd':
-      {
-        id.displayFlow= true;
+      case 'd': {
+        id.displayFlow = true;
         break;
       }
-      case 's':
-      {
-        id.saveAllFigures= true;
+      case 's': {
+        id.saveAllFigures = true;
         break;
       }
-      default:
-      {
+      default: {
         usage(argv);
         exit(1);
       }
@@ -119,21 +98,21 @@ InputData readInput(int argc, char* argv[])
   return id;
 }
 
-void writeInputData(const InputData& id, std::ostream& os)
-{
+void writeInputData(const InputData &id, std::ostream &os) {
   os << "Shape name:" << id.shapeName << "\n"
      << "Estimation radius:" << id.radius << "\n"
      << "Validation radius:" << id.vradius << "\n"
-     << "Grid step:" << id.h  << "\n"
-     << "Opt band:" << id.optBand  << "\n"
-     << "Length penalization:" << id.alpha  << "\n"
-     << "Curvature penalization:" << id.beta  << "\n"
-     << "Iterations:" << id.iterations  << "\n"
-     << "Neighborhood size:" << id.neighborhoodSize  << "\n"
-     << "Max number of threads:" << id.nThreads  << "\n"
-     << "Output folder:" << id.outputFolder  << "\n"
+     << "Grid step:" << id.h << "\n"
+     << "Opt band:" << id.optBand << "\n"
+     << "Length penalization:" << id.alpha << "\n"
+     << "Curvature penalization:" << id.beta << "\n"
+     << "Iterations:" << id.iterations << "\n"
+     << "Neighborhood size:" << id.neighborhoodSize << "\n"
+     << "Max number of threads:" << id.nThreads << "\n"
+     << "Output folder:" << id.outputFolder << "\n"
      << "Pixel mask filepath:" << id.pixelMaskFilepath << "\n"
-     << "Print energy value:" << ( id.printEnergyValue?"True":"False" ) << "\n"
-     << "Display flow:" << ( id.displayFlow?"True":"False" ) << "\n"
-     << "Save figures:" << ( id.saveAllFigures?"True":"False" ) << "\n";
+     << "Print energy value:" << (id.printEnergyValue ? "True" : "False") << "\n"
+     << "Display flow:" << (id.displayFlow ? "True" : "False") << "\n"
+     << "Save figures:" << (id.saveAllFigures ? "True" : "False") << "\n";
+}
 }

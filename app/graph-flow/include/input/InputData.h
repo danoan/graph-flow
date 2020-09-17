@@ -1,8 +1,9 @@
-#ifndef GRAPH_FLOW_APP_INPUTDATA_H
-#define GRAPH_FLOW_APP_INPUTDATA_H
+#ifndef GRAPH_FLOW_APP_GRAPH_FLOW_INPUTDATA_H
+#define GRAPH_FLOW_APP_GRAPH_FLOW_INPUTDATA_H
 
 #include <string>
 
+namespace App{
 struct InputData
 {
   InputData()
@@ -51,5 +52,6 @@ struct InputData
   bool saveAllFigures;
   bool displayFlow;
 };
+}
 
-#endif //GRAPH_FLOW_APP_INPUTDATA_H
+#endif //GRAPH_FLOW_APP_GRAPH_FLOW_INPUTDATA_H

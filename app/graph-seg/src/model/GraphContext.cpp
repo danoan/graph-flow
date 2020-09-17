@@ -1,6 +1,6 @@
-#include "model/StandardModel.h"
+#include "model/graph/GraphModel.h"
 
-namespace StandardModel
+namespace GraphModel
 {
     double regionValue(double& fgv, double& bgv,const DigitalSet& ds, const CVMatDistribution& fgDistr, const CVMatDistribution& bgDistr)
     {
@@ -24,16 +24,11 @@ namespace StandardModel
         return (fgv+bgv);
     }
 
-    double evaluateData(double& fgv, double& bgv, const InputData& id,const DigitalSet& ds, const DataDistribution& DD)
-    {
-        double rv = id.regionalTermWeight*regionValue(fgv,bgv,ds,*DD.fgDistr,*DD.bgDistr);
-        return rv;
-    }
-
     double evaluateData(const InputData& id,const DigitalSet& ds, const DataDistribution& DD)
     {
-        double fgv,bgv;
-        return evaluateData(fgv,bgv,id,ds,DD);
+      double fgv,bgv;
+      double rv = id.regionalTermWeight*regionValue(fgv,bgv,ds,*DD.fgDistr,*DD.bgDistr);
+      return rv;
     }
 
     HardConstraintVector prepareHardConstraints(const InputData& id, const DigitalSet& ds, const DigitalSet& pixelMask)

@@ -6,7 +6,7 @@ add_executable(graph-flow-app
         src/input/InputReader.cpp
         src/utils.cpp
         src/graph-flow.cpp
-        src/model/StandardModel.cpp
+        src/model/GraphContext.cpp
         main.cpp)
 
 if(${USE_REMOTE_REPOSITORIES})

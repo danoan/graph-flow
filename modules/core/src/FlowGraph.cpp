@@ -2,14 +2,12 @@
 
 namespace GraphFlow::Core
 {
-    FlowGraph::FlowGraph(const DigitalSet& vertexSet,TerminalWeightVector twv, EdgeWeightVector ewv, HardConstraintVector hcv):
+    FlowGraph::FlowGraph(const DigitalSet& vertexSet,TerminalWeightVector twv, EdgeWeightVector ewv):
     arcWeightMap(digraph),
     ntp(digraph),
     sourceNodes(vertexSet.domain()),
     twv(twv),
-    ewv(ewv),
-    hcv(hcv)
-    {
+    ewv(ewv){
         using namespace DGtal::Z2i;
         using namespace GraphFlow::Utils;
 
@@ -70,37 +68,6 @@ namespace GraphFlow::Core
                 }
             }
         }
-
-        for(auto hc:hcv)
-        {
-            for(auto it=hc->begin();it!=hc->end();++it)
-            {
-                if(it->arcType==HardConstraintElement::ArcType::Parallel)
-                {
-                    ListDigraph::Arc a = digraph.addArc( ptn[it->source],ptn[it->target]);
-                    arcWeightMap[a] = it->value;
-                }else if(it->arcType==HardConstraintElement::ArcType::Replace)
-                {
-                    for(ListDigraph::OutArcIt arcIt( digraph,ptn[it->source] );arcIt!= lemon::INVALID;++arcIt)
-                    {
-                        if(digraph.target(arcIt)==ptn[it->target])
-                        {
-                            arcWeightMap[arcIt] = it->value;
-                            break;
-                        }
-                    }
-                }else if(it->arcType==HardConstraintElement::ArcType::FromSource)
-                {
-                    ListDigraph::Arc a = digraph.addArc( terminalSource,ptn[it->target]);
-                    arcWeightMap[a] = it->value;
-                }else if(it->arcType==HardConstraintElement::ArcType::ToTarget)
-                {
-                    ListDigraph::Arc a = digraph.addArc( ptn[it->source],terminalTarget);
-                    arcWeightMap[a] = it->value;
-                }
-            }
-        }
-
 
         FlowComputer flow(digraph,arcWeightMap,terminalSource,terminalTarget);
         flow.run();

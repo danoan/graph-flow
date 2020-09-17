@@ -16,7 +16,6 @@
 #include <graph-flow/utils/timer.h>
 
 #include "EdgeWeight.h"
-#include "HardConstraint.h"
 #include "TerminalWeight.h"
 
 namespace GraphFlow::Core
@@ -36,7 +35,6 @@ namespace GraphFlow::Core
         typedef ListDigraph::NodeMap<DGtal::Z2i::Point> NodeToPoint;
 
         typedef std::vector<TerminalWeight*> TerminalWeightVector;
-        typedef std::vector<HardConstraint*> HardConstraintVector;
         typedef std::vector<EdgeWeight*> EdgeWeightVector;
 
 
@@ -45,7 +43,7 @@ namespace GraphFlow::Core
         void setMax(const DigitalSet& vertexSet);
 
     public:
-        FlowGraph(const DigitalSet& vertexSet,TerminalWeightVector twv, EdgeWeightVector ewv, HardConstraintVector hcv);
+        FlowGraph(const DigitalSet& vertexSet,TerminalWeightVector twv, EdgeWeightVector ewv);
 
 
     public:
@@ -60,7 +58,6 @@ namespace GraphFlow::Core
 
         TerminalWeightVector twv;
         EdgeWeightVector ewv;
-        HardConstraintVector hcv;
 
     public:
         DigitalSet sourceNodes;
