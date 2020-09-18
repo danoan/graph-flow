@@ -56,6 +56,12 @@ struct DataDistribution {
                 gco.segMask,
                 cv::CMP_EQ);
 
+
+    if(id.randomSeedsFilepath!=""){
+      cv::Mat randomSeedMask = cv::imread(id.randomSeedsFilepath,cv::IMREAD_GRAYSCALE);
+      gco.segMask.setTo(255, randomSeedMask);
+    }
+
     gco.segMask.setTo(255, fgMask);
     gco.inputImage.copyTo(segResultImg, gco.segMask);
 

@@ -14,6 +14,7 @@ void usage(char *argv[]) {
                                        "[-O Optimization band (default:2)]\n"
                                        "[-n Maximum number of threads (default:4)]\n"
                                        "[-N neighborhood size (default:2)]\n"
+                                       "[-R Last segmentation]\n"
                                        "[-w print energy value]\n"
                                        "[-s save figures]\n"
                                        "[-d display flow]" << std::endl;
@@ -23,7 +24,7 @@ InputData readInput(int argc, char *argv[]) {
   InputData id;
 
   int opt;
-  while ((opt = getopt(argc, argv, "i:r:h:a:g:k:G:O:n:N:P:wsd"))!=-1) {
+  while ((opt = getopt(argc, argv, "i:r:h:a:g:k:G:O:n:N:R:wsd"))!=-1) {
     switch (opt) {
       case 'i': {
         id.iterations = std::atoi(optarg);
@@ -65,8 +66,8 @@ InputData readInput(int argc, char *argv[]) {
         id.neighborhoodSize = std::atoi(optarg);
         break;
       }
-      case 'P': {
-        id.pixelMaskFilepath = optarg;
+      case 'R': {
+        id.randomSeedsFilepath = optarg;
         break;
       }
       case 'w': {

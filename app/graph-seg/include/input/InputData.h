@@ -21,7 +21,7 @@ struct InputData {
     neighborhoodSize = 2;
 
     outputFolder = "";
-    pixelMaskFilepath = "";
+    randomSeedsFilepath = "";
     gcoFilepath = "";
 
     printEnergyValue = false;
@@ -43,7 +43,7 @@ struct InputData {
   int neighborhoodSize;
 
   std::string outputFolder;
-  std::string pixelMaskFilepath;
+  std::string randomSeedsFilepath;
   std::string gcoFilepath;
 
   bool printEnergyValue;
