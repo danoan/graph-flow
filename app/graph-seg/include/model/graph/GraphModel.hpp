@@ -19,31 +19,40 @@ typename TNeighborhoodExplorer::VisitNeighborFunction visitNeighbor(TNeighborhoo
 
         const MorphologyNeighborhood::Blueprint& blueprint = c1[0];
         const App::GraphSegInput& gfi = context.gfi;
-        const DigitalSet& ds = context.ds;
 
+        int nc = context.connectedComponents.size();
+        for(int id=0;id<nc;++id) {
+          const DigitalSet &ds = *context.connectedComponents[id];
 
-        DigitalSet candidateDS(ds.domain());
-        context.neighborhood.evaluateCandidate(candidateDS,blueprint,ds);
+          DigitalSet candidateDS(ds.domain());
+          context.neighborhood.evaluateCandidate(candidateDS, blueprint, ds);
 
-        //Insert fg seeds to the current candidate
-        for(auto p:gfi.dataDistribution.fgSeeds) candidateDS.insert(p);
-        //Remove bg seeds from the current candidate
-        for(auto pt:gfi.dataDistribution.bgSeeds) candidateDS.erase(pt);
+          //Remove bg seeds from the current candidate
+          for (auto pt:gfi.dataDistribution.bgSeeds) candidateDS.erase(pt);
 
-        if(candidateDS.empty()) return;
+          if (candidateDS.empty()) return;
 
-        DigitalSet* optimalSet = optimizeConnectedComponent(candidateDS,gfi);
-        if(optimalSet->empty()){
-          delete optimalSet;
-          return;
+          DigitalSet *optimalSet = optimizeConnectedComponent(candidateDS, gfi);
+          if (optimalSet->empty()) {
+            delete optimalSet;
+            return;
+          }
+
+          DigitalSet newFG(ds.domain());
+          DIPaCUS::SetOperations::setDifference(newFG,*optimalSet,ds);
+
+          DigitalSet newBG(ds.domain());
+          DIPaCUS::SetOperations::setDifference(newBG,ds,*optimalSet);
+
+          double f = diffDataValue(newFG,gfi.dataDistribution,true) - diffDataValue(newFG,gfi.dataDistribution,false);
+          double b = diffDataValue(newBG,gfi.dataDistribution,false) - diffDataValue(newBG,gfi.dataDistribution,true);
+
+          double dataFidelityValue = evaluateData(gfi.inputData, ds, gfi.dataDistribution) + f + b;
+          double elasticaValue = App::Utils::evaluateEnergy(gfi.inputData, *optimalSet);
+          double energyValue = dataFidelityValue + elasticaValue;
+
+          ti.vars.vectorOfCandidates.push_back(Candidate{id,optimalSet,energyValue});
         }
-
-        double dataFidelityValue= evaluateData(gfi.inputData,ds,gfi.dataDistribution);
-        double elasticaValue = App::Utils::evaluateEnergy(gfi.inputData,*optimalSet);
-        double energyValue = dataFidelityValue + elasticaValue;
-
-        ti.vars.vectorOfCandidates.push_back( Candidate{optimalSet,energyValue} );
-
 
       };
 }

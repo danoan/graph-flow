@@ -27,7 +27,7 @@ struct UserVars {
 struct Params {};
 
 template<class TNeighExplorer>
-double buildBestSolution(DigitalSet& solution, TNeighExplorer& neighExplorer);
+void buildBestSolution(DigitalSet& solution, TNeighExplorer& neighExplorer);
 
 DigitalSet graphSeg(const GraphSegInput &gfi, std::ostream &os, IterationCallback &icb);
 }

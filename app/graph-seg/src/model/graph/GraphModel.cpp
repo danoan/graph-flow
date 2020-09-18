@@ -12,7 +12,7 @@ double diffDataValue(const DigitalSet& diffSet,const App::Image::DataDistributio
   double v=0;
   for(auto p:diffSet)
   {
-    int prow=img.rows-p[1];
+    int prow=img.rows-p[1]-1;
     int pcol=p[0];
 
     v+=-log( (*distr)(prow,pcol) );

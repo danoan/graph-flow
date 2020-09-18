@@ -18,10 +18,12 @@ struct Context{
 
   Context(const Context& context)=delete;
   Context(Context&& context)=delete;
+  ~Context(){
+    for(auto D:connectedComponents) delete D;
+  }
 
+  std::vector<DigitalSet*> connectedComponents;
   const GraphSegInput& gfi;
-  const DigitalSet& ds;
-
   MorphologyNeighborhood neighborhood;
 };
 
