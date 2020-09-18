@@ -7,7 +7,8 @@ endif()
 
 
 add_library(graph-flow-core ${LIBRARY_ACTION}
-        src/FlowGraph.cpp)
+        src/graph-flow/core/FlowGraph.cpp
+        src/graph-flow/core/neighborhood/MorphologyNeighborhood.cpp)
 
 if(${USE_REMOTE_REPOSITORIES})
     add_dependencies(graph-flow-core graph-flow-utils dipacus geoc)

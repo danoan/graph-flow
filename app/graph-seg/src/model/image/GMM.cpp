@@ -1,5 +1,6 @@
-#include "model/GMM.h"
+#include "model/image/GMM.h"
 
+namespace App::Image{
 using namespace cv;
 
 GMM::GMM( Mat& _model )
@@ -191,4 +192,5 @@ double GMM::standardNormal( int ci, const cv::Vec3d color ) const
 
     }
     return res;
+}
 }

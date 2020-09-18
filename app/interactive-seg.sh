@@ -8,7 +8,7 @@ BTOOLS_BIN="${PROJECT_FOLDER}/ext-projects/cmake-build-release/bin"
 INPUT_IMAGE="${PROJECT_FOLDER}/input/images/coala.jpg"
 
 usage(){ echo "Usage: $0 "
-echo "[-r Ball radius (default: 5)]"
+echo "[-r Ball radius (default: 7)]"
 echo "[-g Data regional term (default: 1.0) ]"
 echo "[-k Squared curvature weight (default:2.5) ]"
 echo "[-a Length weight (default:0.01) ]"
@@ -106,7 +106,7 @@ then
     "${SP_OUT}/gc-object.xml" \
     -u "${SP_OUT}/mask-pbfg-0.pgm" -d
 
-    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -k"$k" -a"$a" -G"${G}" -i"$i" -v ${s} ${w} "${SP_OUT}/graph-seg"
+    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -k"$k" -a"$a" -G"${G}" -i"$i" -d ${s} ${w} "${SP_OUT}/graph-seg"
 fi
 
 
@@ -127,6 +127,6 @@ do
     "${GRAB_CUT_APP}" "${INPUT_IMAGE}" "${SP_OUT}/mask-fg-0.pgm" "${SP_OUT}/mask-bg-0.pgm" "${SP_OUT}/gc-object.xml" \
     -u "${SP_OUT}/mask-pbfg-0.pgm" -s "${SP_OUT}/graph-seg/mask-seg.pgm"
 
-    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -k"$k" -a"$a" -i"$i" -G"${G}" -v ${s} ${w} "${SP_OUT}/graph-seg"
+    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -k"$k" -a"$a" -i"$i" -G"${G}" -d ${s} ${w} "${SP_OUT}/graph-seg"
 done
 

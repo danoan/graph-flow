@@ -1,5 +1,5 @@
-#ifndef NeighborhoodExplorer_h
-#define NeighborhoodExplorer_h
+#ifndef GRAPH_FLOW_APP_GRAPH_SEG_NeighborhoodExplorer_h
+#define GRAPH_FLOW_APP_GRAPH_SEG_NeighborhoodExplorer_h
 
 #include <magLac/core/base/Range.hpp>
 #include <magLac/core/single/Combinator.hpp>
@@ -7,43 +7,43 @@
 #include <magLac/core/multithread/ThreadInput.h>
 
 
-template<class TCombinator, class TUserVars, class TParams, class TContext >
-class NeighborhoodExplorer
-{
-public:
-    typedef TCombinator MyCombinator;
-    typedef TUserVars UserVars;
-    typedef TParams Params;
-    typedef TContext Context;
+namespace App {
+template<class TCombinator, class TUserVars, class TParams, class TContext>
+class NeighborhoodExplorer {
+ public:
+  typedef TCombinator MyCombinator;
+  typedef TUserVars UserVars;
+  typedef TParams Params;
+  typedef TContext Context;
 
-    typedef typename MyCombinator::MyResolver MyResolver;
-    
-    typedef typename magLac::Core::MultiThread::ThreadInput<MyCombinator,UserVars,Params> MyThreadInput;
-    typedef typename magLac::Core::MultiThread::Trigger<MyThreadInput> MyThreadTrigger;
-    typedef typename magLac::Core::MultiThread::ThreadControl ThreadControl;
+  typedef typename MyCombinator::MyResolver MyResolver;
 
-    typedef std::function<void(const Context&, MyResolver&, MyThreadInput&,ThreadControl&)> VisitNeighborFunction;
+  typedef typename magLac::Core::MultiThread::ThreadInput<MyCombinator, UserVars, Params> MyThreadInput;
+  typedef typename magLac::Core::MultiThread::Trigger<MyThreadInput> MyThreadTrigger;
+  typedef typename magLac::Core::MultiThread::ThreadControl ThreadControl;
 
-public:
-    NeighborhoodExplorer(MyCombinator& combinator, const Context& context);
-    void start(VisitNeighborFunction vnf, int numThreads);
+  typedef std::function<void(const Context &, MyResolver &, MyThreadInput &, ThreadControl &)> VisitNeighborFunction;
 
-    auto begin(){ return threadTrigger->threadInputVector.begin();}
-    auto end(){ return threadTrigger->threadInputVector.end();}
-    
-    ~NeighborhoodExplorer();
+ public:
+  NeighborhoodExplorer(MyCombinator &combinator, const Context &context);
+  void start(VisitNeighborFunction vnf, int numThreads);
 
-private:
-    MyCombinator combinator;
-    const Context& context;
+  auto begin() { return threadTrigger->threadInputVector.begin(); }
+  auto end() { return threadTrigger->threadInputVector.end(); }
 
-    MyThreadTrigger* threadTrigger;
+  ~NeighborhoodExplorer();
+
+ private:
+  MyCombinator combinator;
+  const Context &context;
+
+  MyThreadTrigger *threadTrigger;
 };
 
-
 template<class TTUserVars, class TTParams, class TRange, class TContext>
-auto createNeighhborExplorer(TRange& range, const TContext& context);
+auto createNeighhborExplorer(TRange &range, const TContext &context);
+}
 
 #include "NeighborhoodExplorer.hpp"
 
-#endif /* NeighborhoodExplorer_h */
+#endif /* GRAPH_FLOW_APP_GRAPH_SEG_NeighborhoodExplorer_h */

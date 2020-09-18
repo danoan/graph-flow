@@ -1,5 +1,5 @@
-#ifndef GRAPH_SEG_BACKGROUND_HARD_H
-#define GRAPH_SEG_BACKGROUND_HARD_H
+#ifndef GRAPH_SEG_BACKGROUND_SEED_H
+#define GRAPH_SEG_BACKGROUND_SEED_H
 
 #include <DGtal/helpers/StdDefs.h>
 
@@ -7,14 +7,14 @@
 #include <graph-flow/core/TerminalWeight.h>
 #include <graph-flow/utils/digital.h>
 
-namespace Graph::Constraint{
-  class BackgroundHard:public GraphFlow::Core::TerminalWeight
+namespace App::Graph::Weight {
+  class BackgroundSeed:public GraphFlow::Core::TerminalWeight
   {
   public:
       typedef DGtal::Z2i::DigitalSet DigitalSet;
       typedef GraphFlow::Utils::Digital::DTL2 DTL2;
 
-      BackgroundHard(const DTL2& dtl2, int optBand, double ballRadius):
+      BackgroundSeed(const DTL2& dtl2, int optBand, double ballRadius):
               connectedToTarget( GraphFlow::Utils::Digital::level(dtl2,optBand,optBand-1) ),
               maxPenal(M_PI*pow(ballRadius,2)*1024)
       {}
@@ -36,4 +36,4 @@ namespace Graph::Constraint{
   };
 }
 
-#endif //GRAPH_SEG_BACKGROUND_HARD_H
+#endif //GRAPH_FLOW_APP_GRAPH_SEG_BACKGROUND_SEED_H

@@ -1,8 +1,9 @@
-#ifndef GRAPHSEGITERATION
-#define GRAPHSEGITERATION
+#ifndef GRAPH_FLOW_APP_GRAPH_SEG_GRAPHSEGITERATION_H
+#define GRAPH_FLOW_APP_GRAPH_SEG_GRAPHSEGITERATION_H
 
 #include <DGtal/helpers/StdDefs.h>
 
+namespace App{
 struct GraphSegIteration
 {
     typedef DGtal::Z2i::DigitalSet DigitalSet;
@@ -19,4 +20,5 @@ struct GraphSegIteration
     const DigitalSet& ds;
     IterationState iterationState;
 };
-#endif //GRAPHSEGITERATION
+}
+#endif //GRAPH_FLOW_APP_GRAPH_SEG_GRAPHSEGITERATION_H

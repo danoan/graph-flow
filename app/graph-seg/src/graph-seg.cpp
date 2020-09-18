@@ -1,64 +1,50 @@
 #include "graph-seg.h"
 
+namespace App {
+DigitalSet graphSeg(const App::GraphSegInput &gfi, std::ostream &os, App::IterationCallback &icb) {
+  using namespace DGtal::Z2i;
+  using namespace GraphFlow::Utils;
+  using namespace GraphFlow::Core;
 
-DigitalSet graphSeg(const GraphSegInput& gfi, std::ostream& os, IterationCallback& icb)
-{
-    using namespace DGtal::Z2i;
-    using namespace GraphFlow::Utils;
-    using namespace GraphFlow::Core;
-    
-    const InputData& id = gfi.inputData;
-    DigitalSet ds = gfi.inputDS;
+  const App::InputData &id = gfi.inputData;
+  DigitalSet ds = gfi.inputDS;
 
-    StandardModel::MorphologyNeighborhood neighborhood(StandardModel::MorphologyNeighborhood::MorphologyElement::CIRCLE,id.neighborhoodSize);
-    StandardModel::HardConstraintVector hcv;
+  App::Graph::MorphologyNeighborhood neighborhood(App::Graph::MorphologyNeighborhood::MorphologyElement::CIRCLE,
+                                                  id.neighborhoodSize);
 
-    double lastEnergyValue= StandardModel::evaluateData(id,ds,gfi.dataDistribution) + evaluateEnergy(id,ds,id.alpha);
-    int i=0;
-    while(true)
-    {
-        icb(GraphSegIteration(i,lastEnergyValue,ds,GraphSegIteration::Running));
-        if(i==id.iterations) break;
-        if(ds.empty()) break;
+  int itNumber = 0;
+  bool executing = true;
+  double lastEnergyValue = App::Graph::evaluateData(id, ds, gfi.dataDistribution) + App::Utils::evaluateEnergy(id, ds);
+  icb(App::GraphSegIteration(itNumber, lastEnergyValue, ds, App::GraphSegIteration::Init));
+  while (executing) {
+    App::Graph::Context context(gfi, ds, neighborhood);
+    auto range = magLac::Core::addRange(context.neighborhood.begin(), context.neighborhood.end(), 1);
+    auto neighExplorer = App::createNeighborExplorer<App::UserVars, App::Params>(range, context);
 
-        StandardModel::Context context(gfi,ds,hcv,neighborhood);
-        auto range = magLac::Core::addRange(context.neighborhood.begin(),context.neighborhood.end(),1);
-        auto neighExplorer = createNeighborExplorer<UserVars,Params>(range,context);
+    neighExplorer.start(App::Graph::visitNeighbor(neighExplorer), id.nThreads);
 
 
-        neighExplorer.start(StandardModel::visitNeighbor(neighExplorer),id.nThreads);
-        
-        //Select best solution
-        std::vector<UserVars::EvaluationPair> evaluationPairs;
-        for(auto it=neighExplorer.begin();it!=neighExplorer.end();++it)
-        {
-            evaluationPairs.insert(evaluationPairs.end(),
-                                   it->vars.epVector.begin(),
-                                   it->vars.epVector.end());
-        }
-        
-        std::sort(evaluationPairs.begin(),evaluationPairs.end(),[](const UserVars::EvaluationPair& ep1, const UserVars::EvaluationPair&  ep2){ return ep1.second < ep2.second;});
-        
-        const DigitalSet* bestDS = evaluationPairs[0].first;
-        ds.clear();
-        ds.insert(bestDS->begin(),bestDS->end());
-        
-        //Stop conditions
-        if(id.iterations==-1)
-        {
-            //For unlimited iterations, stop if the current best solution is worst than previous best solution
-            if( evaluationPairs[0].second >= lastEnergyValue ) break;
-        }
-        else
-        {
-            if( fabs(evaluationPairs[0].second-lastEnergyValue) < 1e-6 ) break;
-        }
-        
-        lastEnergyValue=evaluationPairs[0].second;
-        ++i;
+    ds.clear();
+    double energyValue = buildBestSolution(ds,neighExplorer);
+
+
+    //Stop conditions
+    if (id.iterations==-1) {
+      //For unlimited iterations, stop if the current best solution is worst than previous best solution
+      if (energyValue >= lastEnergyValue) executing = false;
+    } else {
+      if (fabs(energyValue - lastEnergyValue) < 1e-6) executing = false;
+      else if (itNumber >= id.iterations) executing = false;
     }
 
-    icb(GraphSegIteration(i,lastEnergyValue,ds,GraphSegIteration::End));
+    lastEnergyValue = energyValue;
+    icb(App::GraphSegIteration(itNumber, lastEnergyValue, ds, App::GraphSegIteration::Running));
 
-    return ds;
+    ++itNumber;
+  }
+
+  icb(App::GraphSegIteration(itNumber, lastEnergyValue, ds, App::GraphSegIteration::End));
+
+  return ds;
+}
 }

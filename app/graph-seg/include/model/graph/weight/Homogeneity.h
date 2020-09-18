@@ -1,12 +1,12 @@
-#ifndef GRAPH_FLOW_HOMOGENEITY_H
-#define GRAPH_FLOW_HOMOGENEITY_H
+#ifndef GRAPH_FLOW_APP_GRAPH_SEG_HOMOGENEITY_H
+#define GRAPH_FLOW_APP_GRAPH_SEG_HOMOGENEITY_H
 
 #include <DGtal/helpers/StdDefs.h>
 #include <DIPaCUS/derivates/Misc.h>
 
 #include <graph-flow/core/EdgeWeight.h>
 
-namespace Graph::Weight {
+namespace App::Graph::Weight {
 class Homogeneity : public GraphFlow::Core::EdgeWeight {
  public:
   typedef DGtal::Z2i::DigitalSet DigitalSet;
@@ -42,4 +42,4 @@ class Homogeneity : public GraphFlow::Core::EdgeWeight {
 };
 }
 
-#endif //GRAPH_FLOW_CURVATURE_H
+#endif //GRAPH_FLOW_APP_GRAPH_SEG_HOMOGENEITY_H

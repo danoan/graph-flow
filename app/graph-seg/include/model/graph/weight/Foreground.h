@@ -1,13 +1,13 @@
-#ifndef GRAPH_FLOW_FOREGROUND_H
-#define GRAPH_FLOW_FOREGROUND_H
+#ifndef GRAPH_FLOW_APP_GRAPH_SEG_FOREGROUND_H
+#define GRAPH_FLOW_APP_GRAPH_SEG_FOREGROUND_H
 
 #include <graph-flow/core/TerminalWeight.h>
-#include "model/CVMatDistribution.h"
+#include "model/image/CVMatDistribution.h"
 
-namespace Graph::Weight {
+namespace App::Graph::Weight {
 class Foreground : public GraphFlow::Core::TerminalWeight {
  public:
-  Foreground(CVMatDistribution &frgDistr, double regionalWeight) : frgDistr(frgDistr), regionalWeight(regionalWeight) {}
+  Foreground(App::Image::CVMatDistribution &frgDistr, double regionalWeight) : frgDistr(frgDistr), regionalWeight(regionalWeight) {}
 
   double operator()(const Point &p) {
     return -log(frgDistr(frgDistr.img.rows - p[1], p[0]));
@@ -19,9 +19,9 @@ class Foreground : public GraphFlow::Core::TerminalWeight {
   TerminalType type() const { return TerminalType::Target; }
 
  private:
-  CVMatDistribution frgDistr;
+  App::Image::CVMatDistribution frgDistr;
   double regionalWeight;
 };
 }
 
-#endif //GRAPH_FLOW_FOREGROUND_H
+#endif //GRAPH_FLOW_APP_GRAPH_SEG_FOREGROUND_H

@@ -9,7 +9,7 @@
 
 #include "input/InputData.h"
 #include "input/InputReader.h"
-#include "model/DataDistribution.h"
+#include "model/image/DataDistribution.h"
 #include "model/GraphSegInput.h"
 #include "model/GraphSegIteration.h"
 
@@ -22,7 +22,7 @@ using namespace GraphFlow::Utils;
 
 
 
-DigitalSet prepareShape(const DataDistribution& DD)
+DigitalSet prepareShape(const App::Image::DataDistribution& DD)
 {
   const cv::Mat& segResult = DD.segResultImg;
 
@@ -47,9 +47,16 @@ DigitalSet prepareShape(const DataDistribution& DD)
   return tempDS;
 }
 
+void renderSegmentation(cv::Mat& bcImage, const DigitalSet& ds, const App::Image::DataDistribution& DD){
+  cv::Mat foregroundMask = cv::Mat::zeros(DD.segResultImg.size(),
+                                          CV_8UC1);
+  DIPaCUS::Representation::digitalSetToCVMat(foregroundMask, ds);
+  BTools::Utils::setHighlightMask(bcImage, DD.gco.inputImage, foregroundMask);
+}
+
 int main(int argc, char* argv[])
 {
-  InputData id = readInput(argc,argv);
+  App::InputData id = App::readInput(argc,argv);
   boost::filesystem::create_directories(id.outputFolder);
 
   std::ofstream ofsInputData(id.outputFolder + "/inputData.txt");
@@ -60,7 +67,7 @@ int main(int argc, char* argv[])
   ofsEnergy << "#Grabcut execution time: ";
   Timer T_grabcut;
   T_grabcut.start();
-  DataDistribution DD(id);
+  App::Image::DataDistribution DD(id);
   T_grabcut.end(ofsEnergy);
 
 
@@ -68,64 +75,64 @@ int main(int argc, char* argv[])
                    Point(DD.segResultImg.cols-1,
                          DD.segResultImg.rows-1));
   DigitalSet ds = prepareShape(DD);
-  GraphSegInput gsi(id,ds,DD);
+  App::GraphSegInput gsi(id,ds,DD);
 
   std::string windowName="IterationViewer";
-  if(id.displayFlow){
-    cv::namedWindow(windowName);
-  }
 
-
-  IterationCallback iterationCallback=[&DD,&windowName,&id,&ofsEnergy](const GraphSegIteration& gfIteration)->void
+  App::IterationCallback iterationCallback=[&DD,&windowName,&id,&ofsEnergy](const App::GraphSegIteration& gfIteration)->void
   {
     const DigitalSet& ds = gfIteration.ds;
-    writeEnergyData(gfIteration,ofsEnergy);
+    App::Utils::writeEnergyData(gfIteration,ofsEnergy);
 
-
-
-    if(id.saveAllFigures){
-      Display::saveDigitalSetAsImage(ds,id.outputFolder+"/" + String::nDigitsString(gfIteration.iteration,4) + ".pgm");
-    }
-
-    if(id.printEnergyValue){
-      writeEnergyData(gfIteration,std::cout);
-    }
-
-    if(id.displayFlow){
-
-      cv::Mat foregroundMask = cv::Mat::zeros(DD.segResultImg.size(),
-                                              CV_8UC1);
-      DIPaCUS::Representation::digitalSetToCVMat(foregroundMask,ds);
-
-      cv::Mat bcImage;
-      BTools::Utils::setHighlightMask(bcImage,DD.gco.inputImage,foregroundMask);
-      cv::imshow(windowName,bcImage);
-
-      if(gfIteration.iterationState==GraphSegIteration::End){
-        std::cout << "End of segmentation. Press any key to continue." << std::endl;
-        cv::waitKey(0);
-      }else{
-        cv::waitKey(10);  
+    switch(gfIteration.iterationState){
+      case App::GraphSegIteration::Init:{
+        if(id.displayFlow){
+          cv::namedWindow(windowName);
+        }
+        break;
       }
-      
-    }
+      case App::GraphSegIteration::Running:{
+        if(id.saveAllFigures){
+          Display::saveDigitalSetAsImage(ds,id.outputFolder+"/" + String::nDigitsString(gfIteration.iteration,4) + ".pgm");
+        }
 
-    if(gfIteration.iterationState==GraphSegIteration::End){
-      Display::saveDigitalSetAsImage(ds,id.outputFolder+"/mask-seg.pgm");
-    }
-    
+        if(id.printEnergyValue){
+          App::Utils::writeEnergyData(gfIteration,std::cout);
+        }
 
+        if(id.displayFlow) {
+          cv::Mat bcImage;
+          renderSegmentation(bcImage,ds,DD);
+          cv::imshow(windowName, bcImage);
+          cv::waitKey(10);
+        }
+
+        break;
+      }
+      case App::GraphSegIteration::End:{
+        Display::saveDigitalSetAsImage(ds,id.outputFolder+"/mask-seg.pgm");
+
+        if(id.displayFlow) {
+          cv::Mat bcImage;
+          renderSegmentation(bcImage,ds,DD);
+          cv::imshow(windowName, bcImage);
+
+          std::cout << "End of segmentation. Press any key to continue." << std::endl;
+          cv::waitKey(0);
+        }
+      }
+    }
   };
 
   Timer T_graphSeg;
   T_graphSeg.start();
-  DigitalSet outputDS=graphSeg(gsi,ofsEnergy,iterationCallback);
+  DigitalSet outputDS=App::graphSeg(gsi,ofsEnergy,iterationCallback);
 
   ofsEnergy << "#Execution time: ";
   T_graphSeg.end(ofsEnergy);
   ofsEnergy.flush(); ofsEnergy.close();
 
-  outputImages(gsi.dataDistribution.gco,gsi.dataDistribution.segResultImg,outputDS,id.outputFolder);
+  App::Utils::outputImages(gsi.dataDistribution.gco,gsi.dataDistribution.segResultImg,outputDS,id.outputFolder);
 
   return 0;
 }

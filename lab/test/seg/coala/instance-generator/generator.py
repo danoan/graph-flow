@@ -46,8 +46,6 @@ def exhaustive_gc_flow(c):
                       "%s%f" % ("-O",opt_band['value']),
                       "%s%d" % ("-n", NUM_THREADS),
                       "%s%s" % ("-N",neigh_size['value']),
-                      "-v",
-                      "-w",
                       gcoFilepath,
                       outputFolder
                       ] )
