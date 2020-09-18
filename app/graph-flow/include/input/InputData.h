@@ -1,12 +1,11 @@
-#ifndef GRAPH_FLOW_APP_INPUTDATA_H
-#define GRAPH_FLOW_APP_INPUTDATA_H
+#ifndef GRAPH_FLOW_APP_GRAPH_FLOW_INPUTDATA_H
+#define GRAPH_FLOW_APP_GRAPH_FLOW_INPUTDATA_H
 
 #include <string>
 
+namespace App{
 struct InputData
 {
-  enum EnergyType{Elastica,SElastica};
-
   InputData()
   {
     shapeName="square";
@@ -19,8 +18,6 @@ struct InputData
     beta=1.0;
     optBand=2;
     border=20;
-
-    energy=Elastica;
 
     nThreads=4;
     neighborhoodSize=2;
@@ -45,8 +42,6 @@ struct InputData
   int optBand;
   int border;
 
-  EnergyType  energy;
-
   int nThreads;
   int neighborhoodSize;
 
@@ -57,5 +52,6 @@ struct InputData
   bool saveAllFigures;
   bool displayFlow;
 };
+}
 
-#endif //GRAPH_FLOW_APP_INPUTDATA_H
+#endif //GRAPH_FLOW_APP_GRAPH_FLOW_INPUTDATA_H

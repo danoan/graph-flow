@@ -1,21 +1,21 @@
-#ifndef GRAPH_FLOW_GRAPHFLOWINPUT_H
-#define GRAPH_FLOW_GRAPHFLOWINPUT_H
+#ifndef GRAPH_FLOW_APP_GRAPH_FLOW_GRAPHFLOWINPUT_H
+#define GRAPH_FLOW_APP_GRAPH_FLOW_GRAPHFLOWINPUT_H
 
 #include "input/InputData.h"
 #include <graph-flow/core/TerminalWeight.h>
-#include <graph-flow/core/HardConstraint.h>
 #include <graph-flow/core/EdgeWeight.h>
 
-struct GraphFlowInput
-{
-    typedef DGtal::Z2i::DigitalSet DigitalSet;
+namespace App{
+struct GraphFlowInput {
+  typedef DGtal::Z2i::DigitalSet DigitalSet;
 
-    GraphFlowInput(const InputData &inputData, DigitalSet &inputDS, DigitalSet &pixelMask) : inputData(inputData), inputDS(inputDS), pixelMask(pixelMask){}
+  GraphFlowInput(const InputData &inputData, DigitalSet &inputDS)
+      : inputData(inputData), inputDS(inputDS){}
 
-    const InputData& inputData;
+  const InputData &inputData;
 
-    const DigitalSet& inputDS;
-    const DigitalSet& pixelMask;
+  const DigitalSet &inputDS;
 };
+}
 
-#endif //GRAPH_FLOW_GRAPHFLOWINPUT_H
+#endif //GRAPH_FLOW_APP_GRAPH_FLOW_GRAPHFLOWINPUT_H

@@ -2,28 +2,32 @@
 SCRIPT_FOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 PROJECT_FOLDER="$(cd "$SCRIPT_FOLDER" && cd .. && pwd)"
-GRAPH_SEG_BIN="${PROJECT_FOLDER}/cmake-build-release/app/graph-seg"
+GRAPH_SEG_BIN="${PROJECT_FOLDER}/install/bin"
 
 BTOOLS_BIN="${PROJECT_FOLDER}/ext-projects/cmake-build-release/bin"
 INPUT_IMAGE="${PROJECT_FOLDER}/input/images/coala.jpg"
 
 usage(){ echo "Usage: $0 "
-echo "[-r Ball radius (default: 5)]"
+echo "[-r Ball radius (default: 7)]"
 echo "[-g Data regional term (default: 1.0) ]"
-echo "[-b Data boundary term (default: 2.0) ]"
 echo "[-k Squared curvature weight (default:2.5) ]"
 echo "[-a Length weight (default:0.01) ]"
 echo "[-i Max iterations (default:30) ]"
+echo "[-G Grabcut iterations (default:1) ]"
+echo "[-w Print energy value ]"
+echo "[-s Save all figures ]"
 echo "[-I INPUT_IMAGE_PATH (default:$INPUT_IMAGE) ]"
 echo " OUTPUT_FOLDER" 1>&2; exit 1;}
 
 r="7"
 g="1.0"
-b="2.0"
 k="2.5"
 a="0.01"
 i="30"
-while getopts ":r:g:b:k:a:i:I:" o; do
+w=""
+s=""
+G="1"
+while getopts ":r:g:k:a:i:G:I:ws" o; do
     case "${o}" in
         r)
             r=$OPTARG
@@ -31,9 +35,6 @@ while getopts ":r:g:b:k:a:i:I:" o; do
         g)
             g=$OPTARG
             ;;
-	    b)
-	        b=$OPTARG
-	        ;;
 	    k)
 	        k=$OPTARG
 	        ;;
@@ -42,6 +43,15 @@ while getopts ":r:g:b:k:a:i:I:" o; do
 	        ;;
 	    i)
 	        i=$OPTARG
+	        ;;
+	    G)
+	        G=$OPTARG
+	        ;;
+	    w)
+	        w="-w"
+	        ;;
+	    s)
+	        s="-s"
 	        ;;
 	    I)
 	        INPUT_IMAGE=$OPTARG
@@ -94,9 +104,9 @@ then
     "${GRAB_CUT_APP}" "${INPUT_IMAGE}" "${SP_OUT}/mask-fg-0.pgm" \
     "${SP_OUT}/mask-bg-0.pgm" \
     "${SP_OUT}/gc-object.xml" \
-    -u "${SP_OUT}/mask-pbfg-0.pgm" -s
+    -u "${SP_OUT}/mask-pbfg-0.pgm" -d
 
-    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -b"$b" -k"$k" -a"$a" -i"$i" -v -s "${SP_OUT}/graph-seg"
+    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -k"$k" -a"$a" -G"${G}" -i"$i" -d ${s} ${w} "${SP_OUT}/graph-seg"
 fi
 
 
@@ -106,7 +116,8 @@ do
     "${SEED_SELECTOR_APP}" "${INPUT_IMAGE}" "$OUTPUT_FOLDER" \
     -u "${SP_OUT}/mask-pbfg-0.pgm" \
     -f "${SP_OUT}/mask-fg-0.pgm" \
-    -b "${SP_OUT}/mask-bg-0.pgm" -o
+    -b "${SP_OUT}/mask-bg-0.pgm" \
+    -s "${SP_OUT}/graph-seg/mask-seg.pgm" -o
 
     if [ $? -eq 0 ]
     then
@@ -114,8 +125,8 @@ do
     fi
 
     "${GRAB_CUT_APP}" "${INPUT_IMAGE}" "${SP_OUT}/mask-fg-0.pgm" "${SP_OUT}/mask-bg-0.pgm" "${SP_OUT}/gc-object.xml" \
-    -u "${SP_OUT}/mask-pbfg-0.pgm" -s
+    -u "${SP_OUT}/mask-pbfg-0.pgm" -s "${SP_OUT}/graph-seg/mask-seg.pgm"
 
-    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -b"$b" -k"$k" -a"$a" -i"$i" -v -s "${SP_OUT}/graph-seg"
+    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -k"$k" -a"$a" -i"$i" -G"${G}" -d ${s} ${w} "${SP_OUT}/graph-seg"
 done
 

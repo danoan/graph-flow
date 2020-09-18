@@ -18,7 +18,6 @@ namespace GraphFlow::Utils::Energy
 
     void computeBoundaryCurve(Curve& boundOut,const DigitalSet& dsIn);
     double elastica(const DigitalSet& ds,double ballRadius,double h,double alpha,double beta);
-    double sElastica(const DigitalSet& ds,double ballRadius,double h,double alpha,double beta);
 }
 
 #endif //GRAPH_FLOW_UTILS_ENERGY_H

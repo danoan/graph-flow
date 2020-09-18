@@ -1,5 +1,5 @@
-#ifndef GRAPH_FLOW_GRAPH_SEG_H
-#define GRAPH_FLOW_GRAPH_SEG_H
+#ifndef GRAPH_FLOW_APP_GRAPH_SEG_H
+#define GRAPH_FLOW_APP_GRAPH_SEG_H
 
 #include <DGtal/helpers/StdDefs.h>
 
@@ -7,27 +7,32 @@
 
 #include "model/GraphSegInput.h"
 #include "model/GraphSegIteration.h"
-#include "model/StandardModel.h"
+#include "model/graph/GraphContext.h"
+#include "model/graph/GraphModel.h"
+#include "model/Candidate.h"
 
 #include "control/NeighborhoodExplorer.h"
 
 #include "utils.h"
 
+namespace App {
 typedef DGtal::Z2i::DigitalSet DigitalSet;
-typedef std::function<void(const GraphSegIteration&)> IterationCallback;
+typedef std::function<void(const GraphSegIteration &)> IterationCallback;
 
-struct UserVars
-{
-    typedef std::pair<DigitalSet*,double> EvaluationPair;
-    
-    void restart(){};
-    std::vector<EvaluationPair> epVector;
+struct UserVars {
+  void restart() {};
+  std::vector<Candidate> vectorOfCandidates;
 };
 
-struct Params{};
+struct Params {};
 
-DigitalSet graphSeg(const GraphSegInput& gfi, std::ostream& os, IterationCallback& icb);
+template<class TNeighExplorer>
+double buildBestSolution(DigitalSet& solution, TNeighExplorer& neighExplorer);
 
+DigitalSet graphSeg(const GraphSegInput &gfi, std::ostream &os, IterationCallback &icb);
+}
 
-#endif //GRAPH_FLOW_GRAPH_SEG_H
+#include "graph-seg.hpp"
+
+#endif //GRAPH_FLOW_APP_GRAPH_SEG_H
 

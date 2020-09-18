@@ -8,7 +8,6 @@ class Param:
 GRID_STEP=[0.5]
 SHAPES=["bean","square","flower","triangle","ellipse"]
 RADIUS=[5]
-ENERGY=["elastica"]
 LENGTH_PENALIZATION=[0.01]
 ITERATIONS=-1
 OPT_BAND=[2]
@@ -26,7 +25,7 @@ def resolve_std(prefix,s):
     return "%s%s" % (prefix,s)
 
 def valid_combination(c):
-    shape,radius,energy,opt_band,neigh_size,length_pen,gs = c
+    shape,radius,opt_band,neigh_size,length_pen,gs = c
 
     flag=True
 
@@ -34,7 +33,6 @@ def valid_combination(c):
 
 CONFIG_LIST=[ Param("Shape","","shape",SHAPES,resolve_std),
               Param("Radius","radius_","radius",RADIUS,resolve_int),
-              Param("Energy","","energy",ENERGY,resolve_std),
               Param("Opt Band","opt_band_","opt_band",OPT_BAND,resolve_int),
               Param("Neigh Size","neigh_size_","neigh_size",NEIGH_SIZE,resolve_int),
               Param("Length Penalization","len_pen_","lenght_pen",LENGTH_PENALIZATION,resolve_double),

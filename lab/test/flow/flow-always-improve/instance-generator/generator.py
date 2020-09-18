@@ -18,7 +18,7 @@ def resolve_output_folder(c):
 def exhaustive_gc_flow(c):
 
     outputFolder = resolve_output_folder(c)
-    shape,radius,energy,opt_band,neigh_size,length_pen,gs = c
+    shape,radius,opt_band,neigh_size,length_pen,gs = c
 
     s=" ".join( ["%s%s" % ("-S",shape['value']),
                  "%s%d" % ("-i",ITERATIONS),
@@ -28,7 +28,6 @@ def exhaustive_gc_flow(c):
                  "%s%f" % ("-O",opt_band['value']),
                  "%s%d" % ("-n", NUM_THREADS),
                  "%s%s" % ("-N",neigh_size['value']),
-                 "%s%s" % ("-e",energy['value']),
                  "%s" % ("-s",)
 
                  ])
@@ -44,7 +43,6 @@ def exhaustive_gc_flow(c):
                       "%s%f" % ("-O",opt_band['value']),
                       "%s%d" % ("-n", NUM_THREADS),
                       "%s%s" % ("-N",neigh_size['value']),
-                      "%s%s" % ("-e",energy['value']),
                       "%s" % ("-s",),
                       outputFolder
                       ] )
@@ -52,7 +50,7 @@ def exhaustive_gc_flow(c):
 def summary_flow(c):
     flow_images_folder_path=resolve_output_folder(c)
 
-    shape,radius,energy,opt_band,neigh_size,length_pen,gs = c
+    shape,radius,opt_band,neigh_size,length_pen,gs = c
 
     opt_radius = 1.0/(length_pen['value']**0.5)
 

@@ -6,66 +6,47 @@
 
 namespace GraphFlow::Core::Neighborhood
 {
-    class Morphology
+class Morphology
+{
+ public:
+  struct Blueprint
+  {
+    enum OperationType{None,Erosion,Dilation};
+
+    Blueprint()=default;
+    Blueprint(OperationType operationType,const int morphologySize):
+        operationType(operationType),
+        morphologySize(morphologySize){};
+
+    OperationType operationType;
+    int morphologySize;
+  };
+
+  typedef DGtal::Z2i::DigitalSet DigitalSet;
+  typedef DIPaCUS::Morphology::StructuringElement::Type MorphologyElement;
+  typedef std::vector<Blueprint> VectorOfBlueprints;
+  typedef VectorOfBlueprints::const_iterator BlueprintsIterator;
+
+  Morphology(MorphologyElement me, int size):me(me)
+  {
+    blueprints.resize(2*size+1);
+    blueprints[0] = Blueprint(Blueprint::None,0);
+    for(int i=1;i<=size;++i)
     {
-    public:
-        struct Candidate
-        {
-            enum OperationType{None,Erosion,Dilation};
+      blueprints[2*(i-1)+1] = Blueprint(Blueprint::Erosion,i);
+      blueprints[2*i] = Blueprint(Blueprint::Dilation,i);
+    }
+  }
 
+  BlueprintsIterator begin() const {return blueprints.begin();}
+  BlueprintsIterator end() const {return blueprints.end();}
 
-            Candidate(){}
-            Candidate(OperationType operationType,const int morphologySize):
-            operationType(operationType),
-            morphologySize(morphologySize){};
+  void evaluateCandidate(DigitalSet& dsOutput, const Blueprint& candidate, const DigitalSet& dsInput) const;
 
-            OperationType operationType;
-            int morphologySize;
-        };
-
-        typedef DGtal::Z2i::DigitalSet DigitalSet;
-        typedef DIPaCUS::Morphology::StructuringElement::Type MorphologyElement;
-        typedef std::vector<Candidate> VectorOfCandidates;
-        typedef VectorOfCandidates::const_iterator CandidatesIterator;
-
-        Morphology(MorphologyElement me, int size):me(me)
-        {
-            candidates.resize(2*size+1);
-            candidates[0] = Candidate(Candidate::None,0);
-            for(int i=1;i<=size;++i)
-            {
-                candidates[2*(i-1)+1] = Candidate(Candidate::Erosion,i);
-                candidates[2*i] = Candidate(Candidate::Dilation,i);
-            }
-        }
-
-        DigitalSet evaluateCandidate(const Candidate& candidate, const DigitalSet& dsInput) const
-        {
-            DigitalSet dsOutput(dsInput.domain());
-            evaluateCandidate(dsOutput,candidate,dsInput);
-
-            return dsOutput;
-        }
-
-        void evaluateCandidate(DigitalSet& dsOutput, const Candidate& candidate, const DigitalSet& dsInput) const
-        {
-            using namespace DIPaCUS::Morphology;
-            if(candidate.operationType==Candidate::OperationType::Erosion)
-                erode(dsOutput,dsInput,StructuringElement(me,candidate.morphologySize),1);
-            else if(candidate.operationType==Candidate::OperationType::Dilation)
-                dilate(dsOutput,dsInput,StructuringElement(me,candidate.morphologySize),1);
-            else
-                dsOutput = dsInput;
-        }
-
-        CandidatesIterator begin() const {return candidates.begin();}
-        CandidatesIterator end() const {return candidates.end();}
-
-
-    private:
-        VectorOfCandidates candidates;
-        MorphologyElement me;
-    };
+ private:
+  VectorOfBlueprints blueprints;
+  MorphologyElement me;
+};
 }
 
 #endif //GRAPH_FLOW_CORE_SHAPENEIGHBORHOOD_H
