@@ -30,12 +30,12 @@ typename TNeighborhoodExplorer::VisitNeighborFunction visitNeighbor(TNeighborhoo
           //Remove bg seeds from the current candidate
           for (auto pt:gfi.dataDistribution.bgSeeds) candidateDS.erase(pt);
 
-          if (candidateDS.empty()) return;
+          if (candidateDS.empty()) continue;
 
           DigitalSet *optimalSet = optimizeConnectedComponent(candidateDS, gfi);
           if (optimalSet->empty()) {
             delete optimalSet;
-            return;
+            continue;
           }
 
           DigitalSet newFG(ds.domain());
@@ -47,7 +47,7 @@ typename TNeighborhoodExplorer::VisitNeighborFunction visitNeighbor(TNeighborhoo
           double f = diffDataValue(newFG,gfi.dataDistribution,true) - diffDataValue(newFG,gfi.dataDistribution,false);
           double b = diffDataValue(newBG,gfi.dataDistribution,false) - diffDataValue(newBG,gfi.dataDistribution,true);
 
-          double dataFidelityValue = evaluateData(gfi.inputData, ds, gfi.dataDistribution) + f + b;
+          double dataFidelityValue = gfi.inputData.regionalTermWeight*(f + b);
           double elasticaValue = App::Utils::evaluateEnergy(gfi.inputData, *optimalSet);
           double energyValue = dataFidelityValue + elasticaValue;
 
