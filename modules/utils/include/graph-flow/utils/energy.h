@@ -17,6 +17,7 @@ namespace GraphFlow::Utils::Energy
     typedef std::set<Point> PointSet;
 
     void computeBoundaryCurve(Curve& boundOut,const DigitalSet& dsIn);
+    double elasticaIndependentComponents(const DigitalSet& ds,double ballRadius,double h,double alpha,double beta);
     double elastica(const DigitalSet& ds,double ballRadius,double h,double alpha,double beta);
 }
 

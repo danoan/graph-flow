@@ -39,6 +39,22 @@ void computeBoundaryCurve(Curve& boundOut,
   boundOut.initFromSCellsVector(boundarySCells);
 }
 
+double elasticaIndependentComponents(const DigitalSet& ds,double ballRadius,double h,double alpha,double beta){
+  std::vector<DIPaCUS::Misc::ConnectedComponent> vcc;
+  DIPaCUS::Misc::getConnectedComponents(vcc,ds);
+
+  double elasticaValue=0;
+  DigitalSet dsCC(ds.domain());
+  for(auto cc:vcc){
+    dsCC.clear();
+    dsCC.insert( cc.begin(),cc.end());
+    elasticaValue+=elastica(dsCC,ballRadius,h,alpha,beta);
+  }
+
+  return elasticaValue;
+
+}
+
 double elastica(const DigitalSet& ds,double ballRadius,double h,double alpha,double beta)
 {
   using namespace DGtal::Z2i;
