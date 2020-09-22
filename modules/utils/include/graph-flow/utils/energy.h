@@ -9,16 +9,16 @@
 #include <geoc/api/gridCurve/Curvature.hpp>
 #include <geoc/estimator/adaptable/curvature/II.hpp>
 
-namespace GraphFlow::Utils::Energy
-{
+namespace GraphFlow::Utils::Energy{
     typedef DGtal::Z2i::DigitalSet DigitalSet;
     typedef DGtal::Z2i::Domain Domain;
     typedef DGtal::Z2i::Point Point;
-    typedef std::set<Point> PointSet;
 
-    void computeBoundaryCurve(Curve& boundOut,const DigitalSet& dsIn);
-    double elasticaIndependentComponents(const DigitalSet& ds,double ballRadius,double h,double alpha,double beta);
+    template<class TCurveIterator>
+    double elastica(TCurveIterator begin, TCurveIterator end,const DigitalSet& ds, double ballRadius,double h,double alpha,double beta);
     double elastica(const DigitalSet& ds,double ballRadius,double h,double alpha,double beta);
 }
+
+#include "energy.hpp"
 
 #endif //GRAPH_FLOW_UTILS_ENERGY_H

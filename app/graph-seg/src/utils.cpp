@@ -11,7 +11,7 @@ void writeEnergyData(const GraphSegIteration &gsIteration, std::ostream &os) {
 
 double evaluateEnergy(const InputData &id, const DigitalSet &ds) {
   using namespace GraphFlow::Utils;
-  return Energy::elasticaIndependentComponents(ds, id.radius, id.h, id.alpha, id.curvatureTermWeight);
+  return Energy::elastica(ds, id.radius, id.h, id.alpha, id.curvatureTermWeight);
 }
 
 void outputImages(const GrabCutObject &gco,
