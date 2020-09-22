@@ -20,8 +20,8 @@ echo "[-I INPUT_IMAGE_PATH (default:$INPUT_IMAGE) ]"
 echo " OUTPUT_FOLDER" 1>&2; exit 1;}
 
 r="7"
-g="1.0"
-k="2.5"
+g="0.00001"
+k="1"
 a="0.01"
 i="30"
 w=""
