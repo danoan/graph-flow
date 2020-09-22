@@ -1,5 +1,5 @@
-#ifndef GRAPH_FLOW_CORE_MORPHOLOGYNEIGHBORHOOD_H
-#define GRAPH_FLOW_CORE_MORPHOLOGYNEIGHBORHOOD_H
+#ifndef GRAPH_FLOW_CORE_RANDOMNEIGHBORHOOD_H
+#define GRAPH_FLOW_CORE_RANDOMNEIGHBORHOOD_H
 
 #include <random>
 
@@ -11,12 +11,12 @@
 
 namespace GraphFlow::Core::Neighborhood
 {
-class Morphology
+class Random
 {
  public:
   struct Blueprint
   {
-    enum OperationType{None,Erosion,Dilation};
+    enum OperationType{None,Erosion,Dilation,RandomOnContour,RandomOnDomain};
 
     Blueprint()=default;
     Blueprint(OperationType operationType,const int morphologySize):
@@ -32,14 +32,16 @@ class Morphology
   typedef std::vector<Blueprint> VectorOfBlueprints;
   typedef VectorOfBlueprints::const_iterator BlueprintsIterator;
 
-  Morphology(MorphologyElement me, int size):me(me)
+  Random(MorphologyElement me, int size):me(me)
   {
-    blueprints.resize(2*size+1);
+    blueprints.resize(size+3);
     blueprints[0] = Blueprint(Blueprint::None,0);
-    for(int i=1;i<=size;++i)
+    blueprints[1] = Blueprint(Blueprint::Erosion,1);
+    blueprints[2] = Blueprint(Blueprint::Dilation,1);
+    for(int i=0;i<size/2;++i)
     {
-      blueprints[2*(i-1)+1] = Blueprint(Blueprint::Erosion,i);
-      blueprints[2*i] = Blueprint(Blueprint::Dilation,i);
+      blueprints[i*2+3] = Blueprint(Blueprint::RandomOnContour,0);
+      blueprints[i*2+1+3] = Blueprint(Blueprint::RandomOnDomain,0);
     }
   }
 

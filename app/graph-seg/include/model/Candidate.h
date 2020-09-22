@@ -7,7 +7,6 @@ namespace App{
 struct Candidate{
   typedef DGtal::Z2i::DigitalSet DigitalSet;
 
-  int id;
   DigitalSet* ds;
   double value;
 };

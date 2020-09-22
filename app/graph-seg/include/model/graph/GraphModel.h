@@ -4,7 +4,7 @@
 #include <graph-flow/core/FlowGraph.h>
 #include <graph-flow/core/TerminalWeight.h>
 #include <graph-flow/core/EdgeWeight.h>
-#include <graph-flow/core/neighborhood/MorphologyNeighborhood.h>
+#include <graph-flow/core/neighborhood/RandomNeighborhood.h>
 
 #include "weight/ForegroundSeed.h"
 #include "weight/BackgroundSeed.h"
@@ -33,7 +33,7 @@ typedef std::vector<TerminalWeight*> TerminalWeightVector;
 typedef std::vector<EdgeWeight*> EdgeWeightVector;
 
 typedef GraphFlow::Core::FlowGraph FlowGraph;
-typedef GraphFlow::Core::Neighborhood::Morphology MorphologyNeighborhood;
+typedef GraphFlow::Core::Neighborhood::Random RandomNeighborhood;
 
 TerminalWeightVector prepareTerminalWeights(const InputData& id, const DTL2& dtInterior, const DTL2& dtExterior,const App::Image::DataDistribution& DD,const DigitalSet& ds);
 EdgeWeightVector prepareEdgeWeightVector(const InputData& id, const DigitalSet& ds, const cv::Mat& colorImage);
@@ -42,7 +42,7 @@ double regionValue(double& fgv, double& bgv,const DigitalSet& ds, const App::Ima
 double evaluateData(const InputData& inputData,const DigitalSet& ds, const App::Image::DataDistribution& DD);
 
 double diffDataValue(const DigitalSet& diffSet,const App::Image::DataDistribution& DD,bool fg);
-DigitalSet* optimizeConnectedComponent(const DigitalSet& candidateDS, const App::GraphSegInput& gfi);
+void optimizeConnectedComponent(DigitalSet& solutionSet,const DigitalSet& candidateDS, const App::GraphSegInput& gfi);
 
 
 

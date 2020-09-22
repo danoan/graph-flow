@@ -21,7 +21,7 @@ double diffDataValue(const DigitalSet& diffSet,const App::Image::DataDistributio
   return v;
 }
 
-DigitalSet* optimizeConnectedComponent(const DigitalSet& candidateDS, const App::GraphSegInput& gfi){
+void optimizeConnectedComponent(DigitalSet& solutionSet, const DigitalSet& candidateDS, const App::GraphSegInput& gfi){
   Point lb,ub;
   candidateDS.computeBoundingBox(lb,ub);
   Point optBandBorder(gfi.inputData.optBand+1,gfi.inputData.optBand+1);
@@ -42,14 +42,11 @@ DigitalSet* optimizeConnectedComponent(const DigitalSet& candidateDS, const App:
 
 
   FlowGraph fg(vertexSet,twv,ewv);
-  DigitalSet* solutionSet = new DigitalSet(domain);
-  DIPaCUS::SetOperations::setDifference(*solutionSet,candidateDS,vertexSet);
-  solutionSet->insert(fg.sourceNodes.begin(), fg.sourceNodes.end());
+  DIPaCUS::SetOperations::setDifference(solutionSet,candidateDS,vertexSet);
+  solutionSet.insert(fg.sourceNodes.begin(), fg.sourceNodes.end());
 
   for(auto ew:ewv) delete ew;
   for(auto tw:twv) delete tw;
-
-  return solutionSet;
 }
 
 double regionValue(double& fgv, double& bgv,const DigitalSet& ds, const App::Image::CVMatDistribution& fgDistr, const App::Image::CVMatDistribution& bgDistr)

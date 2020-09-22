@@ -9,7 +9,7 @@ DigitalSet graphSeg(const App::GraphSegInput &gfi, std::ostream &os, App::Iterat
   const App::InputData &id = gfi.inputData;
   DigitalSet ds = gfi.inputDS;
 
-  App::Graph::MorphologyNeighborhood neighborhood(App::Graph::MorphologyNeighborhood::MorphologyElement::CIRCLE,
+  App::Graph::RandomNeighborhood neighborhood(App::Graph::RandomNeighborhood::MorphologyElement::CIRCLE,
                                                   id.neighborhoodSize);
 
   int itNumber = 0;
@@ -24,14 +24,7 @@ DigitalSet graphSeg(const App::GraphSegInput &gfi, std::ostream &os, App::Iterat
     neighExplorer.start(App::Graph::visitNeighbor(neighExplorer), id.nThreads);
 
     ds.clear();
-    buildBestSolution(ds,neighExplorer);
-
-    //Insert fg seeds to the current candidate
-    //for (auto p:gfi.dataDistribution.fgSeeds) ds.insert(p);
-
-    double dataFidelityValue = Graph::evaluateData(gfi.inputData, ds, gfi.dataDistribution);
-    double elasticaValue = App::Utils::evaluateEnergy(gfi.inputData, ds);
-    double energyValue = dataFidelityValue + elasticaValue;
+    double energyValue = buildBestSolution(ds,neighExplorer);
 
     //Stop conditions
     if (id.iterations==-1) {
