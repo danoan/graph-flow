@@ -17,13 +17,11 @@ class ForegroundChanVese : public GraphFlow::Core::TerminalWeight {
     int c = p[0];
     int r = cvImg.rows-1-p[1];
 
-//    cv::Vec3d color = cvImg.at<cv::Vec3b>(r,c)/255.0;
-    cv::Vec3d color = cvImg.at<cv::Vec3b>(r,c);
+    cv::Vec3d color = cvImg.at<cv::Vec3b>(r,c)/255.0;
     cv::Vec3d diff = color-avgColor;
     double v = pow(diff[0],2)+pow(diff[1],2)+pow(diff[2],2);
 
-//    return 0.1+200.0/(1+exp(5*v-2));
-    return 1+100*exp(-v);
+    return 1e-10+200.0/(1+exp(5*v-2));
   }
 
   double weight() const { return regionalGraphWeight; }

@@ -63,7 +63,7 @@ DigitalSet graphSeg(const App::GraphSegInput &gfi, std::ostream &os, App::Iterat
     }
   }
 
-  icb(App::GraphSegIteration(itNumber, lastEnergyValue, solution, App::GraphSegIteration::End));
+  icb(App::GraphSegIteration(itNumber, lastEnergyValue, ds, App::GraphSegIteration::End));
 
   return ds;
 }

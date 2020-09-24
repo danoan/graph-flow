@@ -49,8 +49,7 @@ cv::Vec3d avgColor(const DigitalSet& dsMask, const cv::Mat& cvImg){
     int c = p[0];
     int r = cvImg.rows-1 - p[1];
 
-//    cv::Vec3d color = cvImg.at<cv::Vec3b>(r,c)/255.0;
-    cv::Vec3d color = cvImg.at<cv::Vec3b>(r,c);
+    cv::Vec3d color = cvImg.at<cv::Vec3b>(r,c)/255.0;
     avgC+=color;
   }
   return avgC/( (double) dsMask.size() );
@@ -62,8 +61,7 @@ double chanvese_region_term(const DigitalSet& dsMask,const cv::Mat& cvImg,const 
     int c = p[0];
     int r = cvImg.rows-1 - p[1];
 
-//    cv::Vec3d color = cvImg.at<cv::Vec3b>(r,c)/255.0;
-    cv::Vec3d color = cvImg.at<cv::Vec3b>(r,c);
+    cv::Vec3d color = cvImg.at<cv::Vec3b>(r,c)/255.0;
     color-=avgColor;
     s+= pow(color[0],2)+pow(color[1],2)+pow(color[2],2);
   }
