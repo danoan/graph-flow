@@ -40,8 +40,8 @@ DigitalSet graphSeg(const App::GraphSegInput &gfi, std::ostream &os, App::Iterat
       tries++;
       std::cout << tries << ":" << energyValue << ":" << lastEnergyValue << std::endl;
       if (energyValue >= lastEnergyValue){
+        update=false;
         if(tries>=20) executing = false;
-        else update=false;
       }else{
         update=true;
       }
