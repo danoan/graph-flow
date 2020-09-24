@@ -1,8 +1,8 @@
-#include "NeighborhoodExplorer.h"
+#include "ComponentExplorer.h"
 
 namespace App {
 template<class TCombinator, class TUserVars, class TParams, class TContext>
-NeighborhoodExplorer<TCombinator, TUserVars, TParams, TContext>::~NeighborhoodExplorer() {
+ComponentExplorer<TCombinator, TUserVars, TParams, TContext>::~ComponentExplorer() {
   for (auto it = this->begin(); it!=this->end(); ++it) {
     for (auto ep:it->vars.vectorOfCandidates) delete ep.ds;
   }
@@ -10,13 +10,13 @@ NeighborhoodExplorer<TCombinator, TUserVars, TParams, TContext>::~NeighborhoodEx
 }
 
 template<class TCombinator, class TUserVars, class TParams, class TContext>
-NeighborhoodExplorer<TCombinator, TUserVars, TParams, TContext>::NeighborhoodExplorer(MyCombinator &combinator,
+ComponentExplorer<TCombinator, TUserVars, TParams, TContext>::ComponentExplorer(MyCombinator &combinator,
                                                                                       const Context &context):
     combinator(combinator),
     context(context) {}
 
 template<class TCombinator, class TUserVars, class TParams, class TContext>
-void NeighborhoodExplorer<TCombinator, TUserVars, TParams, TContext>::start(VisitNeighborFunction vnf, int numThreads) {
+void ComponentExplorer<TCombinator, TUserVars, TParams, TContext>::start(VisitNeighborFunction vnf, int numThreads) {
   Params params;
   const Context &myContext = this->context;
   threadTrigger = new MyThreadTrigger(numThreads,
@@ -33,7 +33,7 @@ template<class TUserVars, class TParams, class TRange, class TContext>
 auto createNeighborExplorer(TRange &range, const TContext &context) {
   auto src = magLac::Core::Single::createCombinator(range);
   typedef decltype(src) MyCombinator;
-  return NeighborhoodExplorer<MyCombinator, TUserVars, TParams, TContext>(src, context);
+  return ComponentExplorer<MyCombinator, TUserVars, TParams, TContext>(src, context);
 }
 
 }

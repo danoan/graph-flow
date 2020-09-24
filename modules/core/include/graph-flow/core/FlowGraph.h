@@ -2,6 +2,7 @@
 #define GRAPH_FLOW_CORE_FLOWGRAPH_H
 
 #include <map>
+#include <ostream>
 
 #include <DGtal/helpers/StdDefs.h>
 #include <DIPaCUS/components/SetOperations.h>
@@ -20,52 +21,54 @@
 
 namespace GraphFlow::Core
 {
-    class FlowGraph
-    {
-    public:
-        typedef DGtal::Z2i::DigitalSet DigitalSet;
-        typedef DGtal::Z2i::Point Point;
+class FlowGraph
+{
+ public:
+  enum ArcType{ ToTarget,FromSource,BetweenNode };
+  typedef DGtal::Z2i::DigitalSet DigitalSet;
+  typedef DGtal::Z2i::Point Point;
 
-        typedef lemon::ListDigraph ListDigraph;
-        typedef ListDigraph::Node Node;
-        typedef ListDigraph::ArcMap<double> ArcWeightMap;   //MinCut computation
-        typedef lemon::Preflow <ListDigraph,ListDigraph::ArcMap<double> > FlowComputer;
+  typedef lemon::ListDigraph ListDigraph;
+  typedef ListDigraph::Node Node;
+  typedef ListDigraph::ArcMap<double> ArcWeightMap;   //MinCut computation
+  typedef lemon::Preflow <ListDigraph,ListDigraph::ArcMap<double> > FlowComputer;
 
-        typedef std::map<DGtal::Z2i::Point,Node> PointToNode;
-        typedef ListDigraph::NodeMap<DGtal::Z2i::Point> NodeToPoint;
+  typedef std::map<DGtal::Z2i::Point,Node> PointToNode;
+  typedef ListDigraph::NodeMap<DGtal::Z2i::Point> NodeToPoint;
 
-        typedef std::vector<TerminalWeight*> TerminalWeightVector;
-        typedef std::vector<EdgeWeight*> EdgeWeightVector;
-
-
-    private:
-        void addNode(const Point& p);
-        void setMax(const DigitalSet& vertexSet);
-
-    public:
-        FlowGraph(const DigitalSet& vertexSet,TerminalWeightVector twv, EdgeWeightVector ewv);
+  typedef std::vector<TerminalWeight*> TerminalWeightVector;
+  typedef std::vector<EdgeWeight*> EdgeWeightVector;
 
 
-    public:
-        ListDigraph digraph;
-        ArcWeightMap arcWeightMap;
+ private:
+  void addNode(const Point& p);
+  void setMax(const DigitalSet& vertexSet);
+  ArcType arcType(const ListDigraph::Arc& a);
+ public:
+  FlowGraph(const DigitalSet& vertexSet,TerminalWeightVector twv, EdgeWeightVector ewv);
+  void printGraph(std::ostream& os);
+  void printEdges(FlowGraph::ArcType at);
 
-        ListDigraph::Node terminalSource;
-        ListDigraph::Node terminalTarget;
+ public:
+  ListDigraph digraph;
+  ArcWeightMap arcWeightMap;
 
-        PointToNode ptn;
-        NodeToPoint ntp;
+  ListDigraph::Node terminalSource;
+  ListDigraph::Node terminalTarget;
 
-        TerminalWeightVector twv;
-        EdgeWeightVector ewv;
+  PointToNode ptn;
+  NodeToPoint ntp;
 
-    public:
-        DigitalSet sourceNodes;
-        double cutValue;
+  TerminalWeightVector twv;
+  EdgeWeightVector ewv;
 
-        std::vector<double> twvMax;
-        std::vector<double> ewvMax;
-    };
+ public:
+  DigitalSet sourceNodes;
+  double cutValue;
+
+  std::vector<double> twvMax;
+  std::vector<double> ewvMax;
+};
 }
 
 #endif //GRAPH_FLOW_CORE_FLOWGRAPH_H
