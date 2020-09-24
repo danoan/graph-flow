@@ -9,7 +9,7 @@
 
 namespace App {
 template<class TCombinator, class TUserVars, class TParams, class TContext>
-class NeighborhoodExplorer {
+class ComponentExplorer {
  public:
   typedef TCombinator MyCombinator;
   typedef TUserVars UserVars;
@@ -22,16 +22,16 @@ class NeighborhoodExplorer {
   typedef typename magLac::Core::MultiThread::Trigger<MyThreadInput> MyThreadTrigger;
   typedef typename magLac::Core::MultiThread::ThreadControl ThreadControl;
 
-  typedef std::function<void(const Context &, MyResolver &, MyThreadInput &, ThreadControl &)> VisitNeighborFunction;
+  typedef std::function<void(const Context &, MyResolver &, MyThreadInput &, ThreadControl &)> VisitComponentFunction;
 
  public:
-  NeighborhoodExplorer(MyCombinator &combinator, const Context &context);
-  void start(VisitNeighborFunction vnf, int numThreads);
+  ComponentExplorer(MyCombinator &combinator, const Context &context);
+  void start(VisitComponentFunction vcf, int numThreads);
 
   auto begin() { return threadTrigger->threadInputVector.begin(); }
   auto end() { return threadTrigger->threadInputVector.end(); }
 
-  ~NeighborhoodExplorer();
+  ~ComponentExplorer();
 
  private:
   MyCombinator combinator;
@@ -41,9 +41,9 @@ class NeighborhoodExplorer {
 };
 
 template<class TTUserVars, class TTParams, class TRange, class TContext>
-auto createNeighhborExplorer(TRange &range, const TContext &context);
+auto createComponentExplorer(TRange &range, const TContext &context);
 }
 
-#include "NeighborhoodExplorer.hpp"
+#include "ComponentExplorer.hpp"
 
 #endif /* GRAPH_FLOW_APP_GRAPH_SEG_NeighborhoodExplorer_h */

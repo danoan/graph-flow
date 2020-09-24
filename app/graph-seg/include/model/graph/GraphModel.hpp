@@ -3,9 +3,9 @@
 
 namespace App::Graph{
 
-template<class TNeighborhoodExplorer>
-typename TNeighborhoodExplorer::VisitNeighborFunction visitNeighbor(TNeighborhoodExplorer& neighExplorer){
-  typedef TNeighborhoodExplorer NE;
+template<class TComponentExplorer>
+typename TComponentExplorer::VisitComponentFunction visitComponent(TComponentExplorer& componentExplorer){
+  typedef TComponentExplorer NE;
   typedef typename NE::MyResolver MyResolver;
   typedef typename NE::MyThreadInput MyThreadInput;
   typedef typename NE::ThreadControl ThreadControl;
@@ -14,43 +14,60 @@ typename TNeighborhoodExplorer::VisitNeighborFunction visitNeighbor(TNeighborhoo
   return
       [](const MyContext& context, MyResolver& resolver, MyThreadInput & ti, ThreadControl& tc)
       {
-        RandomNeighborhood::VectorOfBlueprints c1(1);
-        resolver >> c1;
+        std::vector< typename MyContext::IdentifiedComponent > idCVector(1);
+        resolver >> idCVector;
 
-        const RandomNeighborhood::Blueprint& blueprint = c1[0];
+        int id = idCVector[0].first;
+        const DigitalSet& component = *(idCVector[0].second);
+
         const App::GraphSegInput& gfi = context.gfi;
 
         const DigitalSet &ds = context.ds;
+        const DigitalSet &background = context.background;
+        const cv::Vec3d& avgB = context.avgB;
+        const double initialCVB = context.initialCVB;
 
-        DigitalSet candidateDS(ds.domain());
-        context.neighborhood.evaluateCandidate(candidateDS, blueprint, ds);
+        const cv::Vec3d& avgF = context.avgF;
+        double initialCVF = Utils::DataTerm::chanvese_region_term(component,gfi.dataDistribution.gco.inputImage,avgF);
 
-        std::vector<DIPaCUS::Misc::ConnectedComponent> vcc;
-        DIPaCUS::Misc::getConnectedComponents(vcc,candidateDS);
+        for(auto blueprint:context.neighborhood){
+          DigitalSet candidateDS(ds.domain());
+          context.neighborhood.evaluateCandidate(candidateDS, blueprint, component);
 
-        DigitalSet* optimalSet = new DigitalSet(candidateDS.domain());
-        for(auto cc:vcc){
-          DigitalSet ccDS(candidateDS.domain());
-          ccDS.insert(cc.begin(),cc.end());
+          DigitalSet* optimalSet = new DigitalSet(ds.domain());
 
-          DigitalSet partialSolution(candidateDS.domain());
-          optimizeConnectedComponent(partialSolution,ccDS, gfi);
-          optimalSet->insert(partialSolution.begin(),partialSolution.end());
+          if(candidateDS.size()>0){
+            DigitalSet partialSolution(candidateDS.domain());
+            optimizeConnectedComponent(partialSolution,candidateDS, gfi,avgF,avgB);
+            optimalSet->insert(partialSolution.begin(),partialSolution.end());
+          }
+
+          DigitalSet newBGDS(ds.domain());
+          DigitalSet newFGDS(ds.domain());
+
+          DIPaCUS::SetOperations::setDifference(newBGDS,component,*optimalSet);
+          DIPaCUS::SetOperations::setDifference(newFGDS,*optimalSet,component);
+
+          double newCVB = Utils::DataTerm::chanvese_region_term(newBGDS,gfi.dataDistribution.gco.inputImage,avgB)
+              - Utils::DataTerm::chanvese_region_term(newBGDS,gfi.dataDistribution.gco.inputImage,avgF);
+
+          double newCVF = Utils::DataTerm::chanvese_region_term(newFGDS,gfi.dataDistribution.gco.inputImage,avgF)
+              - Utils::DataTerm::chanvese_region_term(newFGDS,gfi.dataDistribution.gco.inputImage,avgB);
+
+          double newCVR = newCVB + newCVF + initialCVF;
+
+          double dataFidelityValue = gfi.inputData.regionalTermWeight*(newCVR);//negative is good
+          double elasticaValue = App::Utils::evaluateEnergy(gfi.inputData, *optimalSet);
+          double energyValue = dataFidelityValue + elasticaValue;
+
+          ti.vars.vectorOfCandidates.push_back(Candidate{id,optimalSet,energyValue});
         }
 
         //Insert fg seeds to the current candidate
-        for (auto p:gfi.dataDistribution.fgSeeds) optimalSet->insert(p);
+        //for (auto p:gfi.dataDistribution.fgSeeds) optimalSet->insert(p);
 
         //Remove bg seeds from the current candidate
-        for (auto pt:gfi.dataDistribution.bgSeeds) optimalSet->erase(pt);
-
-
-        double dataFidelityValue = App::Graph::evaluateData(gfi.inputData,*optimalSet,gfi.dataDistribution);
-        double elasticaValue = App::Utils::evaluateEnergy(gfi.inputData, *optimalSet);
-        double energyValue = dataFidelityValue + elasticaValue;
-
-        ti.vars.vectorOfCandidates.push_back(Candidate{optimalSet,energyValue});
-
+        //for (auto pt:gfi.dataDistribution.bgSeeds) optimalSet->erase(pt);
       };
 }
 }

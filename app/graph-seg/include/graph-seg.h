@@ -11,9 +11,9 @@
 #include "model/graph/GraphModel.h"
 #include "model/Candidate.h"
 
-#include "control/NeighborhoodExplorer.h"
+#include "control/ComponentExplorer.h"
 
-#include "utils.h"
+#include "utils/utils.h"
 
 namespace App {
 typedef DGtal::Z2i::DigitalSet DigitalSet;
@@ -27,7 +27,7 @@ struct UserVars {
 struct Params {};
 
 template<class TNeighExplorer>
-double buildBestSolution(DigitalSet& solution, TNeighExplorer& neighExplorer);
+void buildBestSolution(DigitalSet& solution, TNeighExplorer& neighExplorer);
 
 DigitalSet graphSeg(const GraphSegInput &gfi, std::ostream &os, IterationCallback &icb);
 }

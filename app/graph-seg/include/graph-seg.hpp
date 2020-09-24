@@ -3,7 +3,7 @@
 namespace App {
 
 template<class TNeighExplorer>
-double buildBestSolution(DigitalSet &solution, TNeighExplorer &neighExplorer) {
+void buildBestSolution(DigitalSet &solution, TNeighExplorer &neighExplorer) {
 
   std::vector<App::Candidate> allCandidates;
   for (auto it = neighExplorer.begin(); it!=neighExplorer.end(); ++it) {
@@ -15,10 +15,22 @@ double buildBestSolution(DigitalSet &solution, TNeighExplorer &neighExplorer) {
   std::sort(allCandidates.begin(),
             allCandidates.end(),
             [](const App::Candidate &c1, const App::Candidate &c2) {
-              return c1.value < c2.value;
+              if(c1.id==c2.id) return c1.value < c2.value;
+              else return c1.id < c2.id;
             });
 
-  solution = *allCandidates[0].ds;
-  return allCandidates[0].value;
+  int lastId=-1;
+  auto it = allCandidates.begin();
+  double predictedValue=0;
+  while(it!=allCandidates.end()){
+    solution+=*(it->ds);
+    lastId = it->id;
+    predictedValue+=it->value;
+
+    while(it!=allCandidates.end() && it->id==lastId) ++it;
+  }
+
+  std::cout << "Predicted Value:" << predictedValue << std::endl;
+
 }
 }

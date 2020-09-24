@@ -9,7 +9,9 @@ void usage(char *argv[]) {
                                        "[-h Grid step (default:0.25)]\n"
                                        "[-a Length penalization (default:0.01)]\n"
                                        "[-g Regional term penalization (default:1)]\n"
+                                       "[-A Regional term graph penalization (default:1)]\n"
                                        "[-k Curvature term penalization (default:0.5)]\n"
+                                       "[-B Curvature term graph penalization (default:1)]\n"
                                        "[-G Grabcut iterations (default:1)]\n"
                                        "[-O Optimization band (default:2)]\n"
                                        "[-n Maximum number of threads (default:4)]\n"
@@ -24,7 +26,7 @@ InputData readInput(int argc, char *argv[]) {
   InputData id;
 
   int opt;
-  while ((opt = getopt(argc, argv, "i:r:h:a:g:k:G:O:n:N:R:wsd"))!=-1) {
+  while ((opt = getopt(argc, argv, "i:r:h:a:g:A:k:B:G:O:n:N:R:wsd"))!=-1) {
     switch (opt) {
       case 'i': {
         id.iterations = std::atoi(optarg);
@@ -46,8 +48,16 @@ InputData readInput(int argc, char *argv[]) {
         id.regionalTermWeight = std::atof(optarg);
         break;
       }
+      case 'A': {
+        id.regionalTermGraphWeight = std::atof(optarg);
+        break;
+      }
       case 'k': {
         id.curvatureTermWeight = std::atof(optarg);
+        break;
+      }
+      case 'B': {
+        id.curvatureTermGraphWeight = std::atof(optarg);
         break;
       }
       case 'G': {

@@ -14,6 +14,9 @@ struct InputData {
     regionalTermWeight = 1;
     curvatureTermWeight = 0.5;
 
+    regionalTermGraphWeight = 1;
+    curvatureTermGraphWeight = 0.5;
+
     optBand = 2;
     grabcutIterations = 1;
 
@@ -39,6 +42,9 @@ struct InputData {
 
   double regionalTermWeight;
   double curvatureTermWeight;
+  double regionalTermGraphWeight;
+  double curvatureTermGraphWeight;
+
   int nThreads;
   int neighborhoodSize;
 

@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "utils/utils.h"
 
 namespace App::Utils {
 void writeEnergyData(const GraphSegIteration &gsIteration, std::ostream &os) {

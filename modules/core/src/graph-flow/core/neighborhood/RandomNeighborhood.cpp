@@ -21,7 +21,7 @@ void Random::randomOnContour(DigitalSet& dsOutput) const{
   std::uniform_int_distribution opType(0, 1);
   std::uniform_int_distribution bPoint(0, bSize - 1);
 
-  int nCenters = 10;
+  int nCenters = 1;
   for (int i = 0; i < nCenters; ++i) {
     int bPos = bPoint(rd);
     int op = opType(rd);
@@ -55,7 +55,7 @@ void Random::randomOnDomain(DigitalSet& dsOutput) const{
   std::uniform_int_distribution col(lb[0],ub[0]);
   std::uniform_int_distribution row(lb[1], ub[1]);
 
-  int nCenters = 100;
+  int nCenters = 5;
   for (int i = 0; i < nCenters; ++i) {
     int c = col(rd);
     int r = row(rd);

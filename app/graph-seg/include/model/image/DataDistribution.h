@@ -6,7 +6,7 @@
 #include "input/InputData.h"
 #include "model/image/GMM.h"
 #include "model/image/CVMatDistribution.h"
-#include "utils.h"
+#include "utils/utils.h"
 
 namespace App::Image {
 struct DataDistribution {
@@ -51,18 +51,18 @@ struct DataDistribution {
 
     gco.segMask = cv::Mat::zeros(gco.inputImage.size(), CV_8UC1);
 
-    cv::compare(gco.grabCutMask,
-                cv::GC_PR_FGD,
-                gco.segMask,
-                cv::CMP_EQ);
-
-
     if(id.randomSeedsFilepath!=""){
       cv::Mat randomSeedMask = cv::imread(id.randomSeedsFilepath,cv::IMREAD_GRAYSCALE);
       gco.segMask.setTo(255, randomSeedMask);
+    }else{
+      cv::compare(gco.grabCutMask,
+                  cv::GC_PR_FGD,
+                  gco.segMask,
+                  cv::CMP_EQ);
+
+      gco.segMask.setTo(255, fgMask);
     }
 
-    gco.segMask.setTo(255, fgMask);
     gco.inputImage.copyTo(segResultImg, gco.segMask);
 
     setSeeds(fgMask, bgMask);

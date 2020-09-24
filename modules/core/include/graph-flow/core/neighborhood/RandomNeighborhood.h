@@ -38,10 +38,9 @@ class Random
     blueprints[0] = Blueprint(Blueprint::None,0);
     blueprints[1] = Blueprint(Blueprint::Erosion,1);
     blueprints[2] = Blueprint(Blueprint::Dilation,1);
-    for(int i=0;i<size/2;++i)
+    for(int i=0;i<size;++i)
     {
-      blueprints[i*2+3] = Blueprint(Blueprint::RandomOnContour,0);
-      blueprints[i*2+1+3] = Blueprint(Blueprint::RandomOnDomain,0);
+      blueprints[i+3] = Blueprint(Blueprint::RandomOnContour,0);
     }
   }
 

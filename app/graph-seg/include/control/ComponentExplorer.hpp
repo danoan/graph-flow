@@ -16,7 +16,7 @@ ComponentExplorer<TCombinator, TUserVars, TParams, TContext>::ComponentExplorer(
     context(context) {}
 
 template<class TCombinator, class TUserVars, class TParams, class TContext>
-void ComponentExplorer<TCombinator, TUserVars, TParams, TContext>::start(VisitNeighborFunction vnf, int numThreads) {
+void ComponentExplorer<TCombinator, TUserVars, TParams, TContext>::start(VisitComponentFunction vnf, int numThreads) {
   Params params;
   const Context &myContext = this->context;
   threadTrigger = new MyThreadTrigger(numThreads,
@@ -30,7 +30,7 @@ void ComponentExplorer<TCombinator, TUserVars, TParams, TContext>::start(VisitNe
 }
 
 template<class TUserVars, class TParams, class TRange, class TContext>
-auto createNeighborExplorer(TRange &range, const TContext &context) {
+auto createComponentExplorer(TRange &range, const TContext &context) {
   auto src = magLac::Core::Single::createCombinator(range);
   typedef decltype(src) MyCombinator;
   return ComponentExplorer<MyCombinator, TUserVars, TParams, TContext>(src, context);
