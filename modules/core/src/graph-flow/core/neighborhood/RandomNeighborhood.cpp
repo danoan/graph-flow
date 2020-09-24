@@ -15,11 +15,13 @@ void Random::randomOnContour(DigitalSet& dsOutput) const{
   std::vector<Point> &vpoints = vcontours[0];
   int bSize = vpoints.size();
 
-  DigitalSet ballDS = DIPaCUS::Shapes::ball(1.0, 0, 0, 5);
   std::random_device rd;
 
+  std::uniform_int_distribution ballSize(5, 10);
   std::uniform_int_distribution opType(0, 1);
   std::uniform_int_distribution bPoint(0, bSize - 1);
+
+  DigitalSet ballDS = DIPaCUS::Shapes::ball(1.0, 0, 0, ballSize(rd));
 
   int nCenters = 1;
   for (int i = 0; i < nCenters; ++i) {
