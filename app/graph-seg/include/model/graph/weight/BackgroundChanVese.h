@@ -2,7 +2,6 @@
 #define GRAPH_FLOW_APP_GRAPH_SEG_BACKGROUNDCHANVESE_H
 
 #include <graph-flow/core/TerminalWeight.h>
-#include "model/image/CVMatDistribution.h"
 
 namespace App::Graph::Weight {
 class BackgroundChanVese : public GraphFlow::Core::TerminalWeight {

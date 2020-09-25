@@ -10,7 +10,6 @@ add_executable(graph-seg-app
         src/graph-seg.cpp
         src/model/graph/GraphContext.cpp
         src/model/graph/GraphModel.cpp
-        src/model/image/GMM.cpp
         main.cpp)
 
 if(${USE_REMOTE_REPOSITORIES})

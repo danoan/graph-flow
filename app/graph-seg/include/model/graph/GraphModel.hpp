@@ -28,7 +28,7 @@ typename TComponentExplorer::VisitComponentFunction visitComponent(TComponentExp
         const double initialCVB = context.initialCVB;
 
         const cv::Vec3d& avgF = context.avgF;
-        double initialCVF = Utils::DataTerm::chanvese_region_term(component,gfi.dataDistribution.gco.inputImage,avgF);
+        double initialCVF = Utils::DataTerm::chanvese_region_term(component,gfi.cvImg,avgF);
 
         for(auto blueprint:context.neighborhood){
           DigitalSet candidateDS(ds.domain());
@@ -48,11 +48,11 @@ typename TComponentExplorer::VisitComponentFunction visitComponent(TComponentExp
           DIPaCUS::SetOperations::setDifference(newBGDS,component,*optimalSet);
           DIPaCUS::SetOperations::setDifference(newFGDS,*optimalSet,component);
 
-          double newCVB = Utils::DataTerm::chanvese_region_term(newBGDS,gfi.dataDistribution.gco.inputImage,avgB)
-              - Utils::DataTerm::chanvese_region_term(newBGDS,gfi.dataDistribution.gco.inputImage,avgF);
+          double newCVB = Utils::DataTerm::chanvese_region_term(newBGDS,gfi.cvImg,avgB)
+              - Utils::DataTerm::chanvese_region_term(newBGDS,gfi.cvImg,avgF);
 
-          double newCVF = Utils::DataTerm::chanvese_region_term(newFGDS,gfi.dataDistribution.gco.inputImage,avgF)
-              - Utils::DataTerm::chanvese_region_term(newFGDS,gfi.dataDistribution.gco.inputImage,avgB);
+          double newCVF = Utils::DataTerm::chanvese_region_term(newFGDS,gfi.cvImg,avgF)
+              - Utils::DataTerm::chanvese_region_term(newFGDS,gfi.cvImg,avgB);
 
           double newCVR = newCVB + newCVF + initialCVF;
 

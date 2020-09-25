@@ -12,7 +12,6 @@
 
 #include "input/InputData.h"
 #include "model/GraphSegIteration.h"
-#include "model/image/GMM.h"
 
 namespace App::Utils {
 typedef DGtal::Z2i::DigitalSet DigitalSet;
@@ -23,10 +22,9 @@ typedef BTools::IO::Seed::GrabCutObject GrabCutObject;
 
 void writeEnergyData(const GraphSegIteration &gsIteration, std::ostream &os);
 double evaluateEnergy(const InputData &id, const DigitalSet &ds);
-void outputImages(const GrabCutObject &gco,
-                  const cv::Mat &segResultImg,
-                  const DigitalSet &outputDS,
-                  const std::string &outputFolder);
+void outputImages(const cv::Mat cvImgIn,
+             const DigitalSet &outputDS,
+             const std::string &outputFolder);
 }
 
 #endif //GRAPH_FLOW_APP_GRAPH_SEG_UTILS_H

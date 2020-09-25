@@ -2,7 +2,6 @@
 
 #include <DGtal/helpers/StdDefs.h>
 #include <DIPaCUS/components/Transform.h>
-#include <BTools/io/seed/GrabCutObject.h>
 
 #include <graph-flow/utils/display.h>
 #include <graph-flow/utils/string.h>
@@ -10,7 +9,6 @@
 
 #include "input/InputData.h"
 #include "input/InputReader.h"
-#include "model/image/DataDistribution.h"
 #include "model/GraphSegInput.h"
 #include "model/GraphSegIteration.h"
 
@@ -48,62 +46,27 @@ DGtal::Z2i::DigitalSet diskMask(const DGtal::Z2i::Domain& domain,double radius,i
 
 }
 
-void setRingMask(App::InputData& id){
-  auto _gco = BTools::IO::Seed::read(id.gcoFilepath);
 
-  Point ub(_gco.inputImage.cols-1,_gco.inputImage.rows-1);
+DigitalSet prepareShape(const cv::Mat& cvImg)
+{
+  Point ub(cvImg.cols-1,cvImg.rows-1);
   Point lb(0,0);
   Domain domain(lb,ub);
 
-//  DigitalSet mask = Shapes::ringMask(domain,10,20,50);
   DigitalSet mask = diskMask(domain,8,20);
-  Display::saveDigitalSetAsImage(mask,"temp.pgm");
-
-  id.randomSeedsFilepath = "temp.pgm";
+  return mask;
 }
 
-void convertImagesToDoubleRepr(App::Image::DataDistribution& DD){
-  cv::Mat o1(DD.gco.inputImage.size(),CV_64FC1);
-  DD.gco.inputImage.convertTo(o1,CV_64FC1);
-  DD.gco.inputImage = o1;
-}
-
-DigitalSet prepareShape(const App::Image::DataDistribution& DD)
-{
-  const cv::Mat& segMask = DD.gco.segMask;
-
-
-  Domain imgDomain(Point(0,0),
-                   Point(segMask.cols-1,
-                         segMask.rows-1)
-  );
-  DigitalSet tempDS(imgDomain);
-
-  //Convert inputImg to 1-channel grayscale image.
-  cv::Mat grayscale(segMask.size(),
-                    segMask.type());
-  if(segMask.type()!=CV_8UC1)
-    cv::cvtColor(segMask,grayscale,cv::COLOR_RGB2GRAY,1);
-  else
-    grayscale = segMask;
-
-  DIPaCUS::Representation::CVMatToDigitalSet(tempDS,
-                                             grayscale,
-                                             1);
-  return tempDS;
-}
-
-void renderSegmentation(cv::Mat& bcImage, const DigitalSet& ds, const App::Image::DataDistribution& DD){
-  cv::Mat foregroundMask = cv::Mat::zeros(DD.segResultImg.size(),
+void renderSegmentation(cv::Mat& cvImgOut, const cv::Mat& cvImgIn,const DigitalSet& ds){
+  cv::Mat foregroundMask = cv::Mat::zeros(cvImgIn.size(),
                                           CV_8UC1);
   DIPaCUS::Representation::digitalSetToCVMat(foregroundMask, ds);
-  BTools::Utils::setHighlightMask(bcImage, DD.gco.inputImage, foregroundMask);
+  BTools::Utils::setHighlightMask(cvImgOut, cvImgIn, foregroundMask);
 }
 
 int main(int argc, char* argv[])
 {
   App::InputData id = App::readInput(argc,argv);
-  setRingMask(id);
   boost::filesystem::create_directories(id.outputFolder);
 
   std::ofstream ofsInputData(id.outputFolder + "/inputData.txt");
@@ -111,21 +74,18 @@ int main(int argc, char* argv[])
   ofsInputData.flush(); ofsInputData.close();
 
   std::ofstream ofsEnergy(id.outputFolder + "/energy.txt");
-  ofsEnergy << "#Grabcut execution time: ";
-  Timer T_grabcut;
-  T_grabcut.start();
-  App::Image::DataDistribution DD(id);
-  T_grabcut.end(ofsEnergy);
 
+  cv::Mat cvImg = cv::imread(id.inputImageFilepath,cv::IMREAD_COLOR);
   Domain imgDomain(Point(0,0),
-                   Point(DD.segResultImg.cols-1,
-                         DD.segResultImg.rows-1));
-  DigitalSet ds = prepareShape(DD);
-  App::GraphSegInput gsi(id,ds,DD);
+                   Point(cvImg.cols-1,
+                         cvImg.rows-1));
+
+  DigitalSet ds = prepareShape(cvImg);
+  App::GraphSegInput gsi(id,ds,cvImg);
 
   std::string windowName="IterationViewer";
 
-  App::IterationCallback iterationCallback=[&DD,&windowName,&id,&ofsEnergy](const App::GraphSegIteration& gfIteration)->void
+  App::IterationCallback iterationCallback=[&cvImg,&windowName,&id,&ofsEnergy](const App::GraphSegIteration& gfIteration)->void
   {
     const DigitalSet& ds = gfIteration.ds;
     App::Utils::writeEnergyData(gfIteration,ofsEnergy);
@@ -135,7 +95,7 @@ int main(int argc, char* argv[])
         if(id.displayFlow){
           cv::namedWindow(windowName);
           cv::Mat bcImage;
-          renderSegmentation(bcImage,ds,DD);
+          renderSegmentation(bcImage,cvImg,ds);
           cv::imshow(windowName, bcImage);
           cv::waitKey(10);
         }
@@ -152,7 +112,7 @@ int main(int argc, char* argv[])
 
         if(id.displayFlow) {
           cv::Mat bcImage;
-          renderSegmentation(bcImage,ds,DD);
+          renderSegmentation(bcImage,cvImg,ds);
           cv::imshow(windowName, bcImage);
           cv::waitKey(10);
         }
@@ -164,7 +124,7 @@ int main(int argc, char* argv[])
 
         if(id.displayFlow) {
           cv::Mat bcImage;
-          renderSegmentation(bcImage,ds,DD);
+          renderSegmentation(bcImage,cvImg,ds);
           cv::imshow(windowName, bcImage);
 
           std::cout << "End of segmentation. Press any key to continue." << std::endl;
@@ -182,7 +142,7 @@ int main(int argc, char* argv[])
   T_graphSeg.end(ofsEnergy);
   ofsEnergy.flush(); ofsEnergy.close();
 
-  App::Utils::outputImages(gsi.dataDistribution.gco,gsi.dataDistribution.segResultImg,outputDS,id.outputFolder);
+  App::Utils::outputImages(cvImg,outputDS,id.outputFolder);
 
   return 0;
 }

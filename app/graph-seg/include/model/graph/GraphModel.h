@@ -13,8 +13,6 @@
 #include "weight/Curvature.h"
 
 
-#include "model/image/DataDistribution.h"
-#include "model/image/CVMatDistribution.h"
 #include "model/GraphSegInput.h"
 #include "model/Candidate.h"
 #include "input/InputData.h"
@@ -37,13 +35,11 @@ typedef std::vector<EdgeWeight*> EdgeWeightVector;
 typedef GraphFlow::Core::FlowGraph FlowGraph;
 typedef GraphFlow::Core::Neighborhood::Random RandomNeighborhood;
 
-TerminalWeightVector prepareTerminalWeights(const InputData& id, const DTL2& dtInterior, const DTL2& dtExterior,const App::Image::DataDistribution& DD,const DigitalSet& ds, const cv::Vec3d& avgF, const cv::Vec3d& avgB);
+TerminalWeightVector prepareTerminalWeights(const InputData& id, const DTL2& dtInterior, const DTL2& dtExterior,const cv::Mat& cvImgIn,const DigitalSet& ds, const cv::Vec3d& avgF, const cv::Vec3d& avgB);
 EdgeWeightVector prepareEdgeWeightVector(const InputData& id, const DigitalSet& ds, const cv::Mat& colorImage);
 
 
-double evaluateData(const InputData& inputData,const DigitalSet& ds, const App::Image::DataDistribution& DD);
-
-
+double evaluateData(const InputData& inputData,const DigitalSet& ds, const cv::Mat& cvImgIn);
 void optimizeConnectedComponent(DigitalSet& solutionSet,const DigitalSet& candidateDS, const App::GraphSegInput& gfi, const cv::Vec3d& avgF, const cv::Vec3d& avgB);
 
 

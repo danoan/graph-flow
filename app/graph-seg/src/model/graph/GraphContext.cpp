@@ -20,11 +20,11 @@ background(ds.domain())
   }
 
   background.assignFromComplement(ds);
-  avgB = Utils::DataTerm::avgColor(background,gfi.dataDistribution.gco.inputImage);
-  initialCVB = Utils::DataTerm::chanvese_region_term(background,gfi.dataDistribution.gco.inputImage,avgB);
+  avgB = Utils::DataTerm::avgColor(background,gfi.cvImg);
+  initialCVB = Utils::DataTerm::chanvese_region_term(background,gfi.cvImg,avgB);
 
-  avgF = Utils::DataTerm::avgColor(ds,gfi.dataDistribution.gco.inputImage);
-  initialCVF = Utils::DataTerm::chanvese_region_term(ds,gfi.dataDistribution.gco.inputImage,avgF);
+  avgF = Utils::DataTerm::avgColor(ds,gfi.cvImg);
+  initialCVF = Utils::DataTerm::chanvese_region_term(ds,gfi.cvImg,avgF);
 
 }
 }

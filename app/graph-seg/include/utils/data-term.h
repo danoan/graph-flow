@@ -6,15 +6,10 @@
 #include <DIPaCUS/derivates/Misc.h>
 
 #include "input/InputData.h"
-#include "model/image/CVMatDistribution.h"
-#include "model/image/DataDistribution.h"
-
 namespace App::Utils::DataTerm{
 typedef DGtal::Z2i::DigitalSet DigitalSet;
 
-double diffDataValue(const DigitalSet& diffSet,const App::Image::DataDistribution& DD,bool fg);
-double regionValue(double& fgv, double& bgv,const DigitalSet& ds, const App::Image::CVMatDistribution& fgDistr, const App::Image::CVMatDistribution& bgDistr);
-double chanvese(const InputData& id,const DigitalSet& ds, const App::Image::DataDistribution& DD);
+double chanvese(const InputData& id,const DigitalSet& ds, const cv::Mat& cvImgIn);
 double chanvese_region_term(const DigitalSet& dsMask,const cv::Mat& cvImg,const cv::Vec3d& avgColor);
 cv::Vec3d avgColor(const DigitalSet& dsMask, const cv::Mat& cvImg);
 

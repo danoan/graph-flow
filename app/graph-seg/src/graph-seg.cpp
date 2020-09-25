@@ -17,7 +17,7 @@ DigitalSet graphSeg(const App::GraphSegInput &gfi, std::ostream &os, App::Iterat
   int itNumber = 0;
   bool executing = true;
   DigitalSet solution(ds.domain());
-  double lastEnergyValue = App::Graph::evaluateData(id, ds, gfi.dataDistribution) + App::Utils::evaluateEnergy(id, ds);
+  double lastEnergyValue = App::Graph::evaluateData(id, ds, gfi.cvImg) + App::Utils::evaluateEnergy(id, ds);
   icb(App::GraphSegIteration(itNumber, lastEnergyValue, ds, App::GraphSegIteration::Init));
   while (executing) {
     App::Graph::Context context(gfi, ds, neighborhood);
@@ -30,7 +30,7 @@ DigitalSet graphSeg(const App::GraphSegInput &gfi, std::ostream &os, App::Iterat
     solution.clear();
     buildBestSolution(solution,componentExplorer);
 
-    double dataFidelityValue = App::Graph::evaluateData(gfi.inputData,solution,gfi.dataDistribution);
+    double dataFidelityValue = App::Graph::evaluateData(gfi.inputData,solution,gfi.cvImg);
     double elasticaValue = App::Utils::evaluateEnergy(gfi.inputData, solution);
     double energyValue = dataFidelityValue + elasticaValue;
 

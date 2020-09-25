@@ -3,7 +3,7 @@
 
 namespace App {
 void usage(char *argv[]) {
-  std::cerr << "Usage: " << argv[0] << " GrabcutObjectFilepath OutputFolder \n"
+  std::cerr << "Usage: " << argv[0] << " InputImageFilepath OutputFolder \n"
                                        "[-i Number of iterations (default: 10)]\n"
                                        "[-r Estimation ball radius (default: 5)]\n"
                                        "[-h Grid step (default:0.25)]\n"
@@ -12,11 +12,9 @@ void usage(char *argv[]) {
                                        "[-A Regional term graph penalization (default:1)]\n"
                                        "[-k Curvature term penalization (default:0.5)]\n"
                                        "[-B Curvature term graph penalization (default:1)]\n"
-                                       "[-G Grabcut iterations (default:1)]\n"
                                        "[-O Optimization band (default:2)]\n"
                                        "[-n Maximum number of threads (default:4)]\n"
                                        "[-N neighborhood size (default:2)]\n"
-                                       "[-R Last segmentation]\n"
                                        "[-w print energy value]\n"
                                        "[-s save figures]\n"
                                        "[-d display flow]" << std::endl;
@@ -26,7 +24,7 @@ InputData readInput(int argc, char *argv[]) {
   InputData id;
 
   int opt;
-  while ((opt = getopt(argc, argv, "i:r:h:a:g:A:k:B:G:O:n:N:R:wsd"))!=-1) {
+  while ((opt = getopt(argc, argv, "i:r:h:a:g:A:k:B:O:n:N:wsd"))!=-1) {
     switch (opt) {
       case 'i': {
         id.iterations = std::atoi(optarg);
@@ -60,10 +58,6 @@ InputData readInput(int argc, char *argv[]) {
         id.curvatureTermGraphWeight = std::atof(optarg);
         break;
       }
-      case 'G': {
-        id.grabcutIterations = std::atoi(optarg);
-        break;
-      }
       case 'O': {
         id.optBand = std::atoi(optarg);
         break;
@@ -74,10 +68,6 @@ InputData readInput(int argc, char *argv[]) {
       }
       case 'N': {
         id.neighborhoodSize = std::atoi(optarg);
-        break;
-      }
-      case 'R': {
-        id.randomSeedsFilepath = optarg;
         break;
       }
       case 'w': {
@@ -99,17 +89,16 @@ InputData readInput(int argc, char *argv[]) {
     }
   }
 
-  id.gcoFilepath = argv[optind++];
+  id.inputImageFilepath = argv[optind++];
   id.outputFolder = argv[optind++];
   return id;
 }
 
 void writeInputData(const InputData &id, std::ostream &os) {
-  os << "GrabcutObject filepath:" << id.gcoFilepath << "\n"
+  os << "Input image filepath:" << id.inputImageFilepath << "\n"
      << "Estimation radius:" << id.radius << "\n"
      << "Grid step:" << id.h << "\n"
      << "Opt band:" << id.optBand << "\n"
-     << "Grabcut iterations:" << id.grabcutIterations << "\n"
      << "Length penalization:" << id.alpha << "\n"
      << "Regional term:" << id.regionalTermWeight << "\n"
      << "Curvature term:" << id.curvatureTermWeight << "\n"

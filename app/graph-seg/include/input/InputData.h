@@ -18,14 +18,12 @@ struct InputData {
     curvatureTermGraphWeight = 0.5;
 
     optBand = 2;
-    grabcutIterations = 1;
 
     nThreads = 4;
     neighborhoodSize = 2;
 
     outputFolder = "";
-    randomSeedsFilepath = "";
-    gcoFilepath = "";
+    inputImageFilepath = "";
 
     printEnergyValue = false;
     saveAllFigures = false;
@@ -38,7 +36,6 @@ struct InputData {
 
   double alpha;
   int optBand;
-  int grabcutIterations;
 
   double regionalTermWeight;
   double curvatureTermWeight;
@@ -49,8 +46,7 @@ struct InputData {
   int neighborhoodSize;
 
   std::string outputFolder;
-  std::string randomSeedsFilepath;
-  std::string gcoFilepath;
+  std::string inputImageFilepath;
 
   bool printEnergyValue;
   bool saveAllFigures;
