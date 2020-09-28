@@ -22,19 +22,19 @@ typename TComponentExplorer::VisitComponentFunction visitComponent(TComponentExp
 
         const App::GraphSegInput& gfi = context.gfi;
 
-        const DigitalSet &ds = context.ds;
         const DigitalSet &background = context.background;
         const cv::Vec3d& avgB = context.avgB;
         const double initialCVB = context.initialCVB;
+//        const double initialEnergy = context.initialEnergy;
 
         const cv::Vec3d& avgF = context.avgF;
         double initialCVF = Utils::DataTerm::chanvese_region_term(component,gfi.cvImg,avgF);
 
         for(auto blueprint:context.neighborhood){
-          DigitalSet candidateDS(ds.domain());
+          DigitalSet candidateDS(component.domain());
           context.neighborhood.evaluateCandidate(candidateDS, blueprint, component);
 
-          DigitalSet* optimalSet = new DigitalSet(ds.domain());
+          DigitalSet* optimalSet = new DigitalSet(component.domain());
 
           if(candidateDS.size()>0){
             DigitalSet partialSolution(candidateDS.domain());
@@ -42,8 +42,8 @@ typename TComponentExplorer::VisitComponentFunction visitComponent(TComponentExp
             optimalSet->insert(partialSolution.begin(),partialSolution.end());
           }
 
-          DigitalSet newBGDS(ds.domain());
-          DigitalSet newFGDS(ds.domain());
+          DigitalSet newBGDS(component.domain());
+          DigitalSet newFGDS(component.domain());
 
           DIPaCUS::SetOperations::setDifference(newBGDS,component,*optimalSet);
           DIPaCUS::SetOperations::setDifference(newFGDS,*optimalSet,component);
@@ -54,7 +54,7 @@ typename TComponentExplorer::VisitComponentFunction visitComponent(TComponentExp
           double newCVF = Utils::DataTerm::chanvese_region_term(newFGDS,gfi.cvImg,avgF)
               - Utils::DataTerm::chanvese_region_term(newFGDS,gfi.cvImg,avgB);
 
-          double newCVR = newCVB + newCVF + initialCVF;
+          double newCVR = newCVB + newCVF + initialCVF + initialCVB;
 
           double dataFidelityValue = gfi.inputData.regionalTermWeight*(newCVR);//negative is good
           double elasticaValue = App::Utils::evaluateEnergy(gfi.inputData, *optimalSet);
@@ -62,12 +62,6 @@ typename TComponentExplorer::VisitComponentFunction visitComponent(TComponentExp
 
           ti.vars.vectorOfCandidates.push_back(Candidate{id,optimalSet,energyValue});
         }
-
-        //Insert fg seeds to the current candidate
-        //for (auto p:gfi.dataDistribution.fgSeeds) optimalSet->insert(p);
-
-        //Remove bg seeds from the current candidate
-        //for (auto pt:gfi.dataDistribution.bgSeeds) optimalSet->erase(pt);
       };
 }
 }
