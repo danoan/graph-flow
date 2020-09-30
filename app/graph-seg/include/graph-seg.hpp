@@ -30,7 +30,5 @@ void buildBestSolution(DigitalSet &solution, TNeighExplorer &neighExplorer) {
     while(it!=allCandidates.end() && it->id==lastId) ++it;
   }
 
-  std::cout << "Predicted Value:" << predictedValue << std::endl;
-
 }
 }
