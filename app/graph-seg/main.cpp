@@ -93,7 +93,7 @@ int main(int argc, char* argv[])
       }
       case App::GraphSegIteration::Running:{
         if(id.saveAllFigures){
-          Display::saveDigitalSetAsImage(ds,id.outputFolder+"/" + String::nDigitsString(gfIteration.iteration,4) + ".pgm");
+          Display::saveDigitalSetAsImage(ds,id.outputFolder+"/" + String::nDigitsString(gfIteration.iteration,4) + ".png");
         }
 
         if(id.printEnergyValue){
@@ -110,7 +110,7 @@ int main(int argc, char* argv[])
         break;
       }
       case App::GraphSegIteration::End:{
-        Display::saveDigitalSetAsImage(ds,id.outputFolder+"/mask-seg.pgm");
+        Display::saveDigitalSetAsImage(ds,id.outputFolder+"/mask-seg.png");
 
         if(id.displayFlow) {
           cv::Mat bcImage;
