@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
       case App::GraphFlowIteration::Running:
       {
         if(id.saveAllFigures){
-          Display::saveDigitalSetAsImage(ds,id.outputFolder+"/" + String::nDigitsString(gfIteration.iteration,4) + ".pgm");
+          Display::saveDigitalSetAsImage(ds,id.outputFolder+"/" + String::nDigitsString(gfIteration.iteration,4) + ".png");
         }
 
         if(id.printEnergyValue){
