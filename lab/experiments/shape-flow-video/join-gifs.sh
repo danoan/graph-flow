@@ -18,7 +18,7 @@ i=0
 while [ $i -lt $NFRAMES ]
 do
     pi=$( printf "%04d" $i )
-    convert "${DATA_FOLDER}/plot-frames/animation-frame-${pi}.png" "${DATA_FOLDER}/${pi}.pgm" +append "${SINGLE_FOLDER}/${pi}.png"
+    convert "${DATA_FOLDER}/plot-frames/animation-frame-${pi}.png" "${DATA_FOLDER}/${pi}.png" +append "${SINGLE_FOLDER}/${pi}.png"
     i=$(( i+1 ))
 done
 

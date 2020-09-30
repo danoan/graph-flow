@@ -24,7 +24,7 @@ NFRAMES=$( wc $DATA_FILE -l | cut -d" " -f1 )
 NFRAMES=$(( NFRAMES-1 ))
 
 MAX_Y=$(get_max $DATA_FILE)
-HEIGHT=$(identify ${SCRIPT_PATH}/data/${SHAPE}/0000.pgm | cut -d" " -f3 | cut -d"x" -f2)
+HEIGHT=$(identify ${SCRIPT_PATH}/data/${SHAPE}/0000.png | cut -d" " -f3 | cut -d"x" -f2)
 
 echo "Creating plot frames..."
 mkdir -p ${FRAME_OUTPUT_PATH}

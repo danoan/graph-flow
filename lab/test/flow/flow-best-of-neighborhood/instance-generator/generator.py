@@ -62,7 +62,8 @@ def summary_flow(c):
                       "%s%d" % ("-j",jump),
                       "%s%s" % ("-c","classic"),
                       "%s%f" % ("-r",opt_radius),
-                      "%s%f" % ("-h",gs['value'])])
+                      "%s%f" % ("-h",gs['value']),
+                      "%s%s" % ("-e",".png")])
 
     subprocess.call( [SUMMARY_FLOW_APP,
                       flow_images_folder_path,
@@ -70,7 +71,8 @@ def summary_flow(c):
                       "%s%d" % ("-j",jump),
                       "%s%s" % ("-c","classic"),
                       "%s%f" % ("-r",opt_radius),
-                      "%s%f" % ("-h",gs['value'])])
+                      "%s%f" % ("-h",gs['value']),
+                      "%s%s" % ("-e",".png")])
 
 
 def read_input():

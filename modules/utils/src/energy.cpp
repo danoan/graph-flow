@@ -40,24 +40,37 @@ void computeBoundaryCurve(Curve& boundOut,
 }
 
 double elasticaIndependentComponents(const DigitalSet& ds,double ballRadius,double h,double alpha,double beta){
+  KSpace kspace;
+  kspace.init(ds.domain().lowerBound(),ds.domain().upperBound(),true);
+
+
+
   std::vector<DIPaCUS::Misc::ConnectedComponent> vcc;
   DIPaCUS::Misc::getConnectedComponents(vcc,ds);
 
   double elasticaValue=0;
-  DigitalSet dsCC(ds.domain());
-  for(auto cc:vcc){
-    dsCC.clear();
-    dsCC.insert( cc.begin(),cc.end());
-    elasticaValue+=elastica(dsCC,ballRadius,h,alpha,beta);
+  for(auto PS:vcc){
+    DGtal::SurfelAdjacency<2> sadj(true);
+    std::vector< std::vector<DGtal::Z2i::SCell> > vscells;
+
+    DigitalSet cDS(ds.domain());
+    cDS.insert(PS.begin(),PS.end());
+
+    DGtal::Surfaces<KSpace>::extractAll2DSCellContours(vscells,kspace,sadj,cDS);
+
+
+    for(auto v:vscells){
+      Curve curve;
+      curve.initFromSCellsVector(v);
+      elasticaValue+=elastica(curve.begin(),curve.end(),cDS,ballRadius,h,alpha,beta);
+    }
   }
 
   return elasticaValue;
 
 }
 
-double elastica(const DigitalSet& ds,double ballRadius,double h,double alpha,double beta)
-{
-  using namespace DGtal::Z2i;
+double elastica(Curve::ConstIterator begin, Curve::ConstIterator end,const DigitalSet& ds, double ballRadius,double h,double alpha,double beta){
   using namespace GEOC::API::GridCurve;
 
   const Domain& domain = ds.domain();
@@ -65,15 +78,12 @@ double elastica(const DigitalSet& ds,double ballRadius,double h,double alpha,dou
   kspace.init(domain.lowerBound(),domain.upperBound(),true);
 
   double value=0;
-  Curve curve;
-  computeBoundaryCurve(curve,ds);
-
   Length::EstimationsVector lengthEV;
-  Length::mdssClosed<Length::EstimationAlgorithms::ALG_PROJECTED>(kspace,curve.begin(),curve.end(),lengthEV,h,NULL);
+  Length::mdssClosed<Length::EstimationAlgorithms::ALG_PROJECTED>(kspace,begin,end,lengthEV,h,NULL);
 
   GEOC::Estimator::Standard::IICurvatureExtraData iiData(true,ballRadius);
   Curvature::EstimationsVector curvatureEV;
-  GEOC::Estimator::Standard::IICurvature(ds,curve.begin(),curve.end(),curvatureEV,h,&iiData);
+  GEOC::Estimator::Standard::IICurvature(ds,begin,end,curvatureEV,h,&iiData);
 
   for(int i=0;i<curvatureEV.size();++i)
   {
@@ -81,6 +91,14 @@ double elastica(const DigitalSet& ds,double ballRadius,double h,double alpha,dou
   }
 
   return value;
+}
+
+double elastica(const DigitalSet& ds,double ballRadius,double h,double alpha,double beta)
+{
+  Curve curve;
+  computeBoundaryCurve(curve,ds);
+  return elastica(curve.begin(),curve.end(),ds,ballRadius,h,alpha,beta);
+
 }
 
 }

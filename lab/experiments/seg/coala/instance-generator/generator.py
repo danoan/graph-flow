@@ -61,7 +61,8 @@ def summary_flow(c):
     subprocess.call( [binary,
                       flow_images_folder_path,
                       "%s/summary.svg" % (flow_images_folder_path,),
-                      "%s%d" % ("-j",jump)])
+                      "%s%d" % ("-j",jump),
+                     "%s%s",("-e",".png")])
 
 
 def read_input():
