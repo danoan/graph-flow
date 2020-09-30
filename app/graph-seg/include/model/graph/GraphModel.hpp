@@ -56,7 +56,7 @@ typename TComponentExplorer::VisitComponentFunction visitComponent(TComponentExp
 
           double newCVR = newCVB + newCVF + initialCVF + initialCVB;
 
-          double dataFidelityValue = gfi.inputData.regionalTermWeight*(newCVR);//negative is good
+          double dataFidelityValue = gfi.inputData.regionalTermWeight*(newCVR);
           double elasticaValue = App::Utils::evaluateEnergy(gfi.inputData, *optimalSet);
           double energyValue = dataFidelityValue + elasticaValue;
 
