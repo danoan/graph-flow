@@ -14,6 +14,9 @@ echo "[-k Squared curvature weight (default:2.5) ]"
 echo "[-a Length weight (default:0.01) ]"
 echo "[-i Max iterations (default:30) ]"
 echo "[-G Grabcut iterations (default:1) ]"
+echo "[-N Neighborhood size (default:0) ]"
+echo "[-H Neighborhood type (morphology, random) (default:morphology) ]"
+echo "[-n Number of threads (default:4) ]"
 echo "[-w Print energy value ]"
 echo "[-s Save all figures ]"
 echo "[-I INPUT_IMAGE_PATH (default:$INPUT_IMAGE) ]"
@@ -28,7 +31,9 @@ w=""
 s=""
 G="1"
 N="0"
-while getopts ":r:g:k:a:i:G:N:I:ws" o; do
+H="morphology"
+n="4"
+while getopts ":r:g:k:a:i:G:N:H:n:I:ws" o; do
     case "${o}" in
         r)
             r=$OPTARG
@@ -50,6 +55,12 @@ while getopts ":r:g:k:a:i:G:N:I:ws" o; do
 	        ;;
 	    N)
 	        N=$OPTARG
+	        ;;
+	    H)
+	        H=$OPTARG
+	        ;;
+	    n)
+	        n=$OPTARG
 	        ;;
 	    w)
 	        w="-w"
@@ -110,7 +121,7 @@ then
     "${SP_OUT}/gc-object.xml" \
     -u "${SP_OUT}/mask-pbfg-0.pgm" -d
 
-    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -k"$k" -a"$a" -G"${G}" -i"$i" -d ${s} ${w} "${SP_OUT}/graph-seg"
+    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -k"$k" -a"$a" -G"${G}" -i"$i" -H${H} -n${n} -d ${s} ${w} "${SP_OUT}/graph-seg"
 fi
 
 
@@ -131,6 +142,6 @@ do
     "${GRAB_CUT_APP}" "${INPUT_IMAGE}" "${SP_OUT}/mask-fg-0.pgm" "${SP_OUT}/mask-bg-0.pgm" "${SP_OUT}/gc-object.xml" \
     -u "${SP_OUT}/mask-pbfg-0.pgm" -s "${SP_OUT}/graph-seg/mask-seg.png"
 
-    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -k"$k" -a"$a" -i"$i" -G"${G}" -N${N} -d ${s} ${w} "${SP_OUT}/graph-seg"
+    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -k"$k" -a"$a" -i"$i" -G"${G}" -N${N} -H${H} -n${n} -d ${s} ${w} "${SP_OUT}/graph-seg"
 done
 
