@@ -80,9 +80,13 @@ void Random::randomOnDomain(DigitalSet& dsOutput) const{
 void Random::evaluateCandidate(DigitalSet& dsOutput, const Blueprint& candidate, const DigitalSet& dsInput) const
 {
   using namespace DGtal::Z2i;
-
+  auto me = DIPaCUS::Morphology::StructuringElement::CIRCLE;
   if(candidate.operationType==Blueprint::None){
     dsOutput = dsInput;
+  }else if(candidate.operationType==Blueprint::Dilation){
+    dilate(dsOutput,dsInput,DIPaCUS::Morphology::StructuringElement(me,1),1);
+  }else if(candidate.operationType==Blueprint::Erosion){
+    erode(dsOutput,dsInput,DIPaCUS::Morphology::StructuringElement(me,1),1);
   }else if(candidate.operationType==Blueprint::RandomOnContour){
     dsOutput = dsInput;
     randomOnContour(dsOutput);

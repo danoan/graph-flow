@@ -16,7 +16,7 @@ class Random
  public:
   struct Blueprint
   {
-    enum OperationType{None,RandomOnContour,RandomOnDomain};
+    enum OperationType{None,RandomOnContour,RandomOnDomain,Dilation,Erosion};
 
     Blueprint()=default;
     Blueprint(OperationType operationType):
@@ -31,11 +31,13 @@ class Random
 
   Random(int size)
   {
-    blueprints.resize(size+1);
+    blueprints.resize(size+3);
     blueprints[0] = Blueprint(Blueprint::None);
+    blueprints[1] = Blueprint(Blueprint::Dilation);
+    blueprints[2] = Blueprint(Blueprint::Erosion);
     for(int i=0;i<size;++i)
     {
-      blueprints[i+1] = Blueprint(Blueprint::RandomOnContour);
+      blueprints[i+3] = Blueprint(Blueprint::RandomOnContour);
     }
   }
 
