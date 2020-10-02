@@ -14,6 +14,7 @@ void usage(char *argv[]) {
                                        "[-O Optimization band (default:2)]\n"
                                        "[-n Maximum number of threads (default:4)]\n"
                                        "[-N neighborhood size (default:2)]\n"
+                                       "[-H neighborhood type (morphology, random) (default:morphology)]\n"
                                        "[-w print energy value]\n"
                                        "[-s save figures]\n"
                                        "[-d display flow]" << std::endl;
@@ -23,7 +24,7 @@ InputData readInput(int argc, char *argv[]) {
   InputData id;
 
   int opt;
-  while ((opt = getopt(argc, argv, "i:r:h:a:g:k:G:O:n:N:P:wsd"))!=-1) {
+  while ((opt = getopt(argc, argv, "i:r:h:a:g:k:G:O:n:N:H:wsd"))!=-1) {
     switch (opt) {
       case 'i': {
         id.iterations = std::atoi(optarg);
@@ -65,10 +66,12 @@ InputData readInput(int argc, char *argv[]) {
         id.neighborhoodSize = std::atoi(optarg);
         break;
       }
-      case 'P': {
-        id.pixelMaskFilepath = optarg;
+      case 'H': {
+        if(strcmp(optarg,"morphology")==0) id.neighborhoodType=InputData::Morphology;
+        else if(strcmp(optarg,"random")==0) id.neighborhoodType=InputData::Random;
+        else throw std::runtime_error("Invalid neighborhood type.");
         break;
-      }
+      }      
       case 'w': {
         id.printEnergyValue = true;
         break;
@@ -93,6 +96,12 @@ InputData readInput(int argc, char *argv[]) {
   return id;
 }
 
+std::string resolveNeighborhoodType(InputData::NeighborhoodType nt){
+  if(nt==InputData::Morphology) return "morphology";
+  else if(nt==InputData::Random) return "random";
+  else return "unknown";
+}
+
 void writeInputData(const InputData &id, std::ostream &os) {
   os << "GrabcutObject filepath:" << id.gcoFilepath << "\n"
      << "Estimation radius:" << id.radius << "\n"
@@ -104,6 +113,7 @@ void writeInputData(const InputData &id, std::ostream &os) {
      << "Curvature term:" << id.curvatureTermWeight << "\n"
      << "Iterations:" << id.iterations << "\n"
      << "Neighborhood size:" << id.neighborhoodSize << "\n"
+     << "Neighborhood type:" << resolveNeighborhoodType(id.neighborhoodType) << "\n"
      << "Save figures:" << (id.saveAllFigures ? "True" : "False") << "\n"
      << "Display flow:" << (id.displayFlow ? "True" : "False") << "\n"
      << "Print energy value:" << (id.printEnergyValue ? "True" : "False") << "\n"

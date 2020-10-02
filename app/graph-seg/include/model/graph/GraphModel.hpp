@@ -14,10 +14,10 @@ typename TNeighborhoodExplorer::VisitNeighborFunction visitNeighbor(TNeighborhoo
   return
       [](const MyContext& context, MyResolver& resolver, MyThreadInput & ti, ThreadControl& tc)
       {
-        MorphologyNeighborhood::VectorOfBlueprints c1(1);
+        typename MyContext::Neighborhood::VectorOfBlueprints c1(1);
         resolver >> c1;
 
-        const MorphologyNeighborhood::Blueprint& blueprint = c1[0];
+        typename MyContext::Neighborhood::Blueprint& blueprint = c1[0];
         const App::GraphSegInput& gfi = context.gfi;
         const DigitalSet& ds = context.ds;
 

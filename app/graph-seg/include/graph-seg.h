@@ -29,7 +29,8 @@ struct Params {};
 template<class TNeighExplorer>
 double buildBestSolution(DigitalSet& solution, TNeighExplorer& neighExplorer);
 
-DigitalSet graphSeg(const GraphSegInput &gfi, std::ostream &os, IterationCallback &icb);
+template<class TNeighborhood>
+DigitalSet graphSeg(const App::GraphSegInput &gfi, TNeighborhood&& neighborhood, std::ostream &os, App::IterationCallback &icb);
 }
 
 #include "graph-seg.hpp"

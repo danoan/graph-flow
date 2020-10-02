@@ -11,10 +11,10 @@ typename TNeighborhoodExplorer::VisitNeighborFunction visitNeighbor(TNeighborhoo
 
   return
       [](const MyContext &context, MyResolver &resolver, MyThreadInput &ti, ThreadControl &tc) {
-        MorphologyNeighborhood::VectorOfBlueprints c1(1);
+        typename MyContext::Neighborhood::VectorOfBlueprints c1(1);
         resolver >> c1;
 
-        const MorphologyNeighborhood::Blueprint &blueprint = c1[0];
+        const typename MyContext::Neighborhood::Blueprint &blueprint = c1[0];
 
         DigitalSet candidateDS(context.ds.domain());
         context.neighborhood.evaluateCandidate(candidateDS, blueprint, context.ds);

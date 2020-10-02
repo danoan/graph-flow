@@ -5,7 +5,6 @@ find_package(DGtal REQUIRED)
 add_executable(graph-flow-app
         src/input/InputReader.cpp
         src/utils.cpp
-        src/graph-flow.cpp
         src/model/GraphContext.cpp
         main.cpp)
 

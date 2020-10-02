@@ -7,6 +7,8 @@
 
 #include <graph-flow/utils/display.h>
 #include <graph-flow/utils/string.h>
+#include <graph-flow/core/neighborhood/MorphologyNeighborhood.h>
+#include <graph-flow/core/neighborhood/RandomNeighborhood.h>
 
 #include "input/InputData.h"
 #include "input/InputReader.h"
@@ -33,7 +35,6 @@ DigitalSet prepareShapeAndMask(const App::InputData& id)
   return DIPaCUS::Transform::bottomLeftBoundingBoxAtOrigin(_ds,border);
 }
 
-
 int main(int argc, char* argv[])
 {
   App::InputData id = App::readInput(argc,argv);
@@ -43,7 +44,7 @@ int main(int argc, char* argv[])
   App::GraphFlowInput gfi(id,ds);
 
   std::ofstream ofsInputData(id.outputFolder + "/inputData.txt");
-  writeInputData(id,ofsInputData);
+  writeInputData(id,ds.size(),ofsInputData);
   ofsInputData.flush(); ofsInputData.close();
 
   std::ofstream ofsEnergy(id.outputFolder + "/energy.txt");
@@ -96,7 +97,20 @@ int main(int argc, char* argv[])
 
   Timer T;
   T.start();
-  graphFlow(gfi,ofsEnergy,iterationCallback);
+
+  switch(id.neighborhoodType){
+    case App::InputData::Morphology:{
+      GraphFlow::Core::Neighborhood::Morphology M(GraphFlow::Core::Neighborhood::Morphology::MorphologyElement::CIRCLE,id.neighborhoodSize);
+      graphFlow(gfi,M,ofsEnergy,iterationCallback);
+      break;
+    }
+    case App::InputData::Random:{
+      GraphFlow::Core::Neighborhood::Random R(id.neighborhoodSize);
+      graphFlow(gfi,R,ofsEnergy,iterationCallback);
+      break;
+    }
+  }
+
   ofsEnergy << "#Execution time: ";
   T.end(ofsEnergy);
   ofsEnergy.flush(); ofsEnergy.close();

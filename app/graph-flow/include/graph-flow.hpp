@@ -1,4 +1,3 @@
-#include <model/graph/GraphContext.h>
 #include "graph-flow.h"
 
 namespace App {
@@ -21,15 +20,14 @@ Candidate selectBestCandidate(TNeighExplorerIterator begin,TNeighExplorerIterato
   return candidates[0];
 }
 
-void graphFlow(const GraphFlowInput &gfi, std::ostream &os, IterationCallback &icb) {
+template<class TNeighborhood>
+void graphFlow(const GraphFlowInput &gfi, TNeighborhood &&neighborhood, std::ostream &os, IterationCallback &icb) {
   using namespace DGtal::Z2i;
   using namespace GraphFlow::Utils;
   using namespace GraphFlow::Core;
 
   const InputData &id = gfi.inputData;
   DigitalSet ds = gfi.inputDS;
-
-  Graph::MorphologyNeighborhood neighborhood(Graph::MorphologyNeighborhood::MorphologyElement::CIRCLE, id.neighborhoodSize);
 
   double lastEnergyValue = Utils::evaluateEnergy(id, ds);
   int itNumber = 0;
@@ -43,8 +41,7 @@ void graphFlow(const GraphFlowInput &gfi, std::ostream &os, IterationCallback &i
 
     neighExplorer.start(Graph::visitNeighbor(neighExplorer), id.nThreads);
 
-    Candidate bestCandidate = selectBestCandidate(neighExplorer.begin(),neighExplorer.end());
-
+    Candidate bestCandidate = selectBestCandidate(neighExplorer.begin(), neighExplorer.end());
 
     ds.clear();
     ds.insert(bestCandidate.ds->begin(), bestCandidate.ds->end());
@@ -53,10 +50,10 @@ void graphFlow(const GraphFlowInput &gfi, std::ostream &os, IterationCallback &i
     //Stop conditions
     if (id.iterations==-1) {
       //For unlimited iterations, stop if the current best solution is worst than previous best solution
-      if (bestCandidate.value>= lastEnergyValue) execute = false;
+      if (bestCandidate.value >= lastEnergyValue) execute = false;
     } else {
       if (fabs(bestCandidate.value - lastEnergyValue) < 1e-6) execute = false;
-      else if(itNumber >= id.iterations) execute= false;
+      else if (itNumber >= id.iterations) execute = false;
     }
 
     lastEnergyValue = bestCandidate.value;

@@ -14,6 +14,9 @@ echo "[-k Squared curvature weight (default:2.5) ]"
 echo "[-a Length weight (default:0.01) ]"
 echo "[-i Max iterations (default:30) ]"
 echo "[-G Grabcut iterations (default:1) ]"
+echo "[-N Neighborhood size (default:0) ]"
+echo "[-H Neighborhood type (morphology, random) (default:morphology) ]"
+echo "[-n Number of threads (default:4) ]"
 echo "[-w Print energy value ]"
 echo "[-s Save all figures ]"
 echo "[-I INPUT_IMAGE_PATH (default:$INPUT_IMAGE) ]"
@@ -27,7 +30,10 @@ i="30"
 w=""
 s=""
 G="1"
-while getopts ":r:g:k:a:i:G:I:ws" o; do
+N="0"
+H="morphology"
+n="4"
+while getopts ":r:g:k:a:i:G:N:H:n:I:ws" o; do
     case "${o}" in
         r)
             r=$OPTARG
@@ -46,6 +52,15 @@ while getopts ":r:g:k:a:i:G:I:ws" o; do
 	        ;;
 	    G)
 	        G=$OPTARG
+	        ;;
+	    N)
+	        N=$OPTARG
+	        ;;
+	    H)
+	        H=$OPTARG
+	        ;;
+	    n)
+	        n=$OPTARG
 	        ;;
 	    w)
 	        w="-w"
@@ -106,7 +121,7 @@ then
     "${SP_OUT}/gc-object.xml" \
     -u "${SP_OUT}/mask-pbfg-0.pgm" -d
 
-    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -k"$k" -a"$a" -G"${G}" -i"$i" -d ${s} ${w} "${SP_OUT}/graph-seg"
+    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -k"$k" -a"$a" -G"${G}" -i"$i" -H${H} -n${n} -d ${s} ${w} "${SP_OUT}/graph-seg"
 fi
 
 
@@ -117,7 +132,7 @@ do
     -u "${SP_OUT}/mask-pbfg-0.pgm" \
     -f "${SP_OUT}/mask-fg-0.pgm" \
     -b "${SP_OUT}/mask-bg-0.pgm" \
-    -s "${SP_OUT}/graph-seg/mask-seg.pgm" -o
+    -s "${SP_OUT}/graph-seg/mask-seg.png" -o
 
     if [ $? -eq 0 ]
     then
@@ -125,8 +140,8 @@ do
     fi
 
     "${GRAB_CUT_APP}" "${INPUT_IMAGE}" "${SP_OUT}/mask-fg-0.pgm" "${SP_OUT}/mask-bg-0.pgm" "${SP_OUT}/gc-object.xml" \
-    -u "${SP_OUT}/mask-pbfg-0.pgm" -s "${SP_OUT}/graph-seg/mask-seg.pgm"
+    -u "${SP_OUT}/mask-pbfg-0.pgm" -s "${SP_OUT}/graph-seg/mask-seg.png"
 
-    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -k"$k" -a"$a" -i"$i" -G"${G}" -d ${s} ${w} "${SP_OUT}/graph-seg"
+    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -k"$k" -a"$a" -i"$i" -G"${G}" -N${N} -H${H} -n${n} -d ${s} ${w} "${SP_OUT}/graph-seg"
 done
 

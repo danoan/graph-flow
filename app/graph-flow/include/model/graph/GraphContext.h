@@ -2,7 +2,6 @@
 #define GRAPH_FLOW_APP_GRAPH_FLOW_GRAPHCONTEXT_H
 
 #include <graph-flow/core/FlowGraph.h>
-#include <graph-flow/core/neighborhood/MorphologyNeighborhood.h>
 
 #include <graph-flow/core/TerminalWeight.h>
 #include <graph-flow/core/EdgeWeight.h>
@@ -29,12 +28,12 @@ typedef std::vector<TerminalWeight *> TerminalWeightVector;
 typedef std::vector<EdgeWeight *> EdgeWeightVector;
 
 typedef GraphFlow::Core::FlowGraph FlowGraph;
-typedef GraphFlow::Core::Neighborhood::Morphology MorphologyNeighborhood;
 
+template<class TNeighborhood>
 struct Context {
-  typedef GraphFlow::Core::Neighborhood::Morphology MorphologyNeighborhood;
+  typedef TNeighborhood Neighborhood;
 
-  Context(const GraphFlowInput &gfi, const DigitalSet &ds, const MorphologyNeighborhood &neighborhood) :
+  Context(const GraphFlowInput &gfi, const DigitalSet &ds, const Neighborhood &neighborhood) :
       gfi(gfi),
       ds(ds),
       neighborhood(neighborhood) {}
@@ -42,7 +41,7 @@ struct Context {
   const GraphFlowInput &gfi;
   const DigitalSet &ds;
 
-  MorphologyNeighborhood neighborhood;
+  Neighborhood neighborhood;
 };
 
 TerminalWeightVector prepareTerminalWeights(const InputData &id, const DTL2 &dtInterior, const DTL2 &dtExterior);

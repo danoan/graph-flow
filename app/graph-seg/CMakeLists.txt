@@ -6,8 +6,6 @@ find_package(OpenCV REQUIRED)
 add_executable(graph-seg-app
         src/input/InputReader.cpp
         src/utils.cpp
-        src/graph-seg.cpp
-        src/model/graph/GraphContext.cpp
         src/model/graph/GraphModel.cpp
         src/model/image/GMM.cpp
         main.cpp)
