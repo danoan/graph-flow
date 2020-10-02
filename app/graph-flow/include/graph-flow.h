@@ -26,8 +26,14 @@ struct UserVars
 
 struct Params{};
 
-void graphFlow(const GraphFlowInput& gfi, std::ostream& os, IterationCallback& icb);
+template<class TNeighExplorerIterator>
+Candidate selectBestCandidate(TNeighExplorerIterator begin,TNeighExplorerIterator end);
+
+template<class TNeighborhood>
+void graphFlow(const GraphFlowInput &gfi, TNeighborhood&& neighborhood, std::ostream &os, IterationCallback &icb);
 }
+
+#include "graph-flow.hpp"
 
 
 

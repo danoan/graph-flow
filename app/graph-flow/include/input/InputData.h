@@ -6,6 +6,8 @@
 namespace App{
 struct InputData
 {
+  enum NeighborhoodType{Morphology,Random};
+
   InputData()
   {
     shapeName="square";
@@ -21,6 +23,7 @@ struct InputData
 
     nThreads=4;
     neighborhoodSize=2;
+    neighborhoodType=Morphology;
 
     outputFolder="";
     pixelMaskFilepath="";
@@ -44,6 +47,7 @@ struct InputData
 
   int nThreads;
   int neighborhoodSize;
+  NeighborhoodType neighborhoodType;
 
   std::string outputFolder;
   std::string pixelMaskFilepath;

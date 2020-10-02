@@ -14,6 +14,7 @@ void usage(char *argv[]) {
                                        "[-n Maximum number of threads (default:4)]\n"
                                        "[-N Neighborhood size (default:2)]\n"
                                        "[-B Border width (automatic gridstep scaling) (default:20)]\n"
+                                       "[-H Neighborhood type (morphology,random) (default:morphology)]\n"
                                        "[-P Pixel mask filepath]\n"
                                        "[-w Output energy at each iteration]\n"
                                        "[-d Display flow]\n"
@@ -24,7 +25,7 @@ InputData readInput(int argc, char *argv[]) {
   InputData id;
 
   int opt;
-  while ((opt = getopt(argc, argv, "S:i:r:v:h:a:b:O:n:N:B:P:wds"))!=-1) {
+  while ((opt = getopt(argc, argv, "S:i:r:v:h:a:b:O:n:N:B:H:P:wds"))!=-1) {
     switch (opt) {
       case 'S': {
         id.shapeName = optarg;
@@ -70,6 +71,12 @@ InputData readInput(int argc, char *argv[]) {
         id.border = std::atoi(optarg);
         break;
       }
+      case 'H': {
+        if( strcmp(optarg,"morphology")==0 ) id.neighborhoodType = InputData::Morphology;
+        else if(strcmp(optarg,"random")==0 ) id.neighborhoodType = InputData::Random;
+        else throw std::runtime_error("Invalid neighborhood type");
+        break;
+      }
       case 'P': {
         id.pixelMaskFilepath = optarg;
         break;
@@ -97,6 +104,12 @@ InputData readInput(int argc, char *argv[]) {
   return id;
 }
 
+std::string resolveNeighborhoodType(InputData::NeighborhoodType nt){
+  if(nt==InputData::Morphology) return "Morphology";
+  else if(nt==InputData::Random) return "Random";
+  else return "Unknown";
+}
+
 void writeInputData(const InputData &id, size_t nPixels, std::ostream &os) {
   os << "Shape name:" << id.shapeName << "\n"
      << "Number of pixels:" << nPixels << "\n"
@@ -108,6 +121,7 @@ void writeInputData(const InputData &id, size_t nPixels, std::ostream &os) {
      << "Curvature penalization:" << id.beta << "\n"
      << "Iterations:" << id.iterations << "\n"
      << "Neighborhood size:" << id.neighborhoodSize << "\n"
+     << "Neighborhood type:" << resolveNeighborhoodType(id.neighborhoodType) << "\n"
      << "Max number of threads:" << id.nThreads << "\n"
      << "Output folder:" << id.outputFolder << "\n"
      << "Pixel mask filepath:" << id.pixelMaskFilepath << "\n"
