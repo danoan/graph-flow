@@ -10,6 +10,7 @@ namespace App {
 void usage(char *argv[]);
 InputData readInput(int argc, char *argv[]);
 
+std::string resolveNeighborhoodType(InputData::NeighborhoodType nt);
 void writeInputData(const InputData &id, std::ostream &os);
 }
 

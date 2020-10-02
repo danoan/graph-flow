@@ -6,6 +6,8 @@
 
 #include <graph-flow/utils/display.h>
 #include <graph-flow/utils/string.h>
+#include <graph-flow/core/neighborhood/MorphologyNeighborhood.h>
+#include <graph-flow/core/neighborhood/RandomNeighborhood.h>
 
 #include "input/InputData.h"
 #include "input/InputReader.h"
@@ -126,7 +128,20 @@ int main(int argc, char* argv[])
 
   Timer T_graphSeg;
   T_graphSeg.start();
-  DigitalSet outputDS=App::graphSeg(gsi,ofsEnergy,iterationCallback);
+
+  DigitalSet outputDS(imgDomain);
+  switch(id.neighborhoodType){
+    case App::InputData::Morphology:{
+      GraphFlow::Core::Neighborhood::Morphology M(GraphFlow::Core::Neighborhood::Morphology::MorphologyElement::CIRCLE,id.neighborhoodSize);
+      outputDS=App::graphSeg(gsi,M,ofsEnergy,iterationCallback);
+      break;
+    }
+    case App::InputData::Random:{
+      GraphFlow::Core::Neighborhood::Random R(id.neighborhoodSize);
+      outputDS=App::graphSeg(gsi,R,ofsEnergy,iterationCallback);
+      break;
+    }
+  }
 
   ofsEnergy << "#Execution time: ";
   T_graphSeg.end(ofsEnergy);

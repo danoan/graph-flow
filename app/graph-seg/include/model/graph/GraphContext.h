@@ -8,13 +8,16 @@
 #include "utils.h"
 
 namespace App::Graph{
+template<class TNeighborhood>
 struct Context{
   typedef DGtal::Z2i::DigitalSet DigitalSet;
   typedef DGtal::Z2i::Domain Domain;
 
-  typedef GraphFlow::Core::Neighborhood::Morphology MorphologyNeighborhood;
+  typedef TNeighborhood Neighborhood;
 
-  Context(const GraphSegInput& gfi, const DigitalSet& ds, const MorphologyNeighborhood& neighborhood);
+  Context(const GraphSegInput& gfi, const DigitalSet& ds, const Neighborhood& neighborhood):gfi(gfi),
+                                                                                            neighborhood(neighborhood),
+                                                                                            ds(ds){}
 
   Context(const Context& context)=delete;
   Context(Context&& context)=delete;
@@ -22,7 +25,7 @@ struct Context{
   const GraphSegInput& gfi;
   const DigitalSet& ds;
 
-  MorphologyNeighborhood neighborhood;
+  Neighborhood neighborhood;
 };
 
 
