@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
   App::GraphFlowInput gfi(id,ds);
 
   std::ofstream ofsInputData(id.outputFolder + "/inputData.txt");
-  writeInputData(id,ofsInputData);
+  writeInputData(id,ds.size(),ofsInputData);
   ofsInputData.flush(); ofsInputData.close();
 
   std::ofstream ofsEnergy(id.outputFolder + "/energy.txt");

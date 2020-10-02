@@ -1,4 +1,3 @@
-#include <cstring>
 #include "input/InputReader.h"
 
 namespace App {
@@ -98,8 +97,9 @@ InputData readInput(int argc, char *argv[]) {
   return id;
 }
 
-void writeInputData(const InputData &id, std::ostream &os) {
+void writeInputData(const InputData &id, size_t nPixels, std::ostream &os) {
   os << "Shape name:" << id.shapeName << "\n"
+     << "Number of pixels:" << nPixels << "\n"
      << "Estimation radius:" << id.radius << "\n"
      << "Validation radius:" << id.vradius << "\n"
      << "Grid step:" << id.h << "\n"
