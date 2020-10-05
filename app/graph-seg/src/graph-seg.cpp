@@ -12,13 +12,14 @@ DigitalSet graphSeg(const App::GraphSegInput &gfi, std::ostream &os, App::Iterat
   App::Graph::RandomNeighborhood neighborhood(App::Graph::RandomNeighborhood::MorphologyElement::CIRCLE,
                                                   id.neighborhoodSize);
 
-  bool update=true;
-  int tries=0;
   int itNumber = 0;
-  bool executing = true;
   DigitalSet solution(ds.domain());
   double lastEnergyValue = App::Graph::evaluateData(id, ds, gfi.cvImg) + App::Utils::evaluateEnergy(id, ds);
-  icb(App::GraphSegIteration(itNumber, lastEnergyValue, ds, App::GraphSegIteration::Init));
+  icb(App::GraphSegIteration(itNumber++, lastEnergyValue, ds, App::GraphSegIteration::Init));
+
+  bool update=true;
+  int tries=0;
+  bool executing = true;
   while (executing) {
     App::Graph::Context context(gfi, ds, neighborhood);
 
