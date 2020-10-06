@@ -34,9 +34,11 @@ DigitalSet graphSeg(const App::GraphSegInput &gfi, TNeighborhood&& neighborhood,
   DigitalSet ds = gfi.inputDS;
 
   int itNumber = 0;
-  bool executing = true;
   double lastEnergyValue = App::Graph::evaluateData(id, ds, gfi.dataDistribution) + App::Utils::evaluateEnergy(id, ds);
-  icb(App::GraphSegIteration(itNumber, lastEnergyValue, ds, App::GraphSegIteration::Init));
+  icb(App::GraphSegIteration(itNumber++, lastEnergyValue, ds, App::GraphSegIteration::Init));
+
+
+  bool executing = true;
   while (executing) {
     App::Graph::Context context(gfi, ds, neighborhood);
     auto range = magLac::Core::addRange(context.neighborhood.begin(), context.neighborhood.end(), 1);

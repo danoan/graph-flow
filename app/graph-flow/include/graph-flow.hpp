@@ -31,9 +31,9 @@ void graphFlow(const GraphFlowInput &gfi, TNeighborhood &&neighborhood, std::ost
 
   double lastEnergyValue = Utils::evaluateEnergy(id, ds);
   int itNumber = 0;
-  bool execute = true;
+  icb(GraphFlowIteration(itNumber++, lastEnergyValue, ds, GraphFlowIteration::Init));
 
-  icb(GraphFlowIteration(itNumber, lastEnergyValue, ds, GraphFlowIteration::Init));
+  bool execute = true;
   while (execute) {
     Graph::Context context(gfi, ds, neighborhood);
     auto range = magLac::Core::addRange(context.neighborhood.begin(), context.neighborhood.end(), 1);
