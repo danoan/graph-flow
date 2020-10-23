@@ -52,8 +52,7 @@ void graphFlow(const GraphFlowInput &gfi, TNeighborhood &&neighborhood, std::ost
       //For unlimited iterations, stop if the current best solution is worst than previous best solution
       if (bestCandidate.value >= lastEnergyValue) execute = false;
     } else {
-      if (fabs(bestCandidate.value - lastEnergyValue) < 1e-6) execute = false;
-      else if (itNumber >= id.iterations) execute = false;
+      if (itNumber >= id.iterations) execute = false;
     }
 
     lastEnergyValue = bestCandidate.value;

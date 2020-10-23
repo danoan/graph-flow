@@ -56,8 +56,7 @@ DigitalSet graphSeg(const App::GraphSegInput &gfi, TNeighborhood&& neighborhood,
       //For unlimited iterations, stop if the current best solution is worst than previous best solution
       if (energyValue >= lastEnergyValue) executing = false;
     } else {
-      if (fabs(energyValue - lastEnergyValue) < 1e-6) executing = false;
-      else if (itNumber >= id.iterations) executing = false;
+      if (itNumber >= id.iterations) executing = false;
     }
 
     lastEnergyValue = energyValue;
