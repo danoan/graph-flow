@@ -18,8 +18,10 @@ struct InputData
     h=0.25;
     alpha=0.01;
     beta=1.0;
+
     optBand=2;
     border=20;
+    tolerance=-1;
 
     nThreads=4;
     neighborhoodSize=2;
@@ -43,6 +45,7 @@ struct InputData
 
   int optBand;
   int border;
+  double tolerance;
 
   int nThreads;
   int neighborhoodSize;

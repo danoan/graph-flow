@@ -10,6 +10,7 @@ void usage(char *argv[]) {
                                        "[-h Grid step (default:0.25)]\n"
                                        "[-a Length penalization (default:0.01)]\n"
                                        "[-b Curvature penalization (default:1.0)]\n"
+                                       "[-t Tolerance. Stop if change between iterations is smaller than tolerance (>=0) (default:-1, never stop)]\n"
                                        "[-O Optimization band (default:2)]\n"
                                        "[-n Maximum number of threads (default:4)]\n"
                                        "[-N Neighborhood size (default:2)]\n"
@@ -24,7 +25,7 @@ InputData readInput(int argc, char *argv[]) {
   InputData id;
 
   int opt;
-  while ((opt = getopt(argc, argv, "S:i:r:v:h:a:b:O:n:N:B:H:wds"))!=-1) {
+  while ((opt = getopt(argc, argv, "S:i:r:v:h:a:b:t:O:n:N:B:H:wds"))!=-1) {
     switch (opt) {
       case 'S': {
         id.shapeName = optarg;
@@ -52,6 +53,10 @@ InputData readInput(int argc, char *argv[]) {
       }
       case 'b': {
         id.beta = std::atof(optarg);
+        break;
+      }
+      case 't': {
+        id.tolerance = std::atof(optarg);
         break;
       }
       case 'O': {
@@ -112,6 +117,7 @@ void writeInputData(const InputData &id, size_t nPixels, std::ostream &os) {
      << "Validation radius:" << id.vradius << "\n"
      << "Grid step:" << id.h << "\n"
      << "Opt band:" << id.optBand << "\n"
+     << "Tolerance:" << id.tolerance << "\n"
      << "Length penalization:" << id.alpha << "\n"
      << "Curvature penalization:" << id.beta << "\n"
      << "Iterations:" << id.iterations << "\n"

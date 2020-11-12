@@ -18,6 +18,7 @@ struct InputData {
 
     optBand = 2;
     grabcutIterations = 1;
+    tolerance=-1;
 
     nThreads = 4;
     neighborhoodSize = 2;
@@ -37,6 +38,7 @@ struct InputData {
 
   double alpha;
   int optBand;
+  double tolerance;
   int grabcutIterations;
 
   double regionalTermWeight;
