@@ -11,7 +11,7 @@ if [ -z $APP_GRAPH_SEG ]; then
 fi
 
 if [ -z $APP_SUMMARY_FLOW ]; then
-    APP_SUMMARY_FLOW=${PROJECT_PATH}/ext-projects/cmake-build-release/bin/summary-flow
+    APP_SUMMARY_FLOW=${PROJECT_PATH}/cmake-build-release/app/summary-flow/summary-flow
 fi
 
 
