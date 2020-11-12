@@ -18,6 +18,8 @@
 
 [DGtal0.9](https://dgtal.org/download/)
 
+[lemon1.3.1](https://lemon.cs.elte.hu/trac/lemon/wiki/Downloads)
+
 qt5-default
 
 zlib1g-dev
