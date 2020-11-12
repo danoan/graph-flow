@@ -10,23 +10,20 @@ void writeEnergyData(const GraphSegIteration &gsIteration, std::ostream &os) {
 }
 
 double evaluateEnergy(const InputData &id, const DigitalSet &ds) {
-  using namespace GraphFlow::Utils;
-  return Energy::elasticaIndependentComponents(ds, id.radius, id.h, id.alpha, id.curvatureTermWeight);
+  return GraphFlow::Utils::Energy::elasticaIndependentComponents(ds, id.radius, id.h, id.alpha,
+                                               id.curvatureTermWeight);
 }
 
-void outputImages(const GrabCutObject &gco,
-                  const cv::Mat &segResultImg,
-                  const DigitalSet &outputDS,
-                  const std::string &outputFolder) {
+void outputImages(const GrabCutObject &gco, const cv::Mat &segResultImg,
+                  const DigitalSet &outputDS, const std::string &outputFolder) {
   const cv::Mat &inputImage = gco.inputImage;
 
-  cv::Mat foregroundMask = cv::Mat::zeros(inputImage.size(),
-                                          CV_8UC1);
+  cv::Mat foregroundMask = cv::Mat::zeros(inputImage.size(), CV_8UC1);
   DIPaCUS::Representation::digitalSetToCVMat(foregroundMask, outputDS);
 
   cv::Mat imgOutput = cv::Mat::zeros(inputImage.size(), CV_8UC3);
 
-  BTools::Utils::setHighlightMask(imgOutput, inputImage, foregroundMask);
+  GraphFlow::Utils::Image::setHighlightMask(imgOutput, inputImage, foregroundMask);
 
   std::string graphCutSegFilepath = outputFolder + "/gc-seg.png";
   std::string correctedSegFilepath = outputFolder + "/corrected-seg.png";
@@ -36,10 +33,10 @@ void outputImages(const GrabCutObject &gco,
 
   cv::Mat segResultMask = cv::Mat::zeros(segResultImg.size(), CV_8UC1);
   cv::cvtColor(segResultImg, segResultMask, CV_RGB2GRAY);
-  BTools::Utils::setHighlightMask(gcSegImg, inputImage, segResultMask);
+  GraphFlow::Utils::Image::setHighlightMask(gcSegImg, inputImage, segResultMask);
 
   cv::imwrite(graphCutSegFilepath, gcSegImg);
   cv::imwrite(correctedSegFilepath, imgOutput);
   cv::imwrite(seedsFilepath, gco.seeds);
 }
-}
+}  // namespace App::Utils

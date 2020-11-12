@@ -4,11 +4,11 @@
 #include <opencv2/imgproc/types_c.h>
 
 #include <DGtal/helpers/StdDefs.h>
-#include <BTools/utils/imgUtils.h>
-#include <BTools/io/seed/GrabCutObject.h>
 
+#include <graph-flow/io/seed/GrabCutObject.h>
 #include <graph-flow/utils/string.h>
 #include <graph-flow/utils/energy.h>
+#include <graph-flow/utils/image.h>
 
 #include "input/InputData.h"
 #include "model/GraphSegIteration.h"
@@ -19,7 +19,7 @@ typedef DGtal::Z2i::DigitalSet DigitalSet;
 typedef DGtal::Z2i::Domain Domain;
 typedef DGtal::Z2i::Point Point;
 
-typedef BTools::IO::Seed::GrabCutObject GrabCutObject;
+typedef GraphFlow::IO::Seed::GrabCutObject GrabCutObject;
 
 void writeEnergyData(const GraphSegIteration &gsIteration, std::ostream &os);
 double evaluateEnergy(const InputData &id, const DigitalSet &ds);

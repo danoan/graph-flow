@@ -16,14 +16,8 @@ endif ()
 set(DIPACUS_INCLUDE_DIRS ${EXTPROJECTS_BUILD_DIR}/include CACHE PATH "DIPaCUS include location path.")
 set(DIPACUS_LIBS_DIR ${EXTPROJECTS_BUILD_DIR}/lib CACHE PATH "DIPaCUS libraries location path.")
 
-set(GCURVE_INCLUDE_DIRS ${EXTPROJECTS_BUILD_DIR}/include CACHE PATH "GCurve include location path.")
-set(GCURVE_LIBS_DIR ${EXTPROJECTS_BUILD_DIR}/lib CACHE PATH "GCurve libraries location path.")
-
 set(GEOC_INCLUDE_DIRS ${EXTPROJECTS_BUILD_DIR}/include CACHE PATH "GEOC include location path.")
 set(MAGLAC_INCLUDE_DIRS ${EXTPROJECTS_BUILD_DIR}/include CACHE PATH "MagLac include location path.")
-
-set(BTOOLS_INCLUDE_DIRS ${EXTPROJECTS_BUILD_DIR}/include CACHE PATH "BTools include location path.")
-set(BTOOLS_LIBS_DIR ${EXTPROJECTS_BUILD_DIR}/lib CACHE PATH "BTools libraries location path.")
 
 set(LEMON_INCLUDE_DIRS ${CMAKE_PREFIX_PATH}/include CACHE PATH "Lemon include location path.")
 set(LEMON_LIBS_DIR ${CMAKE_PREFIX_PATH}/lib CACHE PATH "Lemon libraries location path.")
@@ -44,15 +38,16 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 link_directories(${CMAKE_BINARY_DIR}/modules/utils
         ${CMAKE_BINARY_DIR}/modules/core
+        ${CMAKE_BINARY_DIR}/modules/io/seed
         ${LEMON_LIBS_DIR}
         ${DIPACUS_LIBS_DIR}
-        ${BTOOLS_LIBS_DIR}
         ${BOOST_LIBS_DIR}
         ${DGTAL_LIBS_DIR})
 
 
 add_subdirectory(modules/core)
 add_subdirectory(modules/utils)
+add_subdirectory(modules/io/seed)
 add_subdirectory(app/graph-flow)
 add_subdirectory(app/graph-seg)
 
