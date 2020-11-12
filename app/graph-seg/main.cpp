@@ -6,6 +6,9 @@
 #include <graph-flow/utils/display.h>
 #include <graph-flow/utils/string.h>
 #include <graph-flow/utils/ring.h>
+#include <graph-flow/utils/image.h>
+#include <graph-flow/core/neighborhood/MorphologyNeighborhood.h>
+#include <graph-flow/core/neighborhood/RandomNeighborhood.h>
 
 #include "input/InputData.h"
 #include "input/InputReader.h"
@@ -62,7 +65,7 @@ void renderSegmentation(cv::Mat& cvImgOut, const cv::Mat& cvImgIn,const DigitalS
   cv::Mat foregroundMask = cv::Mat::zeros(cvImgIn.size(),
                                           CV_8UC1);
   DIPaCUS::Representation::digitalSetToCVMat(foregroundMask, ds);
-  BTools::Utils::setHighlightMask(cvImgOut, cvImgIn, foregroundMask);
+  Image::setHighlightMask(cvImgOut, cvImgIn, foregroundMask);
 }
 
 int main(int argc, char* argv[])

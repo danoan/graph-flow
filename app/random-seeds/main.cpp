@@ -5,8 +5,8 @@
 #include <DIPaCUS/base/Representation.h>
 #include <DIPaCUS/base/Shapes.h>
 
-#include <BTools/io/seed/GrabCutObject.h>
-#include <BTools/utils/imgUtils.h>
+#include <graph-flow/io/seed/GrabCutObject.h>
+#include <graph-flow/utils/image.h>
 
 using Point = DGtal::Z2i::Point;
 using Domain = DGtal::Z2i::Domain;
@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
   std::string outputFilepath = argv[4];
   std::string maskSegFilepath= argv[5];
 
-  BTools::IO::Seed::GrabCutObject gco = BTools::IO::Seed::read(gcoFilepath);
+  GraphFlow::IO::Seed::GrabCutObject gco = GraphFlow::IO::Seed::read(gcoFilepath);
   boost::filesystem::path p(outputFilepath);
   boost::filesystem::create_directories(p.remove_filename());
 
@@ -51,8 +51,7 @@ int main(int argc, char* argv[])
 
 
   injectRandomSeeds(nCenters,radius,ds);
-  BTools::Utils::exportImageFromDigitalSet(ds,domain,outputFilepath);
-
+  GraphFlow::Utils::Image::exportImageFromDigitalSet(ds,domain,outputFilepath);
 
   return 0;
 }

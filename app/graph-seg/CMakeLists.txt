@@ -13,29 +13,28 @@ add_executable(graph-seg-app
         main.cpp)
 
 if(${USE_REMOTE_REPOSITORIES})
-    add_dependencies(graph-seg-app graph-flow-utils graph-flow-core dipacus magLac btools)
+    add_dependencies(graph-seg-app graph-flow-utils graph-flow-core graph-flow-seedio dipacus magLac)
 else()
-    add_dependencies(graph-seg-app graph-flow-utils graph-flow-core)
+    add_dependencies(graph-seg-app graph-flow-utils graph-flow-core graph-flow-seedio)
 endif()
 
 target_include_directories(graph-seg-app PRIVATE
         include
         ${CMAKE_SOURCE_DIR}/modules/core/include
         ${CMAKE_SOURCE_DIR}/modules/utils/include
+        ${CMAKE_SOURCE_DIR}/modules/io/seed/include
         ${DIPACUS_INCLUDE_DIRS}
         ${MAGLAC_INCLUDE_DIRS}
         ${DGTAL_INCLUDE_DIRS}
-        ${BTOOLS_INCLUDE_DIRS}
         ${BOOST_INCLUDE_DIRS})
 
 target_link_libraries(graph-seg-app
         -ldipacus-base
         -ldipacus-components
         -ldipacus-derivates
-        -lbtools-seedio
-        -lbtools-utils
         -lgraph-flow-core
         -lgraph-flow-utils
+        -lgraph-flow-seedio
         -lboost_system
         -lboost_filesystem
         -lpthread

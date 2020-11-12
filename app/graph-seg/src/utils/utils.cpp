@@ -22,7 +22,7 @@ void outputImages(const cv::Mat cvImgIn,
   DIPaCUS::Representation::digitalSetToCVMat(foregroundMask, outputDS);
 
   cv::Mat imgOutput = cv::Mat::zeros(cvImgIn.size(), CV_8UC3);
-  BTools::Utils::setHighlightMask(imgOutput, cvImgIn, foregroundMask);
+  GraphFlow::Utils::Image::setHighlightMask(imgOutput, cvImgIn, foregroundMask);
 
 
   std::string outputFilepath = outputFolder + "/seg-out.png";

@@ -9,7 +9,7 @@ add_executable(generate-test-images
         src/utils.cpp)
 
 if(${USE_REMOTE_REPOSITORIES})
-    add_dependencies(generate-test-images graph-flow-utils graph-flow-core dipacus magLac btools)
+    add_dependencies(generate-test-images graph-flow-utils graph-flow-core dipacus magLac)
 else()
     add_dependencies(generate-test-images graph-flow-utils graph-flow-core)
 endif()
@@ -21,15 +21,13 @@ target_include_directories(generate-test-images PRIVATE
         ${DIPACUS_INCLUDE_DIRS}
         ${MAGLAC_INCLUDE_DIRS}
         ${DGTAL_INCLUDE_DIRS}
-        ${BTOOLS_INCLUDE_DIRS}
         ${BOOST_INCLUDE_DIRS})
 
 target_link_libraries(generate-test-images
         -ldipacus-base
         -ldipacus-components
         -ldipacus-derivates
-        -lbtools-seedio
-        -lbtools-utils
+        -lgraph-flow-seedio
         -lgraph-flow-core
         -lgraph-flow-utils
         -lboost_system

@@ -11,7 +11,8 @@ add_library(graph-flow-utils ${LIBRARY_ACTION}
         src/energy.cpp
         src/display.cpp
         src/string.cpp
-        src/ring.cpp)
+        src/ring.cpp
+        src/image.cpp)
 
 if(${USE_REMOTE_REPOSITORIES})
     add_dependencies(graph-flow-utils dipacus geoc)
@@ -30,6 +31,7 @@ target_include_directories(graph-flow-utils PRIVATE
 target_link_libraries(graph-flow-utils
         -ldipacus-base
         -ldipacus-components
+        -ldipacus-derivates
         -lboost_system
         ${DGTAL_LIBRARIES}
         ${OpenCV_LIBS})
