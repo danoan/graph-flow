@@ -26,7 +26,6 @@ struct InputData
     neighborhoodType=Morphology;
 
     outputFolder="";
-    pixelMaskFilepath="";
 
     printEnergyValue=false;
     saveAllFigures=false;
@@ -50,7 +49,6 @@ struct InputData
   NeighborhoodType neighborhoodType;
 
   std::string outputFolder;
-  std::string pixelMaskFilepath;
 
   bool printEnergyValue;
   bool saveAllFigures;

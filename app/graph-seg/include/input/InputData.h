@@ -24,7 +24,6 @@ struct InputData {
     neighborhoodType = Morphology;
 
     outputFolder = "";
-    pixelMaskFilepath = "";
     gcoFilepath = "";
 
     printEnergyValue = false;
@@ -47,7 +46,6 @@ struct InputData {
   NeighborhoodType  neighborhoodType;
 
   std::string outputFolder;
-  std::string pixelMaskFilepath;
   std::string gcoFilepath;
 
   bool printEnergyValue;

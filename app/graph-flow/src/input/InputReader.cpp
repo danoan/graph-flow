@@ -15,7 +15,6 @@ void usage(char *argv[]) {
                                        "[-N Neighborhood size (default:2)]\n"
                                        "[-B Border width (automatic gridstep scaling) (default:20)]\n"
                                        "[-H Neighborhood type (morphology,random) (default:morphology)]\n"
-                                       "[-P Pixel mask filepath]\n"
                                        "[-w Output energy at each iteration]\n"
                                        "[-d Display flow]\n"
                                        "[-s Save figures]" << std::endl;
@@ -25,7 +24,7 @@ InputData readInput(int argc, char *argv[]) {
   InputData id;
 
   int opt;
-  while ((opt = getopt(argc, argv, "S:i:r:v:h:a:b:O:n:N:B:H:P:wds"))!=-1) {
+  while ((opt = getopt(argc, argv, "S:i:r:v:h:a:b:O:n:N:B:H:wds"))!=-1) {
     switch (opt) {
       case 'S': {
         id.shapeName = optarg;
@@ -77,10 +76,6 @@ InputData readInput(int argc, char *argv[]) {
         else throw std::runtime_error("Invalid neighborhood type");
         break;
       }
-      case 'P': {
-        id.pixelMaskFilepath = optarg;
-        break;
-      }
       case 'w': {
         id.printEnergyValue = true;
         break;
@@ -124,7 +119,6 @@ void writeInputData(const InputData &id, size_t nPixels, std::ostream &os) {
      << "Neighborhood type:" << resolveNeighborhoodType(id.neighborhoodType) << "\n"
      << "Max number of threads:" << id.nThreads << "\n"
      << "Output folder:" << id.outputFolder << "\n"
-     << "Pixel mask filepath:" << id.pixelMaskFilepath << "\n"
      << "Print energy value:" << (id.printEnergyValue ? "True" : "False") << "\n"
      << "Display flow:" << (id.displayFlow ? "True" : "False") << "\n"
      << "Save figures:" << (id.saveAllFigures ? "True" : "False") << "\n";
