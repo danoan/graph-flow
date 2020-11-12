@@ -57,6 +57,10 @@ int main(int argc, char* argv[])
     switch(gfIteration.iterationState){
       case App::GraphFlowIteration::Init:
       {
+        if(id.saveAllFigures){
+          Display::saveDigitalSetAsImage(ds,id.outputFolder+"/" + String::nDigitsString(gfIteration.iteration,4) + ".png");
+        }
+
         if(id.displayFlow){
           cv::namedWindow(windowName);
         }

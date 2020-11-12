@@ -16,9 +16,13 @@
 
 [opencv-3.3.0](https://opencv.org/releases.html)
 
-[eigen-3.36](http://eigen.tuxfamily.org/index.php?title=Main_Page)
-
 [DGtal0.9](https://dgtal.org/download/)
+
+qt5-default
+
+zlib1g-dev
+
+libgtk2.0-dev
 
 ## Build and Install
 

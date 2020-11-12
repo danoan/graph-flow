@@ -1,7 +1,7 @@
 #ifndef GRAPH_FLOW_APP_GRAPH_SEG_DATADISTRIBUTION_H
 #define GRAPH_FLOW_APP_GRAPH_SEG_DATADISTRIBUTION_H
 
-#include <BTools/io/seed/GrabCutObject.h>
+#include <graph-flow/io/seed/GrabCutObject.h>
 
 #include "input/InputData.h"
 #include "model/image/GMM.h"
@@ -10,13 +10,13 @@
 
 namespace App::Image {
 struct DataDistribution {
-  typedef BTools::IO::Seed::GrabCutObject GrabCutObject;
+  typedef GraphFlow::IO::Seed::GrabCutObject GrabCutObject;
 
   void rerunGrabcut(const InputData &id) {
-    GrabCutObject _gco = BTools::IO::Seed::read(id.gcoFilepath);
+    GrabCutObject _gco = GraphFlow::IO::Seed::read(id.gcoFilepath);
 
     cv::Mat fgMask, bgMask, pbfgMask;
-    BTools::IO::Seed::getSeedMasks(_gco, fgMask, bgMask, pbfgMask);
+    GraphFlow::IO::Seed::getSeedMasks(_gco, fgMask, bgMask, pbfgMask);
 
     gco.inputImage = _gco.inputImage;
     gco.seeds = _gco.seeds;

@@ -2,10 +2,10 @@
 
 #include <DGtal/helpers/StdDefs.h>
 #include <DIPaCUS/components/Transform.h>
-#include <BTools/io/seed/GrabCutObject.h>
 
 #include <graph-flow/utils/display.h>
 #include <graph-flow/utils/string.h>
+#include <graph-flow/utils/image.h>
 #include <graph-flow/core/neighborhood/MorphologyNeighborhood.h>
 #include <graph-flow/core/neighborhood/RandomNeighborhood.h>
 
@@ -53,7 +53,7 @@ void renderSegmentation(cv::Mat& bcImage, const DigitalSet& ds, const App::Image
   cv::Mat foregroundMask = cv::Mat::zeros(DD.segResultImg.size(),
                                           CV_8UC1);
   DIPaCUS::Representation::digitalSetToCVMat(foregroundMask, ds);
-  BTools::Utils::setHighlightMask(bcImage, DD.gco.inputImage, foregroundMask);
+  Image::setHighlightMask(bcImage, DD.gco.inputImage, foregroundMask);
 }
 
 int main(int argc, char* argv[])
@@ -88,6 +88,10 @@ int main(int argc, char* argv[])
 
     switch(gfIteration.iterationState){
       case App::GraphSegIteration::Init:{
+        if(id.saveAllFigures){
+          Display::saveDigitalSetAsImage(ds,id.outputFolder+"/" + String::nDigitsString(gfIteration.iteration,4) + ".png");
+        }
+
         if(id.displayFlow){
           cv::namedWindow(windowName);
         }

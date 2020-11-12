@@ -18,13 +18,13 @@ struct InputData {
 
     optBand = 2;
     grabcutIterations = 1;
+    tolerance=-1;
 
     nThreads = 4;
     neighborhoodSize = 2;
     neighborhoodType = Morphology;
 
     outputFolder = "";
-    pixelMaskFilepath = "";
     gcoFilepath = "";
 
     printEnergyValue = false;
@@ -38,6 +38,7 @@ struct InputData {
 
   double alpha;
   int optBand;
+  double tolerance;
   int grabcutIterations;
 
   double regionalTermWeight;
@@ -47,7 +48,6 @@ struct InputData {
   NeighborhoodType  neighborhoodType;
 
   std::string outputFolder;
-  std::string pixelMaskFilepath;
   std::string gcoFilepath;
 
   bool printEnergyValue;
