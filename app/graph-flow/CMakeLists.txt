@@ -8,9 +8,9 @@ src/utils.cpp
         main.cpp)
 
 if(${USE_REMOTE_REPOSITORIES})
-    add_dependencies(graph-flow-app shape-evolution-lib dipacus magLac)
+    add_dependencies(graph-flow-app graph-flow-shape-evolution dipacus magLac)
 else()
-    add_dependencies(graph-flow-app shape-evolution-lib)
+    add_dependencies(graph-flow-app graph-flow-shape-evolution)
 endif()
 
 target_include_directories(graph-flow-app PRIVATE
@@ -29,7 +29,7 @@ target_link_libraries(graph-flow-app
         -ldipacus-derivates
         -lgraph-flow-core
         -lgraph-flow-utils
-        -lshape-evolution-lib
+        -lgraph-flow-shape-evolution
         -lboost_system
         -lboost_filesystem
         -lpthread

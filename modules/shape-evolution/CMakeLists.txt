@@ -1,4 +1,4 @@
-project(shape-evolution-lib)
+project(graph-flow-shape-evolution)
 
 find_package(DGtal REQUIRED)
 
@@ -7,16 +7,16 @@ if(${CREATE_SHARED_LIBRARIES})
     set(LIBRARY_ACTION "SHARED")
 endif()
 
-add_library(shape-evolution-lib ${LIBRARY_ACTION}
+add_library(graph-flow-shape-evolution ${LIBRARY_ACTION}
         src/model/GraphContext.cpp)
 
 if(${USE_REMOTE_REPOSITORIES})
-    add_dependencies(shape-evolution-lib graph-flow-utils graph-flow-core dipacus magLac)
+    add_dependencies(graph-flow-shape-evolution graph-flow-utils graph-flow-core dipacus magLac)
 else()
-    add_dependencies(shape-evolution-lib graph-flow-utils graph-flow-core)
+    add_dependencies(graph-flow-shape-evolution graph-flow-utils graph-flow-core)
 endif()
 
-target_include_directories(shape-evolution-lib PRIVATE
+target_include_directories(graph-flow-shape-evolution PRIVATE
         include
         ${CMAKE_SOURCE_DIR}/modules/core/include
         ${CMAKE_SOURCE_DIR}/modules/utils/include
@@ -25,7 +25,7 @@ target_include_directories(shape-evolution-lib PRIVATE
         ${DGTAL_INCLUDE_DIRS}
         ${BOOST_INCLUDE_DIRS})
 
-target_link_libraries(shape-evolution-lib
+target_link_libraries(graph-flow-shape-evolution
         -ldipacus-base
         -ldipacus-components
         -ldipacus-derivates
@@ -37,6 +37,9 @@ target_link_libraries(shape-evolution-lib
         ${DGTAL_LIBRARIES}
         ${OpenCV_LIBS})
 
-install(TARGETS shape-evolution-lib
+install(DIRECTORY include
+        DESTINATION ${CMAKE_INSTALL_PREFIX})
+
+install(TARGETS graph-flow-shape-evolution
         DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
         ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
