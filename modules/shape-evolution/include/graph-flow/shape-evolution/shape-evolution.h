@@ -5,12 +5,13 @@
 
 #include <magLac/core/base/Range.hpp>
 
+#include <graph-flow/utils/energy.h>
+
 #include "control/NeighborhoodExplorer.h"
 #include "model/Candidate.h"
 #include "model/GraphFlowInput.h"
 #include "model/GraphFlowIteration.h"
 #include "model/graph/GraphContext.h"
-#include "utils.h"
 
 namespace GraphFlow::ShapeEvolution {
 typedef DGtal::Z2i::DigitalSet DigitalSet;
