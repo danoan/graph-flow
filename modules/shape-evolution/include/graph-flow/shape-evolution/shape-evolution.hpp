@@ -1,6 +1,6 @@
-#include "graph-flow.h"
+#include "shape-evolution.h"
 
-namespace App {
+namespace GraphFlow::ShapeEvolution {
 
 template <class TNeighExplorerIterator>
 Candidate selectBestCandidate(TNeighExplorerIterator begin,
@@ -26,10 +26,9 @@ void graphFlow(const GraphFlowInput &gfi, TNeighborhood &&neighborhood,
   using namespace GraphFlow::Utils;
   using namespace GraphFlow::Core;
 
-  const InputData &id = gfi.inputData;
   DigitalSet ds = gfi.inputDS;
-
-  double lastEnergyValue = Utils::evaluateEnergy(id, ds);
+  
+  double lastEnergyValue = Energy::elastica(ds,gfi.radius,gfi.h,gfi.alpha,gfi.beta);
   int itNumber = 0;
   icb(GraphFlowIteration(itNumber++, lastEnergyValue, ds,
                          GraphFlowIteration::Init));
@@ -42,7 +41,7 @@ void graphFlow(const GraphFlowInput &gfi, TNeighborhood &&neighborhood,
     auto neighExplorer =
         createNeighborExplorer<UserVars, Params>(range, context);
 
-    neighExplorer.start(Graph::visitNeighbor(neighExplorer), id.nThreads);
+    neighExplorer.start(Graph::visitNeighbor(neighExplorer), gfi.nThreads);
 
     Candidate bestCandidate =
         selectBestCandidate(neighExplorer.begin(), neighExplorer.end());
@@ -53,18 +52,18 @@ void graphFlow(const GraphFlowInput &gfi, TNeighborhood &&neighborhood,
                            GraphFlowIteration::Running));
 
     // Stop conditions
-    if (id.iterations == -1) {
+    if (gfi.iterations == -1) {
       // For unlimited iterations, stop if the current best solution is worst
       // than previous best solution
       if (bestCandidate.value >= lastEnergyValue) execute = false;
     } else {
-      if (id.tolerance >= 0) {
-        if (fabs(lastEnergyValue - bestCandidate.value) <= id.tolerance) {
+      if (gfi.tolerance >= 0) {
+        if (fabs(lastEnergyValue - bestCandidate.value) <= gfi.tolerance) {
           execute = false;
         }
       }
 
-      if (itNumber >= id.iterations) execute = false;
+      if (itNumber >= gfi.iterations) execute = false;
     }
 
     lastEnergyValue = bestCandidate.value;
@@ -74,4 +73,4 @@ void graphFlow(const GraphFlowInput &gfi, TNeighborhood &&neighborhood,
   icb(GraphFlowIteration(itNumber, lastEnergyValue, ds,
                          GraphFlowIteration::End));
 }
-}  // namespace App
+}  // namespace GraphFlow::ShapeEvolution

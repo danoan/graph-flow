@@ -7,25 +7,25 @@
 
 #include <graph-flow/utils/display.h>
 #include <graph-flow/utils/string.h>
+#include <graph-flow/utils/timer.h>
+
 #include <graph-flow/core/neighborhood/MorphologyNeighborhood.h>
 #include <graph-flow/core/neighborhood/RandomNeighborhood.h>
 
-#include "input/InputData.h"
-#include "input/InputReader.h"
-#include "model/GraphFlowInput.h"
-#include "model/GraphFlowIteration.h"
+#include <graph-flow/shape-evolution/shape-evolution.h>
+#include <graph-flow/shape-evolution/model/GraphFlowInput.h>
+#include <graph-flow/shape-evolution/model/GraphFlowIteration.h>
 
+#include "input/InputReader.h"
 #include "utils.h"
-#include "graph-flow.h"
 
 using namespace DGtal::Z2i;
-using namespace GraphFlow::Core;
-using namespace GraphFlow::Utils;
+using namespace GraphFlow;
 
 
 DigitalSet prepareShapeAndMask(const App::InputData& id)
 {
-  DigitalSet _ds = Digital::resolveShape(id.shapeName,id.h);
+  DigitalSet _ds = Utils::Digital::resolveShape(id.shapeName,id.h);
   Point lb,ub;
 
   _ds.computeBoundingBox(lb,ub);
@@ -35,13 +35,28 @@ DigitalSet prepareShapeAndMask(const App::InputData& id)
   return DIPaCUS::Transform::bottomLeftBoundingBoxAtOrigin(_ds,border);
 }
 
+void setGraphFlowInput(const App::InputData& id, ShapeEvolution::GraphFlowInput& gfi){
+  gfi.alpha = id.alpha;
+  gfi.beta = id.beta;
+  gfi.border = id.border;
+  gfi.h = id.h;
+  gfi.iterations = id.iterations;
+  gfi.neighborhoodSize = id.neighborhoodSize;
+  gfi.nThreads = id.nThreads;
+  gfi.optBand = id.optBand;
+  gfi.radius = id.radius;
+  gfi.tolerance = id.tolerance;
+  gfi.vradius = id.vradius;
+}
+
 int main(int argc, char* argv[])
 {
   App::InputData id = App::readInput(argc,argv);
   boost::filesystem::create_directories(id.outputFolder);
 
   DigitalSet ds = prepareShapeAndMask(id);
-  App::GraphFlowInput gfi(id,ds);
+  ShapeEvolution::GraphFlowInput gfi(ds);
+  setGraphFlowInput(id,gfi);
 
   std::ofstream ofsInputData(id.outputFolder + "/inputData.txt");
   writeInputData(id,ds.size(),ofsInputData);
@@ -50,15 +65,15 @@ int main(int argc, char* argv[])
   std::ofstream ofsEnergy(id.outputFolder + "/energy.txt");
   std::string windowName="IterationViewer";
 
-  App::IterationCallback iterationCallback=[&windowName,&id,&ofsEnergy](const App::GraphFlowIteration& gfIteration)->void
+  ShapeEvolution::IterationCallback iterationCallback=[&windowName,&id,&ofsEnergy](const ShapeEvolution::GraphFlowIteration& gfIteration)->void
   {
     const DigitalSet& ds = gfIteration.ds;
 
     switch(gfIteration.iterationState){
-      case App::GraphFlowIteration::Init:
+      case ShapeEvolution::GraphFlowIteration::Init:
       {
         if(id.saveAllFigures){
-          Display::saveDigitalSetAsImage(ds,id.outputFolder+"/" + String::nDigitsString(gfIteration.iteration,4) + ".png");
+          Utils::Display::saveDigitalSetAsImage(ds,id.outputFolder+"/" + Utils::String::nDigitsString(gfIteration.iteration,4) + ".png");
         }
 
         if(id.displayFlow){
@@ -66,10 +81,10 @@ int main(int argc, char* argv[])
         }
         break;
       }
-      case App::GraphFlowIteration::Running:
+      case ShapeEvolution::GraphFlowIteration::Running:
       {
         if(id.saveAllFigures){
-          Display::saveDigitalSetAsImage(ds,id.outputFolder+"/" + String::nDigitsString(gfIteration.iteration,4) + ".png");
+          Utils::Display::saveDigitalSetAsImage(ds,id.outputFolder+"/" + Utils::String::nDigitsString(gfIteration.iteration,4) + ".png");
         }
 
         if(id.printEnergyValue){
@@ -87,7 +102,7 @@ int main(int argc, char* argv[])
 
         App::Utils::writeEnergyData(gfIteration,ofsEnergy);
       }
-      case App::GraphFlowIteration::End:
+      case ShapeEvolution::GraphFlowIteration::End:
       {
         if(id.displayFlow){
           std::cout << "End of flow. Press any key to continue." << std::endl;
@@ -99,7 +114,7 @@ int main(int argc, char* argv[])
 
   };
 
-  Timer T;
+  Utils::Timer T;
   T.start();
 
   switch(id.neighborhoodType){

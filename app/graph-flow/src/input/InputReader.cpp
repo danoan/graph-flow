@@ -2,30 +2,35 @@
 
 namespace App {
 void usage(char *argv[]) {
-  std::cerr << "Usage: " << argv[0] << " OutputFolder \n"
-                                       "[-S Shape name(triangle, square, pentagon, heptagon, ball, ellipse, flower, bean, wave. default: square)]\n"
-                                       "[-i Number of iterations (default: 10)]\n"
-                                       "[-r Estimation ball radius (default: 5)]\n"
-                                       "[-v Validation ball radius (default: 5)]\n"
-                                       "[-h Grid step (default:0.25)]\n"
-                                       "[-a Length penalization (default:0.01)]\n"
-                                       "[-b Curvature penalization (default:1.0)]\n"
-                                       "[-t Tolerance. Stop if change between iterations is smaller than tolerance (>=0) (default:-1, never stop)]\n"
-                                       "[-O Optimization band (default:2)]\n"
-                                       "[-n Maximum number of threads (default:4)]\n"
-                                       "[-N Neighborhood size (default:2)]\n"
-                                       "[-B Border width (automatic gridstep scaling) (default:20)]\n"
-                                       "[-H Neighborhood type (morphology,random) (default:morphology)]\n"
-                                       "[-w Output energy at each iteration]\n"
-                                       "[-d Display flow]\n"
-                                       "[-s Save figures]" << std::endl;
+  std::cerr
+      << "Usage: " << argv[0]
+      << " OutputFolder \n"
+         "[-S Shape name(triangle, square, pentagon, heptagon, ball, ellipse, "
+         "flower, bean, wave. default: square)]\n"
+         "[-i Number of iterations (default: 10)]\n"
+         "[-r Estimation ball radius (default: 5)]\n"
+         "[-v Validation ball radius (default: 5)]\n"
+         "[-h Grid step (default:0.25)]\n"
+         "[-a Length penalization (default:0.01)]\n"
+         "[-b Curvature penalization (default:1.0)]\n"
+         "[-t Tolerance. Stop if change between iterations is smaller than "
+         "tolerance (>=0) (default:-1, never stop)]\n"
+         "[-O Optimization band (default:2)]\n"
+         "[-n Maximum number of threads (default:4)]\n"
+         "[-N Neighborhood size (default:2)]\n"
+         "[-B Border width (automatic gridstep scaling) (default:20)]\n"
+         "[-H Neighborhood type (morphology,random) (default:morphology)]\n"
+         "[-w Output energy at each iteration]\n"
+         "[-d Display flow]\n"
+         "[-s Save figures]"
+      << std::endl;
 }
 
 InputData readInput(int argc, char *argv[]) {
   InputData id;
 
   int opt;
-  while ((opt = getopt(argc, argv, "S:i:r:v:h:a:b:t:O:n:N:B:H:wds"))!=-1) {
+  while ((opt = getopt(argc, argv, "S:i:r:v:h:a:b:t:O:n:N:B:H:wds")) != -1) {
     switch (opt) {
       case 'S': {
         id.shapeName = optarg;
@@ -76,9 +81,12 @@ InputData readInput(int argc, char *argv[]) {
         break;
       }
       case 'H': {
-        if( strcmp(optarg,"morphology")==0 ) id.neighborhoodType = InputData::Morphology;
-        else if(strcmp(optarg,"random")==0 ) id.neighborhoodType = InputData::Random;
-        else throw std::runtime_error("Invalid neighborhood type");
+        if (strcmp(optarg, "morphology") == 0)
+          id.neighborhoodType = InputData::Morphology;
+        else if (strcmp(optarg, "random") == 0)
+          id.neighborhoodType = InputData::Random;
+        else
+          throw std::runtime_error("Invalid neighborhood type");
         break;
       }
       case 'w': {
@@ -104,10 +112,13 @@ InputData readInput(int argc, char *argv[]) {
   return id;
 }
 
-std::string resolveNeighborhoodType(InputData::NeighborhoodType nt){
-  if(nt==InputData::Morphology) return "Morphology";
-  else if(nt==InputData::Random) return "Random";
-  else return "Unknown";
+std::string resolveNeighborhoodType(InputData::NeighborhoodType nt) {
+  if (nt == InputData::Morphology)
+    return "Morphology";
+  else if (nt == InputData::Random)
+    return "Random";
+  else
+    return "Unknown";
 }
 
 void writeInputData(const InputData &id, size_t nPixels, std::ostream &os) {
@@ -122,11 +133,13 @@ void writeInputData(const InputData &id, size_t nPixels, std::ostream &os) {
      << "Curvature penalization:" << id.beta << "\n"
      << "Iterations:" << id.iterations << "\n"
      << "Neighborhood size:" << id.neighborhoodSize << "\n"
-     << "Neighborhood type:" << resolveNeighborhoodType(id.neighborhoodType) << "\n"
+     << "Neighborhood type:" << resolveNeighborhoodType(id.neighborhoodType)
+     << "\n"
      << "Max number of threads:" << id.nThreads << "\n"
      << "Output folder:" << id.outputFolder << "\n"
-     << "Print energy value:" << (id.printEnergyValue ? "True" : "False") << "\n"
+     << "Print energy value:" << (id.printEnergyValue ? "True" : "False")
+     << "\n"
      << "Display flow:" << (id.displayFlow ? "True" : "False") << "\n"
      << "Save figures:" << (id.saveAllFigures ? "True" : "False") << "\n";
 }
-}
+}  // namespace App
