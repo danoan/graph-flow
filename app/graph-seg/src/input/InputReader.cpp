@@ -9,6 +9,7 @@ void usage(char *argv[]) {
       << " GrabcutObjectFilepath OutputFolder \n"
          "[-i Number of iterations (default: 10)]\n"
          "[-r Estimation ball radius (default: 5)]\n"
+         "[-v Validation ball radius (default: 5)]\n"
          "[-h Grid step (default:0.25)]\n"
          "[-a Length penalization (default:0.01)]\n"
          "[-g Regional term penalization (default:1)]\n"
@@ -30,7 +31,7 @@ InputData readInput(int argc, char *argv[]) {
   InputData id;
 
   int opt;
-  while ((opt = getopt(argc, argv, "i:r:h:a:g:k:t:G:O:n:N:H:wsd")) != -1) {
+  while ((opt = getopt(argc, argv, "i:r:v:h:a:g:k:t:G:O:n:N:H:wsd")) != -1) {
     switch (opt) {
       case 'i': {
         id.iterations = std::atoi(optarg);
@@ -38,6 +39,10 @@ InputData readInput(int argc, char *argv[]) {
       }
       case 'r': {
         id.radius = std::atof(optarg);
+        break;
+      }
+      case 'v': {
+        id.vradius = std::atof(optarg);
         break;
       }
       case 'h': {

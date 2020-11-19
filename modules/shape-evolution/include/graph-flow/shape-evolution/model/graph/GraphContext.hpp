@@ -47,7 +47,7 @@ typename TNeighborhoodExplorer::VisitNeighborFunction visitNeighbor(
     solutionSet->insert(fg.sourceNodes.begin(), fg.sourceNodes.end());
 
     double energyValue = GraphFlow::Utils::Energy::elastica(
-        *solutionSet, context.gfi.radius, context.gfi.h, context.gfi.alpha,
+        *solutionSet, context.gfi.vradius, context.gfi.h, context.gfi.alpha,
         context.gfi.beta);
     ti.vars.candidatesVector.push_back(
         ShapeEvolution::Candidate{solutionSet, energyValue});

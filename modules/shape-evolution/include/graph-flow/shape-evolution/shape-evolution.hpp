@@ -28,7 +28,7 @@ void graphFlow(const GraphFlowInput &gfi, TNeighborhood &&neighborhood,
 
   DigitalSet ds = gfi.inputDS;
   
-  double lastEnergyValue = Energy::elastica(ds,gfi.radius,gfi.h,gfi.alpha,gfi.beta);
+  double lastEnergyValue = Energy::elastica(ds,gfi.vradius,gfi.h,gfi.alpha,gfi.beta);
   int itNumber = 0;
   icb(GraphFlowIteration(itNumber++, lastEnergyValue, ds,
                          GraphFlowIteration::Init));

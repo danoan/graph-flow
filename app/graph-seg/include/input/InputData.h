@@ -1,5 +1,5 @@
-#ifndef GRAPH_FLOW_APP_GRAPH_SEG_INPUTDATA_H
-#define GRAPH_FLOW_APP_GRAPH_SEG_INPUTDATA_H
+#ifndef GRAPH_FLOW_IMAGE_SEGMENTATION_INPUTDATA_H
+#define GRAPH_FLOW_IMAGE_SEGMENTATION_INPUTDATA_H
 
 #include <string>
 
@@ -10,6 +10,7 @@ struct InputData {
   InputData() {
     iterations = 10;
     radius = 5;
+    vradius = radius;
     h = 0.25;
     alpha = 0.01;
 
@@ -34,6 +35,7 @@ struct InputData {
 
   int iterations;
   double radius;
+  double vradius; //Validation radius
   double h;
 
   double alpha;
@@ -56,4 +58,4 @@ struct InputData {
 };
 }
 
-#endif //GRAPH_FLOW_APP_GRAPH_SEG_INPUTDATA_H
+#endif //GRAPH_FLOW_IMAGE_SEGMENTATION_INPUTDATA_H

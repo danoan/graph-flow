@@ -6,14 +6,12 @@ find_package(OpenCV REQUIRED)
 add_executable(graph-seg-app
         src/input/InputReader.cpp
         src/utils.cpp
-        src/model/graph/GraphModel.cpp
-        src/model/image/GMM.cpp
         main.cpp)
 
 if(${USE_REMOTE_REPOSITORIES})
-    add_dependencies(graph-seg-app graph-flow-utils graph-flow-core graph-flow-io dipacus magLac)
+    add_dependencies(graph-seg-app graph-flow-utils graph-flow-core graph-flow-io graph-flow-image-segmentation dipacus magLac)
 else()
-    add_dependencies(graph-seg-app graph-flow-utils graph-flow-core graph-flow-io)
+    add_dependencies(graph-seg-app graph-flow-utils graph-flow-core graph-flow-io graph-flow-image-segmentation)
 endif()
 
 target_include_directories(graph-seg-app PRIVATE
@@ -21,6 +19,7 @@ target_include_directories(graph-seg-app PRIVATE
         ${CMAKE_SOURCE_DIR}/modules/core/include
         ${CMAKE_SOURCE_DIR}/modules/utils/include
         ${CMAKE_SOURCE_DIR}/modules/io/seed/include
+        ${CMAKE_SOURCE_DIR}/modules/image-segmentation/include
         ${DIPACUS_INCLUDE_DIRS}
         ${MAGLAC_INCLUDE_DIRS}
         ${DGTAL_INCLUDE_DIRS}
@@ -33,6 +32,7 @@ target_link_libraries(graph-seg-app
         -lgraph-flow-core
         -lgraph-flow-utils
         -lgraph-flow-io
+        -lgraph-flow-image-segmentation
         -lboost_system
         -lboost_filesystem
         -lpthread

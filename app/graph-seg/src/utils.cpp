@@ -9,11 +9,6 @@ void writeEnergyData(const GraphSegIteration &gsIteration, std::ostream &os) {
      << String::fixedStrLength(colLength, gsIteration.value) << "\n";
 }
 
-double evaluateEnergy(const InputData &id, const DigitalSet &ds) {
-  return GraphFlow::Utils::Energy::elasticaIndependentComponents(ds, id.radius, id.h, id.alpha,
-                                               id.curvatureTermWeight);
-}
-
 void outputImages(const GrabCutObject &gco, const cv::Mat &segResultImg,
                   const DigitalSet &outputDS, const std::string &outputFolder) {
   const cv::Mat &inputImage = gco.inputImage;

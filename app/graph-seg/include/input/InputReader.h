@@ -1,5 +1,5 @@
-#ifndef GRAPH_FLOW_APP_GRAPH_SEG_INPUTREADER_H
-#define GRAPH_FLOW_APP_GRAPH_SEG_INPUTREADER_H
+#ifndef GRAPH_FLOW_IMAGE_SEGMENTATION_INPUTREADER_H
+#define GRAPH_FLOW_IMAGE_SEGMENTATION_INPUTREADER_H
 
 #include <cstring>
 #include <unistd.h>
@@ -14,4 +14,4 @@ std::string resolveNeighborhoodType(InputData::NeighborhoodType nt);
 void writeInputData(const InputData &id, std::ostream &os);
 }
 
-#endif //GRAPH_FLOW_APP_GRAPH_SEG_INPUTREADER_H
+#endif //GRAPH_FLOW_IMAGE_SEGMENTATION_INPUTREADER_H

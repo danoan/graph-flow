@@ -40,6 +40,7 @@ link_directories(${CMAKE_BINARY_DIR}/modules/utils
         ${CMAKE_BINARY_DIR}/modules/core
         ${CMAKE_BINARY_DIR}/modules/io/seed
         ${CMAKE_BINARY_DIR}/modules/shape-evolution
+        ${CMAKE_BINARY_DIR}/modules/image-segmentation
         ${LEMON_LIBS_DIR}
         ${DIPACUS_LIBS_DIR}
         ${BOOST_LIBS_DIR}
@@ -50,6 +51,7 @@ add_subdirectory(modules/core)
 add_subdirectory(modules/utils)
 add_subdirectory(modules/io/seed)
 add_subdirectory(modules/shape-evolution)
+add_subdirectory(modules/image-segmentation)
 add_subdirectory(app/graph-flow)
 add_subdirectory(app/graph-seg)
 add_subdirectory(app/summary-flow)
