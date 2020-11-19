@@ -142,6 +142,6 @@ do
     "${GRAB_CUT_APP}" "${INPUT_IMAGE}" "${SP_OUT}/mask-fg-0.pgm" "${SP_OUT}/mask-bg-0.pgm" "${SP_OUT}/gc-object.xml" \
     -u "${SP_OUT}/mask-pbfg-0.pgm" -s "${SP_OUT}/graph-seg/mask-seg.png"
 
-    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -h1.0 -v"$r" -r"$r" -g"$g" -k"$k" -a"$a" -i"$i" -G"${G}" -N${N} -H${H} -n${n} -d ${s} ${w} "${SP_OUT}/graph-seg"
+    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -v"$r" -r"$r" -g"$g" -k"$k" -a"$a" -i"$i" -G"${G}" -N${N} -H${H} -n${n} -d ${s} ${w} "${SP_OUT}/graph-seg"
 done
 

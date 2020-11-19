@@ -10,7 +10,6 @@ void usage(char *argv[]) {
          "[-i Number of iterations (default: 10)]\n"
          "[-r Estimation ball radius (default: 5)]\n"
          "[-v Validation ball radius (default: 5)]\n"
-         "[-h Grid step (default:0.25)]\n"
          "[-a Length penalization (default:0.01)]\n"
          "[-g Regional term penalization (default:1)]\n"
          "[-k Curvature term penalization (default:0.5)]\n"
@@ -31,7 +30,7 @@ InputData readInput(int argc, char *argv[]) {
   InputData id;
 
   int opt;
-  while ((opt = getopt(argc, argv, "i:r:v:h:a:g:k:t:G:O:n:N:H:wsd")) != -1) {
+  while ((opt = getopt(argc, argv, "i:r:v:a:g:k:t:G:O:n:N:H:wsd")) != -1) {
     switch (opt) {
       case 'i': {
         id.iterations = std::atoi(optarg);
@@ -43,10 +42,6 @@ InputData readInput(int argc, char *argv[]) {
       }
       case 'v': {
         id.vradius = std::atof(optarg);
-        break;
-      }
-      case 'h': {
-        id.h = std::atof(optarg);
         break;
       }
       case 'a': {
@@ -126,7 +121,6 @@ std::string resolveNeighborhoodType(InputData::NeighborhoodType nt) {
 void writeInputData(const InputData &id, std::ostream &os) {
   os << "GrabcutObject filepath:" << id.gcoFilepath << "\n"
      << "Estimation radius:" << id.radius << "\n"
-     << "Grid step:" << id.h << "\n"
      << "Opt band:" << id.optBand << "\n"
      << "Grabcut iterations:" << id.grabcutIterations << "\n"
      << "Length penalization:" << id.alpha << "\n"

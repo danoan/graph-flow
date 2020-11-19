@@ -15,7 +15,7 @@ class GraphSegInput {
     iterations = 10;
     radius = 5;
     vradius = radius;
-    h = 0.25;
+    h = 1.0;
     alpha = 0.01;
 
     regionalTermWeight = 1;

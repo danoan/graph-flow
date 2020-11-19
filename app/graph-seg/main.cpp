@@ -48,7 +48,6 @@ void setGraphSegInput(const App::InputData& id,
   gsi.iterations = id.iterations;
   gsi.radius = id.radius;
   gsi.vradius = id.vradius;
-  gsi.h = id.h;
   gsi.alpha = id.alpha;
   gsi.optBand = id.optBand;
   gsi.tolerance = id.tolerance;

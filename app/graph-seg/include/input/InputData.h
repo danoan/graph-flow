@@ -11,7 +11,6 @@ struct InputData {
     iterations = 10;
     radius = 5;
     vradius = radius;
-    h = 0.25;
     alpha = 0.01;
 
     regionalTermWeight = 1;
@@ -36,7 +35,6 @@ struct InputData {
   int iterations;
   double radius;
   double vradius; //Validation radius
-  double h;
 
   double alpha;
   int optBand;
