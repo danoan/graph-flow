@@ -7,7 +7,7 @@ APP_GRAPH_SEG="$1"
 APP_SUMMARY_FLOW="$2"
 
 if [ -z $APP_GRAPH_SEG ]; then
-    APP_GRAPH_SEG=${PROJECT_PATH}/cmake-build-release/app/graph-seg/graph-seg-app
+    APP_GRAPH_SEG=${PROJECT_PATH}/cmake-build-release/app/gf-contour-correction/gf-contour-correction
 fi
 
 if [ -z $APP_SUMMARY_FLOW ]; then

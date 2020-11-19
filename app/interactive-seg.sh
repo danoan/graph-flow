@@ -92,8 +92,8 @@ then
 fi
 
 SEED_SELECTOR_APP="${BTOOLS_BIN}/seed-selector"
-GRAB_CUT_APP="${BTOOLS_BIN}/grab-cut"
-GRAPH_SEG_APP="${GRAPH_SEG_BIN}/graph-seg-app"
+GRAB_CUT_APP="${BTOOLS_BIN}/grabcut"
+GRAPH_SEG_APP="${GRAPH_SEG_BIN}/gf-contour-correction"
 
 
 IMAGE_NAME="$(basename $INPUT_IMAGE)"

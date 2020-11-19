@@ -13,8 +13,8 @@ mkdir -p ${OUTPUT_FOLDER}/graph-seg
 IMAGES_FOLDER=${DATA_FOLDER}/seg-bench/images
 GS_SEEDS_FOLDER=${DATA_FOLDER}/seg-bench/graph-seg/seeds
 
-GRAB_CUT_APP=${PROJECT_FOLDER}/ext-projects/cmake-build-release/bin/grab-cut
-GRAPH_SEG_APP=${PROJECT_FOLDER}/cmake-build-release/app/graph-seg/graph-seg-app
+GRAB_CUT_APP=${PROJECT_FOLDER}/cmake-build-release/app/grabcut/grabcut
+GRAPH_SEG_APP=${PROJECT_FOLDER}/cmake-build-release/app/gf-contour-correction/gf-contour-correction
 
 replace_line()
 {
@@ -69,7 +69,7 @@ produce_output()
     for imgName in $(ls ${GS_SEEDS_FOLDER})
     do
         echo "Graph Segmentation of image ${GS_SEEDS_FOLDER}/${imgName}"
-        $GRAPH_SEG_APP -i-1 -r9 -h0.25 -a0 -g1.0 -k2.0 -O4 -N2 -n6 "${GS_SEEDS_FOLDER}/${imgName}/gc-object.xml"  \
+        $GRAPH_SEG_APP -i-1 -r16 -a0 -g1.0 -k2.0 -O4 -N2 -n6 "${GS_SEEDS_FOLDER}/${imgName}/gc-object.xml"  \
         "${OUTPUT_FOLDER}/graph-seg/${imgName}"&
 
         if [ $i = "4" ]
@@ -81,6 +81,6 @@ produce_output()
     done
 }
 
-init
-produce_data
+# init
+# produce_data
 produce_output

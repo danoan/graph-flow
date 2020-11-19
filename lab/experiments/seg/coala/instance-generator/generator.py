@@ -5,10 +5,10 @@ from param_combinator import *
 from config import *
 from template_render import *
 
-SCRIPT_FOLDER="set in read  input"
-BINARY_FOLDER="set in read  input"
-OUTPUT_FOLDER="set in read  input"
+APP_CONTOUR_CORRECTION="set in read  input"
 SUMMARY_FLOW_APP="set in read  input"
+SCRIPT_FOLDER="set in read  input"
+OUTPUT_FOLDER="set in read  input"
 
 def resolve_output_folder(c):
     output_folder=OUTPUT_FOLDER
@@ -20,13 +20,12 @@ def resolve_output_folder(c):
 def exhaustive_gc_flow(c):
 
     outputFolder = resolve_output_folder(c)
-    radius,opt_band,neigh_size,length_pen,data_regional,curvature_term,gs = c
+    radius,opt_band,neigh_size,length_pen,data_regional,curvature_term = c
 
     gcoFilepath="{}/input/gc-object.xml".format(SCRIPT_FOLDER)
 
     s=" ".join( ["%s%d" % ("-i",ITERATIONS),
                  "%s%d" % ("-r",radius['value']),
-                 "%s%f" % ("-h", gs['value']),
                  "%s%f" % ("-a",length_pen['value']),
                  "%s%f" % ("-g",data_regional['value']),
                  "%s%f" % ("-k",curvature_term['value']),
@@ -38,11 +37,10 @@ def exhaustive_gc_flow(c):
 
     print("\n*****Running: ", s,"\n")
 
-    binary = "%s/%s" % (BINARY_FOLDER,"graph-seg/graph-seg-app")
+    binary = APP_CONTOUR_CORRECTION
     subprocess.call( [binary,
                       "%s%d" % ("-i",ITERATIONS),
                       "%s%d" % ("-r",radius['value']),
-                      "%s%f" % ("-h", gs['value']),
                       "%s%f" % ("-a",length_pen['value']),
                       "%s%f" % ("-g",data_regional['value']),
                       "%s%f" % ("-k",curvature_term['value']),
@@ -67,14 +65,13 @@ def summary_flow(c):
 
 def read_input():
     if len(sys.argv)<3:
-        print("Parameters missing! PROJECT_FOLDER RELATIVE_BUILD_FOLDER SUMMARY_FLOW_APP")
+        print("Parameters missing! APP_CONTOUR_CORRECTION, SUMMARY_FLOW_APP,SCRIPT_FOLDER,OUTPUT_FOLDER")
         exit(1)
 
-    global BINARY_FOLDER, OUTPUT_FOLDER, SCRIPT_FOLDER, SUMMARY_FLOW_APP
-    PROJECT_FOLDER=sys.argv[1]
-    BINARY_FOLDER="%s/%s/%s" % (PROJECT_FOLDER,sys.argv[2],"app")
-    SUMMARY_FLOW_APP=sys.argv[3]
-    SCRIPT_FOLDER="{}/lab/experiments/seg/coala".format(PROJECT_FOLDER)
+    global APP_CONTOUR_CORRECTION, SUMMARY_FLOW_APP,SCRIPT_FOLDER,OUTPUT_FOLDER
+    APP_CONTOUR_CORRECTION=sys.argv[1]
+    SUMMARY_FLOW_APP=sys.argv[2]
+    SCRIPT_FOLDER=sys.argv[3]
     OUTPUT_FOLDER=sys.argv[4]
 
 
@@ -91,7 +88,7 @@ def main():
     for c in combinations(CONFIG_LIST):
         if(valid_combination(c)):
             exhaustive_gc_flow(c)
-            summary_flow(c)
+            # summary_flow(c)
 
     render_template("seg",CONFIG_LIST,OUTPUT_FOLDER)
 

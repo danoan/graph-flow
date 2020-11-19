@@ -3,7 +3,7 @@
 SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 PROJECT_PATH="$( cd "$SCRIPT_PATH" && cd ../../.. && pwd)"
 
-GRAPH_FLOW_APP="${PROJECT_PATH}/cmake-build-release/app/graph-flow/graph-flow-app"
+GRAPH_FLOW_APP="${PROJECT_PATH}/cmake-build-release/app/gf-shape-evolution/gf-shape-evolution"
 DATA_FOLDER="${SCRIPT_PATH}/data"
 
 CACHE_TEMP_PATH="${SCRIPT_PATH}/cache"
