@@ -9,12 +9,15 @@ struct InputData {
   
   InputData() {
     iterations = 10;
-    radius = 5;
+    radius = 12;
     vradius = radius;
     alpha = 0.01;
 
-    regionalTermWeight = 1;
-    curvatureTermWeight = 0.5;
+    dataWeightCandidate = 0.5;
+    dataWeightValidation = 2.0;
+
+    curvatureWeightCandidate = 1.0;
+    curvatureWeightValidation = 1.0;
 
     optBand = 2;
     grabcutIterations = 1;
@@ -41,8 +44,12 @@ struct InputData {
   double tolerance;
   int grabcutIterations;
 
-  double regionalTermWeight;
-  double curvatureTermWeight;
+  double dataWeightCandidate;
+  double dataWeightValidation;
+
+  double curvatureWeightCandidate;
+  double curvatureWeightValidation;
+
   int nThreads;
   int neighborhoodSize;
   NeighborhoodType  neighborhoodType;

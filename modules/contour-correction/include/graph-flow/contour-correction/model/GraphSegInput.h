@@ -18,8 +18,11 @@ class GraphSegInput {
     h = 1.0;
     alpha = 0.01;
 
-    regionalTermWeight = 1;
-    curvatureTermWeight = 0.5;
+    dataWeightCandidate = 0.5;
+    dataWeightValidation = 1;
+
+    curvatureWeightCandidate = 0.5;
+    curvatureWeightValidation = 0.5;
 
     optBand = 2;
     grabcutIterations = 1;
@@ -46,8 +49,12 @@ class GraphSegInput {
   double tolerance;
   int grabcutIterations;
 
-  double regionalTermWeight;
-  double curvatureTermWeight;
+  double dataWeightCandidate;
+  double dataWeightValidation;
+
+  double curvatureWeightCandidate;
+  double curvatureWeightValidation;
+
   int nThreads;
   int neighborhoodSize;
 

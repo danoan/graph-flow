@@ -52,8 +52,10 @@ void setGraphSegInput(const App::InputData& id,
   gsi.optBand = id.optBand;
   gsi.tolerance = id.tolerance;
   gsi.grabcutIterations = id.grabcutIterations;
-  gsi.regionalTermWeight = id.regionalTermWeight;
-  gsi.curvatureTermWeight = id.curvatureTermWeight;
+  gsi.dataWeightCandidate = id.dataWeightCandidate;
+  gsi.dataWeightValidation = id.dataWeightValidation;
+  gsi.curvatureWeightCandidate = id.curvatureWeightCandidate;
+  gsi.curvatureWeightValidation = id.curvatureWeightValidation;
   gsi.nThreads = id.nThreads;
   gsi.neighborhoodSize = id.neighborhoodSize;
 }

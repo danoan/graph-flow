@@ -61,7 +61,7 @@ double regionValue(double& fgv, double& bgv, const DigitalSet& ds,
 
 double evaluateData(const GraphSegInput& gfi, const DigitalSet& ds) {
   double fgv, bgv;
-  double rv = gfi.regionalTermWeight *
+  double rv = gfi.dataWeightValidation *
               regionValue(fgv, bgv, ds, *gfi.dataDistribution.fgDistr,
                           *gfi.dataDistribution.bgDistr);
   return rv;
@@ -69,7 +69,7 @@ double evaluateData(const GraphSegInput& gfi, const DigitalSet& ds) {
 
 double evaluateRegularization(const GraphSegInput& gfi, const DigitalSet& ds) {
   return GraphFlow::Utils::Energy::elasticaIndependentComponents(
-      ds, gfi.vradius, gfi.h, gfi.alpha, gfi.curvatureTermWeight);
+      ds, gfi.vradius, gfi.h, gfi.alpha, gfi.curvatureWeightValidation);
 }
 
 TerminalWeightVector prepareTerminalWeights(const GraphSegInput& gfi,
@@ -80,8 +80,8 @@ TerminalWeightVector prepareTerminalWeights(const GraphSegInput& gfi,
   twv[0] = new Weight::ForegroundSeed(dtInterior, gfi.optBand, gfi.radius);
   twv[1] = new Weight::BackgroundSeed(dtExterior, gfi.optBand, gfi.radius);
 
-  twv[2] = new Weight::Foreground(*gfi.dataDistribution.fgDistr, gfi.regionalTermWeight);
-  twv[3] = new Weight::Background(*gfi.dataDistribution.bgDistr, gfi.regionalTermWeight);
+  twv[2] = new Weight::Foreground(*gfi.dataDistribution.fgDistr, gfi.dataWeightCandidate);
+  twv[3] = new Weight::Background(*gfi.dataDistribution.bgDistr, gfi.dataWeightCandidate);
 
   return twv;
 }
@@ -91,7 +91,7 @@ EdgeWeightVector prepareEdgeWeightVector(const GraphSegInput& gfi,
                                          const cv::Mat& colorImage) {
   EdgeWeightVector ewv(2);
   ewv[0] =
-      new Weight::Curvature(gfi.radius, gfi.h, ds, gfi.curvatureTermWeight);
+      new Weight::Curvature(gfi.radius, gfi.h, ds, gfi.curvatureWeightCandidate);
   ewv[1] = new Weight::Homogeneity(colorImage, 1.0);
 
   return ewv;

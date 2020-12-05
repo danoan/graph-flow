@@ -69,7 +69,7 @@ produce_output()
     for imgName in $(ls ${GS_SEEDS_FOLDER})
     do
         echo "Graph Segmentation of image ${GS_SEEDS_FOLDER}/${imgName}"
-        $GRAPH_SEG_APP -i-1 -r16 -a0 -g1.0 -k2.0 -O4 -N2 -n6 "${GS_SEEDS_FOLDER}/${imgName}/gc-object.xml"  \
+        $GRAPH_SEG_APP -i-1 -r16 -R16 -G1.0 -g1.0 -K2.0 -k2.0 -a0 -O4 -N2 -n6 "${GS_SEEDS_FOLDER}/${imgName}/gc-object.xml"  \
         "${OUTPUT_FOLDER}/graph-seg/${imgName}"&
 
         if [ $i = "4" ]
