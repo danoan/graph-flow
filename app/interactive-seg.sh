@@ -124,10 +124,8 @@ then
     "${SP_OUT}/gc-object.xml" \
     -u "${SP_OUT}/mask-pbfg-0.pgm" -d
 
-    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -R"$R" -r"$r" -G"$G" -g"$g" -K"$K" -k"$k" -a"$a" -N0 -i"$i" -t"$t" -n${n} -d ${s} ${w} "${SP_OUT}/graph-seg"
+    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -R"$R" -r"$r" -G"$G" -g"$g" -K"$K" -k"$k" -a"$a" -N1 -i"$i" -t"$t" -n${n} -d ${s} ${w} "${SP_OUT}/graph-seg"
 fi
-
-
 
 while :
 do
@@ -145,6 +143,6 @@ do
     "${GRAB_CUT_APP}" "${INPUT_IMAGE}" "${SP_OUT}/mask-fg-0.pgm" "${SP_OUT}/mask-bg-0.pgm" "${SP_OUT}/gc-object.xml" \
     -u "${SP_OUT}/mask-pbfg-0.pgm" -s "${SP_OUT}/graph-seg/mask-seg.png"
 
-    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -R"$R" -r"$r" -G"$G" -g"$g" -K"$K" -k"$k" -a"$a" -N0 -i"$i" -t"$t" -n${n} -d ${s} ${w} "${SP_OUT}/graph-seg"
+    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -R"$R" -r"$r" -G"$G" -g"$g" -K"$K" -k"$k" -a"$a" -N1 -i"$i" -t"$t" -n${n} -d ${s} ${w} "${SP_OUT}/graph-seg"
 done
 
