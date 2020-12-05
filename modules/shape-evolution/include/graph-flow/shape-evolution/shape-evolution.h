@@ -2,10 +2,9 @@
 #define GRAPH_FLOW_SHAPE_EVOLUTION_SHAPE_EVOLUTION_H
 
 #include <DGtal/helpers/StdDefs.h>
+#include <graph-flow/utils/energy.h>
 
 #include <magLac/core/base/Range.hpp>
-
-#include <graph-flow/utils/energy.h>
 
 #include "control/NeighborhoodExplorer.h"
 #include "model/Candidate.h"

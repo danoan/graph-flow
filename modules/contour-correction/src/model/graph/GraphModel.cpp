@@ -80,8 +80,10 @@ TerminalWeightVector prepareTerminalWeights(const GraphSegInput& gfi,
   twv[0] = new Weight::ForegroundSeed(dtInterior, gfi.optBand, gfi.radius);
   twv[1] = new Weight::BackgroundSeed(dtExterior, gfi.optBand, gfi.radius);
 
-  twv[2] = new Weight::Foreground(*gfi.dataDistribution.fgDistr, gfi.dataWeightCandidate);
-  twv[3] = new Weight::Background(*gfi.dataDistribution.bgDistr, gfi.dataWeightCandidate);
+  twv[2] = new Weight::Foreground(*gfi.dataDistribution.fgDistr,
+                                  gfi.dataWeightCandidate);
+  twv[3] = new Weight::Background(*gfi.dataDistribution.bgDistr,
+                                  gfi.dataWeightCandidate);
 
   return twv;
 }
@@ -90,8 +92,8 @@ EdgeWeightVector prepareEdgeWeightVector(const GraphSegInput& gfi,
                                          const DigitalSet& ds,
                                          const cv::Mat& colorImage) {
   EdgeWeightVector ewv(2);
-  ewv[0] =
-      new Weight::Curvature(gfi.radius, gfi.h, ds, gfi.curvatureWeightCandidate);
+  ewv[0] = new Weight::Curvature(gfi.radius, gfi.h, ds,
+                                 gfi.curvatureWeightCandidate);
   ewv[1] = new Weight::Homogeneity(colorImage, 1.0);
 
   return ewv;

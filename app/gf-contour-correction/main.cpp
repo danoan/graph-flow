@@ -1,11 +1,11 @@
 #include <DGtal/helpers/StdDefs.h>
 #include <DIPaCUS/components/Transform.h>
-#include <graph-flow/core/neighborhood/MorphologyNeighborhood.h>
-#include <graph-flow/core/neighborhood/RandomNeighborhood.h>
 #include <graph-flow/contour-correction/graph-seg.h>
 #include <graph-flow/contour-correction/model/GraphSegInput.h>
 #include <graph-flow/contour-correction/model/GraphSegIteration.h>
 #include <graph-flow/contour-correction/model/image/DataDistribution.h>
+#include <graph-flow/core/neighborhood/MorphologyNeighborhood.h>
+#include <graph-flow/core/neighborhood/RandomNeighborhood.h>
 #include <graph-flow/utils/display.h>
 #include <graph-flow/utils/image.h>
 #include <graph-flow/utils/string.h>
@@ -110,7 +110,8 @@ int main(int argc, char* argv[]) {
         if (id.saveAllFigures) {
           Utils::Display::saveDigitalSetAsImage(
               ds, id.outputFolder + "/" +
-                      Utils::String::nDigitsString(gsIteration.iteration, 4) + ".png");
+                      Utils::String::nDigitsString(gsIteration.iteration, 4) +
+                      ".png");
         }
 
         if (id.printEnergyValue) {
@@ -127,7 +128,8 @@ int main(int argc, char* argv[]) {
         break;
       }
       case ContourCorrection::GraphSegIteration::End: {
-        Utils::Display::saveDigitalSetAsImage(ds, id.outputFolder + "/mask-seg.png");
+        Utils::Display::saveDigitalSetAsImage(
+            ds, id.outputFolder + "/mask-seg.png");
 
         if (id.displayFlow) {
           cv::Mat bcImage;
@@ -151,12 +153,14 @@ int main(int argc, char* argv[]) {
       Core::Neighborhood::Morphology M(
           Core::Neighborhood::Morphology::MorphologyElement::CIRCLE,
           id.neighborhoodSize);
-      outputDS = ContourCorrection::graphSeg(gsi, M, ofsEnergy, iterationCallback);
+      outputDS =
+          ContourCorrection::graphSeg(gsi, M, ofsEnergy, iterationCallback);
       break;
     }
     case App::InputData::Random: {
       Core::Neighborhood::Random R(id.neighborhoodSize);
-      outputDS = ContourCorrection::graphSeg(gsi, R, ofsEnergy, iterationCallback);
+      outputDS =
+          ContourCorrection::graphSeg(gsi, R, ofsEnergy, iterationCallback);
       break;
     }
   }

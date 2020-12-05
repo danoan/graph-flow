@@ -33,10 +33,9 @@ DigitalSet graphSeg(const GraphSegInput &gfi, TNeighborhood &&neighborhood,
 
   int itNumber = 0;
   double lastEnergyValue =
-      Graph::evaluateData(gfi, ds) +
-      Graph::evaluateRegularization(gfi, ds);
+      Graph::evaluateData(gfi, ds) + Graph::evaluateRegularization(gfi, ds);
   icb(GraphSegIteration(itNumber++, lastEnergyValue, ds,
-                             GraphSegIteration::Init));
+                        GraphSegIteration::Init));
 
   bool executing = true;
   while (executing) {
@@ -67,13 +66,12 @@ DigitalSet graphSeg(const GraphSegInput &gfi, TNeighborhood &&neighborhood,
 
     lastEnergyValue = energyValue;
     icb(GraphSegIteration(itNumber, lastEnergyValue, ds,
-                               GraphSegIteration::Running));
+                          GraphSegIteration::Running));
 
     ++itNumber;
   }
 
-  icb(GraphSegIteration(itNumber, lastEnergyValue, ds,
-                             GraphSegIteration::End));
+  icb(GraphSegIteration(itNumber, lastEnergyValue, ds, GraphSegIteration::End));
 
   return ds;
 }

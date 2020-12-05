@@ -18,7 +18,8 @@ void outputImages(const GrabCutObject &gco, const cv::Mat &segResultImg,
 
   cv::Mat imgOutput = cv::Mat::zeros(inputImage.size(), CV_8UC3);
 
-  GraphFlow::Utils::Image::setHighlightMask(imgOutput, inputImage, foregroundMask);
+  GraphFlow::Utils::Image::setHighlightMask(imgOutput, inputImage,
+                                            foregroundMask);
 
   std::string graphCutSegFilepath = outputFolder + "/gc-seg.png";
   std::string correctedSegFilepath = outputFolder + "/corrected-seg.png";
@@ -28,7 +29,8 @@ void outputImages(const GrabCutObject &gco, const cv::Mat &segResultImg,
 
   cv::Mat segResultMask = cv::Mat::zeros(segResultImg.size(), CV_8UC1);
   cv::cvtColor(segResultImg, segResultMask, CV_RGB2GRAY);
-  GraphFlow::Utils::Image::setHighlightMask(gcSegImg, inputImage, segResultMask);
+  GraphFlow::Utils::Image::setHighlightMask(gcSegImg, inputImage,
+                                            segResultMask);
 
   cv::imwrite(graphCutSegFilepath, gcSegImg);
   cv::imwrite(correctedSegFilepath, imgOutput);

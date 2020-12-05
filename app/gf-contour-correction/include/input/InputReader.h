@@ -1,9 +1,11 @@
 #ifndef GRAPH_FLOW_IMAGE_SEGMENTATION_INPUTREADER_H
 #define GRAPH_FLOW_IMAGE_SEGMENTATION_INPUTREADER_H
 
-#include <cstring>
 #include <unistd.h>
+
+#include <cstring>
 #include <iostream>
+
 #include "InputData.h"
 
 namespace App {
@@ -12,6 +14,6 @@ InputData readInput(int argc, char *argv[]);
 
 std::string resolveNeighborhoodType(InputData::NeighborhoodType nt);
 void writeInputData(const InputData &id, std::ostream &os);
-}
+}  // namespace App
 
-#endif //GRAPH_FLOW_IMAGE_SEGMENTATION_INPUTREADER_H
+#endif  // GRAPH_FLOW_IMAGE_SEGMENTATION_INPUTREADER_H

@@ -5,8 +5,8 @@
 
 namespace App {
 struct InputData {
-  enum NeighborhoodType{Morphology,Random};
-  
+  enum NeighborhoodType { Morphology, Random };
+
   InputData() {
     iterations = 10;
     radius = 12;
@@ -21,7 +21,7 @@ struct InputData {
 
     optBand = 2;
     grabcutIterations = 1;
-    tolerance=-1;
+    tolerance = -1;
 
     nThreads = 4;
     neighborhoodSize = 2;
@@ -37,7 +37,7 @@ struct InputData {
 
   int iterations;
   double radius;
-  double vradius; //Validation radius
+  double vradius;  // Validation radius
 
   double alpha;
   int optBand;
@@ -52,7 +52,7 @@ struct InputData {
 
   int nThreads;
   int neighborhoodSize;
-  NeighborhoodType  neighborhoodType;
+  NeighborhoodType neighborhoodType;
 
   std::string outputFolder;
   std::string gcoFilepath;
@@ -61,6 +61,6 @@ struct InputData {
   bool saveAllFigures;
   bool displayFlow;
 };
-}
+}  // namespace App
 
-#endif //GRAPH_FLOW_IMAGE_SEGMENTATION_INPUTDATA_H
+#endif  // GRAPH_FLOW_IMAGE_SEGMENTATION_INPUTDATA_H

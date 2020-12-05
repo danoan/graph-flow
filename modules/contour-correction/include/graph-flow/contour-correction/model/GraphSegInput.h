@@ -41,7 +41,7 @@ class GraphSegInput {
 
   int iterations;
   double radius;
-  double vradius; //Validation radius
+  double vradius;  // Validation radius
   double h;
 
   double alpha;

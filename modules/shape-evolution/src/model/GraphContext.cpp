@@ -18,4 +18,4 @@ EdgeWeightVector prepareEdgeWeightVector(const GraphFlowInput &gfi,
 
   return ewv;
 }
-}  // namespace GraphFLow::ShapeEvolution::Graph
+}  // namespace GraphFlow::ShapeEvolution::Graph

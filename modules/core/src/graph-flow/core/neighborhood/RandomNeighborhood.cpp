@@ -1,18 +1,20 @@
 #include "graph-flow/core/neighborhood/RandomNeighborhood.h"
 
-namespace GraphFlow::Core::Neighborhood{
+namespace GraphFlow::Core::Neighborhood {
 
-void Random::randomOnContour(DigitalSet& dsOutput) const{
+void Random::randomOnContour(DigitalSet& dsOutput) const {
   using namespace DGtal::Z2i;
 
   std::vector<std::vector<Point>> vcontours;
   DGtal::SurfelAdjacency<2> sadj(true);
 
   KSpace kspace;
-  kspace.init(dsOutput.domain().lowerBound(), dsOutput.domain().upperBound(), true);
-  DGtal::Surfaces<KSpace>::extractAllPointContours4C(vcontours, kspace, dsOutput, sadj);
+  kspace.init(dsOutput.domain().lowerBound(), dsOutput.domain().upperBound(),
+              true);
+  DGtal::Surfaces<KSpace>::extractAllPointContours4C(vcontours, kspace,
+                                                     dsOutput, sadj);
 
-  std::vector<Point> &vpoints = vcontours[0];
+  std::vector<Point>& vpoints = vcontours[0];
   int bSize = vpoints.size();
 
   DigitalSet ballDS = DIPaCUS::Shapes::ball(1.0, 0, 0, 10);
@@ -28,13 +30,13 @@ void Random::randomOnContour(DigitalSet& dsOutput) const{
 
     Point translation = vpoints[bPos];
 
-    if (op==0) {
-      for (Point p:ballDS) {
+    if (op == 0) {
+      for (Point p : ballDS) {
         Point curr = p + translation;
         if (dsOutput.domain().isInside(curr)) dsOutput.erase(curr);
       }
     } else {
-      for (Point p:ballDS) {
+      for (Point p : ballDS) {
         Point curr = p + translation;
         if (dsOutput.domain().isInside(curr)) dsOutput.insert(curr);
       }
@@ -42,7 +44,7 @@ void Random::randomOnContour(DigitalSet& dsOutput) const{
   }
 }
 
-void Random::randomOnDomain(DigitalSet& dsOutput) const{
+void Random::randomOnDomain(DigitalSet& dsOutput) const {
   using namespace DGtal::Z2i;
 
   DigitalSet ballDS = DIPaCUS::Shapes::ball(1.0, 0, 0, 5);
@@ -52,7 +54,7 @@ void Random::randomOnDomain(DigitalSet& dsOutput) const{
   Point ub = dsOutput.domain().upperBound();
 
   std::uniform_int_distribution opType(0, 1);
-  std::uniform_int_distribution col(lb[0],ub[0]);
+  std::uniform_int_distribution col(lb[0], ub[0]);
   std::uniform_int_distribution row(lb[1], ub[1]);
 
   int nCenters = 10;
@@ -61,15 +63,15 @@ void Random::randomOnDomain(DigitalSet& dsOutput) const{
     int r = row(rd);
     int op = opType(rd);
 
-    Point translation{c,r};
+    Point translation{c, r};
 
-    if (op==0) {
-      for (Point p:ballDS) {
+    if (op == 0) {
+      for (Point p : ballDS) {
         Point curr = p + translation;
         if (dsOutput.domain().isInside(curr)) dsOutput.erase(curr);
       }
     } else {
-      for (Point p:ballDS) {
+      for (Point p : ballDS) {
         Point curr = p + translation;
         if (dsOutput.domain().isInside(curr)) dsOutput.insert(curr);
       }
@@ -77,23 +79,24 @@ void Random::randomOnDomain(DigitalSet& dsOutput) const{
   }
 }
 
-void Random::evaluateCandidate(DigitalSet& dsOutput, const Blueprint& candidate, const DigitalSet& dsInput) const
-{
+void Random::evaluateCandidate(DigitalSet& dsOutput, const Blueprint& candidate,
+                               const DigitalSet& dsInput) const {
   using namespace DGtal::Z2i;
   auto me = DIPaCUS::Morphology::StructuringElement::CIRCLE;
-  if(candidate.operationType==Blueprint::None){
+  if (candidate.operationType == Blueprint::None) {
     dsOutput = dsInput;
-  }else if(candidate.operationType==Blueprint::Dilation){
-    dilate(dsOutput,dsInput,DIPaCUS::Morphology::StructuringElement(me,1),1);
-  }else if(candidate.operationType==Blueprint::Erosion){
-    erode(dsOutput,dsInput,DIPaCUS::Morphology::StructuringElement(me,1),1);
-  }else if(candidate.operationType==Blueprint::RandomOnContour){
+  } else if (candidate.operationType == Blueprint::Dilation) {
+    dilate(dsOutput, dsInput, DIPaCUS::Morphology::StructuringElement(me, 1),
+           1);
+  } else if (candidate.operationType == Blueprint::Erosion) {
+    erode(dsOutput, dsInput, DIPaCUS::Morphology::StructuringElement(me, 1), 1);
+  } else if (candidate.operationType == Blueprint::RandomOnContour) {
     dsOutput = dsInput;
     randomOnContour(dsOutput);
-  }else if(candidate.operationType==Blueprint::RandomOnDomain){
+  } else if (candidate.operationType == Blueprint::RandomOnDomain) {
     dsOutput = dsInput;
     randomOnDomain(dsOutput);
   }
 }
 
-}
+}  // namespace GraphFlow::Core::Neighborhood

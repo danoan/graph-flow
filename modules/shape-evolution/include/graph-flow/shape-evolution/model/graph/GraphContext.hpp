@@ -33,8 +33,7 @@ typename TNeighborhoodExplorer::VisitNeighborFunction visitNeighbor(
         reducedDomain, candidateDS);
 
     auto ewv = prepareEdgeWeightVector(context.gfi, candidateDS);
-    auto twv =
-        prepareTerminalWeights(context.gfi, dtInterior, dtExterior);
+    auto twv = prepareTerminalWeights(context.gfi, dtInterior, dtExterior);
 
     DigitalSet vertexSet =
         GraphFlow::Utils::Digital::level(dtInterior, context.gfi.optBand, 0);

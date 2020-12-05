@@ -10,9 +10,10 @@ void usage(char *argv[]) {
          "[-R Balance coefficient disk radius (default: 12)]\n"
          "[-r Validation disk radius (default: 12)]\n"
          "[-G Data term penalization at candidate selection  (default:0.5)]\n"
-         "[-K Curvature term penalization at candidate selection (default:1.0)]\n"
+         "[-K Curvature term penalization at candidate selection "
+         "(default:1.0)]\n"
          "[-g Data term penalization at validation  (default:2.0)]\n"
-         "[-k Curvature term penalization at validation (default:1.0)]\n"         
+         "[-k Curvature term penalization at validation (default:1.0)]\n"
          "[-a Length term penalization at validation (default:0.01)]\n"
          "[-O Optimization band (default:2)]\n"
          "[-N neighborhood size (default:2)]\n"
@@ -41,7 +42,7 @@ InputData readInput(int argc, char *argv[]) {
       case 'r': {
         id.vradius = std::atof(optarg);
         break;
-      }      
+      }
       case 'G': {
         id.dataWeightCandidate = std::atof(optarg);
         break;
@@ -49,7 +50,7 @@ InputData readInput(int argc, char *argv[]) {
       case 'K': {
         id.curvatureWeightCandidate = std::atof(optarg);
         break;
-      }                  
+      }
       case 'g': {
         id.dataWeightValidation = std::atof(optarg);
         break;
@@ -57,11 +58,11 @@ InputData readInput(int argc, char *argv[]) {
       case 'k': {
         id.curvatureWeightValidation = std::atof(optarg);
         break;
-      }          
+      }
       case 'a': {
         id.alpha = std::atof(optarg);
         break;
-      }                    
+      }
       case 'O': {
         id.optBand = std::atoi(optarg);
         break;
@@ -69,7 +70,7 @@ InputData readInput(int argc, char *argv[]) {
       case 'N': {
         id.neighborhoodSize = std::atoi(optarg);
         break;
-      }      
+      }
       case 'H': {
         if (strcmp(optarg, "morphology") == 0)
           id.neighborhoodType = InputData::Morphology;
@@ -78,15 +79,15 @@ InputData readInput(int argc, char *argv[]) {
         else
           throw std::runtime_error("Invalid neighborhood type.");
         break;
-      }      
+      }
       case 'j': {
         id.grabcutIterations = std::atoi(optarg);
         break;
-      }      
+      }
       case 'i': {
         id.iterations = std::atoi(optarg);
         break;
-      }      
+      }
       case 't': {
         id.tolerance = std::atof(optarg);
         break;
@@ -132,8 +133,8 @@ void writeInputData(const InputData &id, std::ostream &os) {
   os << "GrabcutObject filepath:" << id.gcoFilepath << "\n"
      << "Balance coefficient disk radius:" << id.radius << "\n"
      << "Validation disk radius:" << id.vradius << "\n"
-     << "Data weight candidate:" << id.dataWeightCandidate << "\n"     
-     << "Curvature weight candidate:" << id.curvatureWeightCandidate << "\n"     
+     << "Data weight candidate:" << id.dataWeightCandidate << "\n"
+     << "Curvature weight candidate:" << id.curvatureWeightCandidate << "\n"
      << "Data weight validation:" << id.dataWeightValidation << "\n"
      << "Curvature weight validation:" << id.curvatureWeightValidation << "\n"
      << "Length penalization:" << id.alpha << "\n"
