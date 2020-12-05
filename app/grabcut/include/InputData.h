@@ -1,32 +1,31 @@
-#ifndef BTools_INPUTDATA_H
-#define BTools_INPUTDATA_H
+#ifndef GRAPH_FLOW_GRABCUT_INPUTDATA_H
+#define GRAPH_FLOW_GRABCUT_INPUTDATA_H
 
-#include <iostream>
 #include <unistd.h>
 
-namespace GrabCut
-{
-    struct InputData
-    {
-        InputData():showSeg(false),iterations(1){}
+#include <iostream>
 
-        std::string imgPath;
-        std::string outputObject;
-        std::string outputSegImage;
+namespace GrabCut {
+struct InputData {
+  InputData() : showSeg(false), iterations(1) {}
 
-        std::string unknownMask;
-        std::string fgSeedMask;
-        std::string bgSeedMask;
-        std::string lastSegmentationMask;
+  std::string imgPath;
+  std::string outputObject;
+  std::string outputSegImage;
 
-        int iterations;
+  std::string unknownMask;
+  std::string fgSeedMask;
+  std::string bgSeedMask;
+  std::string lastSegmentationMask;
 
-        bool showSeg;
-    };
+  int iterations;
 
-    void usage(char* argv[]);
-    InputData readInput(int argc, char* argv[]);
+  bool showSeg;
+};
 
-}
+void usage(char* argv[]);
+InputData readInput(int argc, char* argv[]);
 
-#endif //BTools_INPUTDATA_H
+}  // namespace GrabCut
+
+#endif  // BGRAPH_FLOW_GRABCUT_INPUTDATA_H

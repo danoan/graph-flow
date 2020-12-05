@@ -1,14 +1,14 @@
-#include <opencv2/imgproc.hpp>
+#ifndef GRAPH_FLOW_GRABCUT_GRABCUT_APPLICATION
+#define GRAPH_FLOW_GRABCUT_GRABCUT_APPLICATION
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
+
 #include "GrabCutOutput.h"
 
-namespace GrabCut
-{
-class GrabCutApplication
-{
+namespace GrabCut {
+class GrabCutApplication {
  private:
-
  public:
   GrabCutApplication(const cv::Mat& cvImg);
 
@@ -21,6 +21,7 @@ class GrabCutApplication
 
  private:
   const cv::Mat& cvImg;
-  cv::Mat fgMask,bgMask,unknownMask,pbFgMask;
+  cv::Mat fgMask, bgMask, unknownMask, pbFgMask;
 };
-}
+}  // namespace GrabCut
+#endif

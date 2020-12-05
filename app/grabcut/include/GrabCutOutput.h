@@ -1,13 +1,11 @@
-#ifndef BTools_GRABCUTOUTPUT_H
-#define BTools_GRABCUTOUTPUT_H
+#ifndef GRAPH_FLOW_GRABCUT_GRABCUTOUTPUT_H
+#define GRAPH_FLOW_GRABCUT_GRABCUTOUTPUT_H
 
-namespace GrabCut
-{
-    struct GrabCutOutput
-    {
-        cv::Mat grabCutMask;
-        cv::Mat segMaskResult;
-    };
-}
+namespace GrabCut {
+struct GrabCutOutput {
+  cv::Mat grabCutMask;
+  cv::Mat segMaskResult;
+};
+}  // namespace GrabCut
 
-#endif //BTools_GRABCUTOUTPUT_H
+#endif  // GRAPH_FLOW_GRABCUT_GRABCUTOUTPUT_H

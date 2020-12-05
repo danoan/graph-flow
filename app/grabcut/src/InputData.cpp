@@ -1,10 +1,9 @@
 #include "InputData.h"
 
-namespace GrabCut
-{
-void usage(char* argv[])
-{
-  std::cerr << "Usage: ./" << argv[0] << " imgPath fgSeedMask bgSeedMask outputObjectPath\n"
+namespace GrabCut {
+void usage(char* argv[]) {
+  std::cerr << "Usage: ./" << argv[0]
+            << " imgPath fgSeedMask bgSeedMask outputObjectPath\n"
             << "[-i Grabcut iterations (default: 1)]\n"
             << "[-u unknownSeedMaskPath]\n"
             << "[-s lastSegmentationMask]\n"
@@ -12,47 +11,37 @@ void usage(char* argv[])
             << "[-d show segmented image]\n\n";
 }
 
-InputData readInput(int argc, char* argv[])
-{
-  if(argc < 5)
-  {
+InputData readInput(int argc, char* argv[]) {
+  if (argc < 5) {
     usage(argv);
     exit(1);
   }
 
   InputData id;
   char opt;
-  while( (opt=getopt(argc,argv,"u:s:o:i:d"))!=-1 )
-  {
-    switch(opt)
-    {
-      case 'u':
-      {
+  while ((opt = getopt(argc, argv, "u:s:o:i:d")) != -1) {
+    switch (opt) {
+      case 'u': {
         id.unknownMask = optarg;
         break;
       }
-      case 's':
-      {
+      case 's': {
         id.lastSegmentationMask = optarg;
         break;
       }
-      case 'o':
-      {
+      case 'o': {
         id.outputSegImage = optarg;
         break;
       }
-      case 'i':
-      {
+      case 'i': {
         id.iterations = std::atoi(optarg);
         break;
       }
-      case 'd':
-      {
-        id.showSeg=true;
+      case 'd': {
+        id.showSeg = true;
         break;
       }
-      default:
-      {
+      default: {
         usage(argv);
         exit(2);
       }
@@ -66,5 +55,4 @@ InputData readInput(int argc, char* argv[])
 
   return id;
 }
-}
-
+}  // namespace GrabCut
