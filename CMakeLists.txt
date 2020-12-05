@@ -54,6 +54,7 @@ add_subdirectory(modules/shape-evolution)
 add_subdirectory(modules/contour-correction)
 add_subdirectory(app/gf-shape-evolution)
 add_subdirectory(app/gf-contour-correction)
+add_subdirectory(app/seed-selector)
 add_subdirectory(app/grabcut)
 add_subdirectory(app/summary-flow)
 
