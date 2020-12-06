@@ -8,9 +8,9 @@ src/utils.cpp
         main.cpp)
 
 if(${USE_REMOTE_REPOSITORIES})
-    add_dependencies(gf-shape-evolution graph-flow-shape-evolution dipacus magLac)
+    add_dependencies(gf-shape-evolution graph-flow-utils graph-flow-shape-evolution dipacus magLac)
 else()
-    add_dependencies(gf-shape-evolution graph-flow-shape-evolution)
+    add_dependencies(gf-shape-evolution graph-flow-utils graph-flow-shape-evolution)
 endif()
 
 target_include_directories(gf-shape-evolution PRIVATE
