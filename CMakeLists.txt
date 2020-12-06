@@ -4,6 +4,8 @@ project(graph-flow)
 set(CMAKE_CXX_STANDARD 17)
 set(EXTPROJECTS_SOURCE_DIR ${CMAKE_SOURCE_DIR}/ext-projects/source)
 
+add_compile_definitions(MY_MAIN_DIR="${CMAKE_SOURCE_DIR}")
+
 find_package(DGtal REQUIRED)
 find_package(OpenCV REQUIRED)
 

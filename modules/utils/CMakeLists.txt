@@ -1,5 +1,7 @@
 project(graph-flow-utils)
 
+add_subdirectory(test)
+
 set(LIBRARY_ACTION "STATIC")
 if(${CREATE_SHARED_LIBRARIES})
     set(LIBRARY_ACTION "SHARED")
