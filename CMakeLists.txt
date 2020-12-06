@@ -39,6 +39,8 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 link_directories(${CMAKE_BINARY_DIR}/modules/utils
         ${CMAKE_BINARY_DIR}/modules/core
         ${CMAKE_BINARY_DIR}/modules/io/seed
+        ${CMAKE_BINARY_DIR}/modules/shape-evolution
+        ${CMAKE_BINARY_DIR}/modules/contour-correction
         ${LEMON_LIBS_DIR}
         ${DIPACUS_LIBS_DIR}
         ${BOOST_LIBS_DIR}
@@ -48,8 +50,12 @@ link_directories(${CMAKE_BINARY_DIR}/modules/utils
 add_subdirectory(modules/core)
 add_subdirectory(modules/utils)
 add_subdirectory(modules/io/seed)
-add_subdirectory(app/graph-flow)
-add_subdirectory(app/graph-seg)
+add_subdirectory(modules/shape-evolution)
+add_subdirectory(modules/contour-correction)
+add_subdirectory(app/gf-shape-evolution)
+add_subdirectory(app/gf-contour-correction)
+add_subdirectory(app/seed-selector)
+add_subdirectory(app/grabcut)
 add_subdirectory(app/summary-flow)
 
 

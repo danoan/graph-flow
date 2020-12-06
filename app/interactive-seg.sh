@@ -3,44 +3,53 @@ SCRIPT_FOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )
 
 PROJECT_FOLDER="$(cd "$SCRIPT_FOLDER" && cd .. && pwd)"
 GRAPH_SEG_BIN="${PROJECT_FOLDER}/install/bin"
-
-BTOOLS_BIN="${PROJECT_FOLDER}/ext-projects/cmake-build-release/bin"
 INPUT_IMAGE="${PROJECT_FOLDER}/input/images/coala.jpg"
 
 usage(){ echo "Usage: $0 "
-echo "[-r Ball radius (default: 7)]"
-echo "[-g Data regional term (default: 1.0) ]"
-echo "[-k Squared curvature weight (default:2.5) ]"
-echo "[-a Length weight (default:0.01) ]"
+echo "[-R Balance coefficient radius (default: 7)]"
+echo "[-r Validation disk radius (default: 16)]"
+echo "[-G Data term penalization at candidate selection (default: 0.5) ]"
+echo "[-K Curvature term penalization at candidate selection (default: 1.0) ]"
+echo "[-g Data term penalization at validation (default: 2.0) ]"
+echo "[-k Curvature term penalization at validation (default: 1.0) ]"
+echo "[-a Length term penalization at validation (default:0.01) ]"
 echo "[-i Max iterations (default:30) ]"
-echo "[-G Grabcut iterations (default:1) ]"
-echo "[-N Neighborhood size (default:0) ]"
-echo "[-H Neighborhood type (morphology, random) (default:morphology) ]"
+echo "[-t Tolerance. Stop if change between iterations is smaller than tolerance (>=0) (default:-1, stop when max iterations is reached)]\n"
 echo "[-n Number of threads (default:4) ]"
 echo "[-w Print energy value ]"
 echo "[-s Save all figures ]"
 echo "[-I INPUT_IMAGE_PATH (default:$INPUT_IMAGE) ]"
 echo " OUTPUT_FOLDER" 1>&2; exit 1;}
 
-r="7"
-g="1.0"
-k="2.5"
+R="7"
+r="16"
+G="0.5"
+K="1.0"
+g="2.0"
+k="1.0"
 a="0.01"
 i="30"
+t="-1"
 w=""
 s=""
-G="1"
-N="0"
-H="morphology"
 n="4"
-while getopts ":r:g:k:a:i:G:N:H:n:I:ws" o; do
+while getopts ":R:r:G:K:g:k:a:i:t:n:I:ws" o; do
     case "${o}" in
+        R)
+            R=$OPTARG
+            ;;
         r)
             r=$OPTARG
+            ;;            
+        G)
+            G=$OPTARG
             ;;
+	    K)
+	        K=$OPTARG
+	        ;;
         g)
             g=$OPTARG
-            ;;
+            ;;            
 	    k)
 	        k=$OPTARG
 	        ;;
@@ -50,26 +59,20 @@ while getopts ":r:g:k:a:i:G:N:H:n:I:ws" o; do
 	    i)
 	        i=$OPTARG
 	        ;;
-	    G)
-	        G=$OPTARG
-	        ;;
-	    N)
-	        N=$OPTARG
-	        ;;
-	    H)
-	        H=$OPTARG
-	        ;;
+	    t)
+	        t=$OPTARG
+	        ;;            
 	    n)
 	        n=$OPTARG
 	        ;;
+	    I)
+	        INPUT_IMAGE=$OPTARG
+	        ;;            
 	    w)
 	        w="-w"
 	        ;;
 	    s)
 	        s="-s"
-	        ;;
-	    I)
-	        INPUT_IMAGE=$OPTARG
 	        ;;
         :)
             echo "Invalid option: $OPTARG requires an argument" 1>&2
@@ -91,9 +94,9 @@ then
     exit
 fi
 
-SEED_SELECTOR_APP="${BTOOLS_BIN}/seed-selector"
-GRAB_CUT_APP="${BTOOLS_BIN}/grab-cut"
-GRAPH_SEG_APP="${GRAPH_SEG_BIN}/graph-seg-app"
+SEED_SELECTOR_APP="${GRAPH_SEG_BIN}/seed-selector"
+GRAB_CUT_APP="${GRAPH_SEG_BIN}/grabcut"
+GRAPH_SEG_APP="${GRAPH_SEG_BIN}/gf-contour-correction"
 
 
 IMAGE_NAME="$(basename $INPUT_IMAGE)"
@@ -121,10 +124,8 @@ then
     "${SP_OUT}/gc-object.xml" \
     -u "${SP_OUT}/mask-pbfg-0.pgm" -d
 
-    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -k"$k" -a"$a" -G"${G}" -i"$i" -H${H} -n${n} -d ${s} ${w} "${SP_OUT}/graph-seg"
+    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -R"$R" -r"$r" -G"$G" -g"$g" -K"$K" -k"$k" -a"$a" -N1 -i"$i" -t"$t" -n${n} -d ${s} ${w} "${SP_OUT}/graph-seg"
 fi
-
-
 
 while :
 do
@@ -142,6 +143,6 @@ do
     "${GRAB_CUT_APP}" "${INPUT_IMAGE}" "${SP_OUT}/mask-fg-0.pgm" "${SP_OUT}/mask-bg-0.pgm" "${SP_OUT}/gc-object.xml" \
     -u "${SP_OUT}/mask-pbfg-0.pgm" -s "${SP_OUT}/graph-seg/mask-seg.png"
 
-    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -r"$r" -g"$g" -k"$k" -a"$a" -i"$i" -G"${G}" -N${N} -H${H} -n${n} -d ${s} ${w} "${SP_OUT}/graph-seg"
+    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -R"$R" -r"$r" -G"$G" -g"$g" -K"$K" -k"$k" -a"$a" -N1 -i"$i" -t"$t" -n${n} -d ${s} ${w} "${SP_OUT}/graph-seg"
 done
 

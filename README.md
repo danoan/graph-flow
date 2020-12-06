@@ -4,7 +4,7 @@
 
 ## graph-flow
  Elastica-driven flow optmized via graph-cut based model. 
- Its main applications are the **graph-flow-app** 
+ Its main applications are the **gf-shape-evolution** 
  and ***interactive-seg** apps. The 
  latter integrates all the necessary steps to execute
  a segmentation regularized by the Elastica energy.
@@ -51,15 +51,15 @@ Build instructions can be found in INSTALL.txt
 This source contains eight applications. For detailed description,
 type: [application] -?
 
-We give output examples of the main applications: graph-flow-app and interactive-seg
+We give output examples of the main applications: gf-shape-evolution and interactive-seg
 
-### graph-flow-app
+### gf-shape-evolution
 
 Evolve the digital curvature flow for a given digital shape.
 
 ```
-./graph-flow-app -Striangle -r15 -h0.1
-./graph-flow-app -Sflower -r15 -h0.1
+./gf-shape-evolution -Striangle -r15 -h0.1
+./gf-shape-evolution -Sflower -r15 -h0.1
 ```
 
 <img alt="Triangle flow" src="https://github.com/danoan/graph-flow/blob/master/doc/images/triangle.gif" width="1000" />

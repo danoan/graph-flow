@@ -1,62 +1,57 @@
-#ifndef BTOOLS_SUMMARY_FLOW_COLORSCHEME_H
-#define BTOOLS_SUMMARY_FLOW_COLORSCHEME_H
+#ifndef GRAPH_FLOW_SUMMARY_FLOW_SUMMARY_FLOW_COLORSCHEME_H
+#define GRAPH_FLOW_SUMMARY_FLOW_SUMMARY_FLOW_COLORSCHEME_H
 
-#include <initializer_list>
 #include <DGtal/io/Color.h>
 
-namespace SummaryFlow
-{
-    class ColorSchemeIterator
-    {
-    private:
-        typedef DGtal::Color Color;
-        typedef std::vector<Color> Container;
-        typedef Container::const_iterator Iterator;
+#include <initializer_list>
 
-    public:
-        ColorSchemeIterator(const Container& container);
+namespace SummaryFlow {
+class ColorSchemeIterator {
+ private:
+  typedef DGtal::Color Color;
+  typedef std::vector<Color> Container;
+  typedef Container::const_iterator Iterator;
 
-        void operator++();
-        void operator++(int);
-        Color operator*() const;
+ public:
+  ColorSchemeIterator(const Container& container);
 
-    private:
-        const Container& container;
-        Iterator it;
-    };
+  void operator++();
+  void operator++(int);
+  Color operator*() const;
 
-    class ColorScheme
-    {
-    public:
-        typedef DGtal::Color Color;
+ private:
+  const Container& container;
+  Iterator it;
+};
 
-    public:
-        ColorScheme();
-        ColorScheme( const Color& first,
-                const Color& last,
-                const Color& extra,
-                std::initializer_list<Color> colorList);
+class ColorScheme {
+ public:
+  typedef DGtal::Color Color;
 
-        ColorSchemeIterator begin() const;
-        Color first() const{ return m_first; }
-        Color last() const { return m_last; }
-        Color extra() const { return m_extra; }
+ public:
+  ColorScheme();
+  ColorScheme(const Color& first, const Color& last, const Color& extra,
+              std::initializer_list<Color> colorList);
 
-    private:
-        std::vector<Color> m_colorVector;
+  ColorSchemeIterator begin() const;
+  Color first() const { return m_first; }
+  Color last() const { return m_last; }
+  Color extra() const { return m_extra; }
 
-        Color m_first;
-        Color m_last;
-        Color m_extra;
-    };
+ private:
+  std::vector<Color> m_colorVector;
 
-    namespace DefaultColorSchemes
-    {
-        extern ColorScheme Classic;
-        extern ColorScheme RainyJungle;
-        extern ColorScheme Lollipop;
-    }
+  Color m_first;
+  Color m_last;
+  Color m_extra;
+};
 
-}
+namespace DefaultColorSchemes {
+extern ColorScheme Classic;
+extern ColorScheme RainyJungle;
+extern ColorScheme Lollipop;
+}  // namespace DefaultColorSchemes
 
-#endif //BTOOLS_COLORSCHEME_H
+}  // namespace SummaryFlow
+
+#endif  // GRAPH_FLOW_SUMMARY_FLOW_COLORSCHEME_H

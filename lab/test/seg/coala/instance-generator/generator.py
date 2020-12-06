@@ -19,16 +19,18 @@ def resolve_output_folder(c):
 def exhaustive_gc_flow(c):
 
     outputFolder = resolve_output_folder(c)
-    radius,opt_band,neigh_size,length_pen,data_regional,curvature_term,gs = c
+    radius,opt_band,neigh_size,length_pen,data_regional,curvature_term = c
 
     gcoFilepath="{}/input/gc-object.xml".format(SCRIPT_FOLDER)
 
     s=" ".join( ["%s%d" % ("-i",ITERATIONS),
+                 "%s%d" % ("-R",radius['value']),
                  "%s%d" % ("-r",radius['value']),
-                 "%s%f" % ("-h", gs['value']),
-                 "%s%f" % ("-a",length_pen['value']),
+                 "%s%f" % ("-G",data_regional['value']),
+                 "%s%f" % ("-K",curvature_term['value']),                 
                  "%s%f" % ("-g",data_regional['value']),
                  "%s%f" % ("-k",curvature_term['value']),
+                 "%s%f" % ("-a",length_pen['value']),                 
                  "%s%f" % ("-O",opt_band['value']),
                  "%s%d" % ("-n", NUM_THREADS),
                  "%s%s" % ("-N",neigh_size['value'])
@@ -38,11 +40,13 @@ def exhaustive_gc_flow(c):
 
     subprocess.call( [GRAPH_SEG_APP,
                       "%s%d" % ("-i",ITERATIONS),
+                      "%s%d" % ("-R",radius['value']),
                       "%s%d" % ("-r",radius['value']),
-                      "%s%f" % ("-h", gs['value']),
-                      "%s%f" % ("-a",length_pen['value']),
+                      "%s%f" % ("-G",data_regional['value']),
+                      "%s%f" % ("-K",curvature_term['value']),                 
                       "%s%f" % ("-g",data_regional['value']),
                       "%s%f" % ("-k",curvature_term['value']),
+                      "%s%f" % ("-a",length_pen['value']),                 
                       "%s%f" % ("-O",opt_band['value']),
                       "%s%d" % ("-n", NUM_THREADS),
                       "%s%s" % ("-N",neigh_size['value']),

@@ -1,71 +1,66 @@
 #ifndef GRAPH_FLOW_CORE_FLOWGRAPH_H
 #define GRAPH_FLOW_CORE_FLOWGRAPH_H
 
-#include <map>
-
 #include <DGtal/helpers/StdDefs.h>
 #include <DIPaCUS/components/SetOperations.h>
-
-#include <lemon/list_graph.h>
-#include <lemon/graph_to_eps.h>
-
-#include <lemon/preflow.h>
-#include <lemon/adaptors.h>
-
 #include <graph-flow/utils/digital.h>
 #include <graph-flow/utils/timer.h>
+#include <lemon/adaptors.h>
+#include <lemon/graph_to_eps.h>
+#include <lemon/list_graph.h>
+#include <lemon/preflow.h>
+
+#include <map>
 
 #include "EdgeWeight.h"
 #include "TerminalWeight.h"
 
-namespace GraphFlow::Core
-{
-    class FlowGraph
-    {
-    public:
-        typedef DGtal::Z2i::DigitalSet DigitalSet;
-        typedef DGtal::Z2i::Point Point;
+namespace GraphFlow::Core {
+class FlowGraph {
+ public:
+  typedef DGtal::Z2i::DigitalSet DigitalSet;
+  typedef DGtal::Z2i::Point Point;
 
-        typedef lemon::ListDigraph ListDigraph;
-        typedef ListDigraph::Node Node;
-        typedef ListDigraph::ArcMap<double> ArcWeightMap;   //MinCut computation
-        typedef lemon::Preflow <ListDigraph,ListDigraph::ArcMap<double> > FlowComputer;
+  typedef lemon::ListDigraph ListDigraph;
+  typedef ListDigraph::Node Node;
+  typedef ListDigraph::ArcMap<double> ArcWeightMap;  // MinCut computation
+  typedef lemon::Preflow<ListDigraph, ListDigraph::ArcMap<double> >
+      FlowComputer;
 
-        typedef std::map<DGtal::Z2i::Point,Node> PointToNode;
-        typedef ListDigraph::NodeMap<DGtal::Z2i::Point> NodeToPoint;
+  typedef std::map<DGtal::Z2i::Point, Node> PointToNode;
+  typedef ListDigraph::NodeMap<DGtal::Z2i::Point> NodeToPoint;
 
-        typedef std::vector<TerminalWeight*> TerminalWeightVector;
-        typedef std::vector<EdgeWeight*> EdgeWeightVector;
+  typedef std::vector<TerminalWeight*> TerminalWeightVector;
+  typedef std::vector<EdgeWeight*> EdgeWeightVector;
 
+ private:
+  void addNode(const Point& p);
+  void setMax(const DigitalSet& vertexSet);
 
-    private:
-        void addNode(const Point& p);
-        void setMax(const DigitalSet& vertexSet);
+ public:
+  FlowGraph(const DigitalSet& vertexSet, TerminalWeightVector twv,
+            EdgeWeightVector ewv);
 
-    public:
-        FlowGraph(const DigitalSet& vertexSet,TerminalWeightVector twv, EdgeWeightVector ewv);
+ public:
+  ListDigraph digraph;
+  ArcWeightMap arcWeightMap;
 
+  ListDigraph::Node terminalSource;
+  ListDigraph::Node terminalTarget;
 
-    public:
-        ListDigraph digraph;
-        ArcWeightMap arcWeightMap;
+  PointToNode ptn;
+  NodeToPoint ntp;
 
-        ListDigraph::Node terminalSource;
-        ListDigraph::Node terminalTarget;
+  TerminalWeightVector twv;
+  EdgeWeightVector ewv;
 
-        PointToNode ptn;
-        NodeToPoint ntp;
+ public:
+  DigitalSet sourceNodes;
+  double cutValue;
 
-        TerminalWeightVector twv;
-        EdgeWeightVector ewv;
+  std::vector<double> twvMax;
+  std::vector<double> ewvMax;
+};
+}  // namespace GraphFlow::Core
 
-    public:
-        DigitalSet sourceNodes;
-        double cutValue;
-
-        std::vector<double> twvMax;
-        std::vector<double> ewvMax;
-    };
-}
-
-#endif //GRAPH_FLOW_CORE_FLOWGRAPH_H
+#endif  // GRAPH_FLOW_CORE_FLOWGRAPH_H

@@ -1,9 +1,8 @@
-#ifndef BTOOLS_SUMMARY_FLOW_TYPES_H
-#define BTOOLS_SUMMARY_FLOW_TYPES_H
+#ifndef GRAPH_FLOW_SUMMARY_FLOW_SUMMARY_FLOW_TYPES_H
+#define GRAPH_FLOW_SUMMARY_FLOW_SUMMARY_FLOW_TYPES_H
 
-namespace SummaryFlow
-{
-    enum ImageOutputType{SVG,EPS};
+namespace SummaryFlow {
+enum ImageOutputType { SVG, EPS };
 }
 
-#endif //BTOOLS_SUMMARY_FLOW_TYPES_H
+#endif  // GRAPH_FLOW_SUMMARY_FLOW_SUMMARY_FLOW_TYPES_H

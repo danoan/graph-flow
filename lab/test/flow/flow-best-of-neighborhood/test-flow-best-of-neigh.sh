@@ -7,7 +7,7 @@ APP_GRAPH_FLOW="$1"
 APP_SUMMARY_FLOW="$2"
 
 if [ -z $APP_GRAPH_FLOW ]; then
-    APP_GRAPH_FLOW=${PROJECT_PATH}/cmake-build-release/app/graph-flow/graph-flow-app
+    APP_GRAPH_FLOW=${PROJECT_PATH}/cmake-build-release/app/gf-shape-evolution/gf-shape-evolution
 fi
 
 if [ -z $APP_SUMMARY_FLOW ]; then

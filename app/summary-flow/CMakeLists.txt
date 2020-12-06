@@ -10,7 +10,9 @@ add_executable(summary-flow
         src/utils.cpp
         )
 
-add_dependencies(summary-flow dipacus)
+if(${USE_REMOTE_REPOSITORIES})
+        add_dependencies(summary-flow dipacus)
+endif()
 
 target_compile_features(summary-flow PRIVATE cxx_auto_type)
 target_compile_options(summary-flow PRIVATE -fext-numeric-literals)
