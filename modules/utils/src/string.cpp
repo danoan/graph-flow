@@ -1,11 +1,16 @@
 #include "graph-flow/utils/string.h"
 
 namespace GraphFlow::Utils::String {
-std::string fixedStrLength(int l, double v) {
-  std::string out = std::to_string(v);
-  while (out.length() < l) out += " ";
+std::string fixedStrLength(int l, double v,int ndigits) {
 
-  return out;
+  std::stringstream ss;
+
+  ss << std::setprecision(ndigits) << std::fixed << v;
+
+  std::string sOut = ss.str();
+  while (sOut.length() < l) sOut += " ";
+
+  return sOut;
 }
 
 std::string fixedStrLength(int l, std::string str) {

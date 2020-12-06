@@ -2,10 +2,12 @@
 #define GRAPH_FLOW_UTILS_STRING_H
 
 #include <cmath>
+#include <iomanip>
+#include <sstream>
 #include <string>
 
 namespace GraphFlow::Utils::String {
-std::string fixedStrLength(int l, double v);
+std::string fixedStrLength(int l, double v, int ndigits = 4);
 
 std::string fixedStrLength(int l, std::string str);
 
