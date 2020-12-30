@@ -31,7 +31,7 @@ TEST_CASE("distance transform", "[digital]") {
   const Domain& ballDomain = _ball.domain();
 
   Point border(20, 20);
-  Domain domain(domain.lowerBound() - border, domain.upperBound() + border);
+  Domain domain(ballDomain.lowerBound() - border, ballDomain.upperBound() + border);
 
   DigitalSet ball(domain);
   ball.insert(_ball.begin(), _ball.end());
