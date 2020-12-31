@@ -1,14 +1,9 @@
 #include <graph-flow/io/seed/GrabCutObject.h>
-
-#include <iostream>
-
 #include "catch.hpp"
 
 using namespace GraphFlow::IO::Seed;
 
-// void write(const GrabCutObject& gco, const std::string& outputPath);
-
-TEST_CASE("read GrabCutObject", "[GrabCutIO]") {
+TEST_CASE("read GrabCutObject", "[io]") {
   std::string inputGCFile = MY_MAIN_DIR;
   inputGCFile += "/modules/io/seed/test/input/coala.xml";
 
@@ -27,7 +22,7 @@ TEST_CASE("read GrabCutObject", "[GrabCutIO]") {
   REQUIRE(gco.seeds.cols == 321);
 }
 
-TEST_CASE("write GrabCutObject", "[GrabCutIO]") {
+TEST_CASE("write GrabCutObject", "[io]") {
   std::string inputGCFile = MY_MAIN_DIR;
   inputGCFile += "/modules/io/seed/test/input/coala.xml";
 
