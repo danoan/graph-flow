@@ -29,6 +29,7 @@ set(BOOST_LIBS_DIR /usr/local/lib CACHE PATH "Boost libraries location path.")
 
 set(CREATE_SHARED_LIBRARIES ON CACHE BOOL "Create shared libraries. If off, create static libraries.")
 set(USE_REMOTE_REPOSITORIES ON CACHE BOOL "Pull external repositories from GitHub.")
+set(BUILD_TESTS OFF CACHE BOOL "Build tests.")
 
 if (${USE_REMOTE_REPOSITORIES})
     add_subdirectory(ext-projects)

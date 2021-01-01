@@ -3,7 +3,9 @@ project(graph-flow-contour-correction)
 find_package(DGtal REQUIRED)
 find_package(OpenCV REQUIRED)
 
-add_subdirectory(test)
+if(${BUILD_TESTS})
+    add_subdirectory(test)
+endif()
 
 set(LIBRARY_ACTION "STATIC")
 if(${CREATE_SHARED_LIBRARIES})

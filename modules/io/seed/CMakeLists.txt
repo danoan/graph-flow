@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.2)
 project(graph-flow-io)
 
-add_subdirectory(test)
+if(${BUILD_TESTS})
+    add_subdirectory(test)
+endif()
 
 set(LIBRARY_ACTION "STATIC")
 if(${CREATE_SHARED_LIBRARIES})
