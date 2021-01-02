@@ -65,4 +65,8 @@ if(${BUILD_APPS})
     add_subdirectory(app/summary-flow)
 endif()
 
+if(${BUILD_TESTS})
+    add_subdirectory(lab/test/coverage)
+endif()
+
 
