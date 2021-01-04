@@ -12,4 +12,4 @@ ${BUILD_FOLDER}/lab/test/coverage/test-coverage
 mkdir -p ${COVERAGE_OUTPUT_FOLDER}
 
 lcov --capture --directory ${GCOV_FILES} --output-file ${COVERAGE_OUTPUT_FOLDER}/test_coverage.info
-
+bash <(curl -s https://codecov.io/env)
