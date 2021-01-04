@@ -12,19 +12,6 @@ ${CMAKE_SOURCE_DIR}/modules/io/seed/test/src/test-GrabCutIO.cpp
 ${CMAKE_SOURCE_DIR}/modules/core/test/src/test-FlowGraph.cpp
 ${CMAKE_SOURCE_DIR}/modules/core/test/src/test-morphology.cpp
 ${CMAKE_SOURCE_DIR}/modules/contour-correction/test/src/test-graphFlow.cpp
-${CMAKE_SOURCE_DIR}/modules/contour-correction/src/model/graph/GraphModel.cpp
-${CMAKE_SOURCE_DIR}/modules/contour-correction/src/model/image/GMM.cpp
-${CMAKE_SOURCE_DIR}/modules/core/src/FlowGraph.cpp
-${CMAKE_SOURCE_DIR}/modules/core/src/neighborhood/MorphologyNeighborhood.cpp
-${CMAKE_SOURCE_DIR}/modules/core/src/neighborhood/RandomNeighborhood.cpp
-${CMAKE_SOURCE_DIR}/modules/io/seed/src/GrabCutIO.cpp
-${CMAKE_SOURCE_DIR}/modules/shape-evolution/src/model/GraphContext.cpp
-${CMAKE_SOURCE_DIR}/modules/utils/src/digital.cpp
-${CMAKE_SOURCE_DIR}/modules/utils/src/display.cpp
-${CMAKE_SOURCE_DIR}/modules/utils/src/energy.cpp
-${CMAKE_SOURCE_DIR}/modules/utils/src/image.cpp
-${CMAKE_SOURCE_DIR}/modules/utils/src/string.cpp
-${CMAKE_SOURCE_DIR}/modules/utils/src/timer.cpp
 ${CMAKE_SOURCE_DIR}/catch/catch.cpp)
 
 target_compile_options(test-coverage PRIVATE
@@ -34,9 +21,9 @@ target_compile_options(test-coverage PRIVATE
 )
 
 if (${USE_REMOTE_REPOSITORIES})
-  add_dependencies(test-coverage dipacus graph-flow-utils)    
+  add_dependencies(test-coverage dipacus graph-flow-core graph-flow-io graph-flow-shape-evolution graph-flow-contour-correction graph-flow-utils)    
 else()
-  add_dependencies(test-coverage graph-flow-utils)    
+  add_dependencies(test-coverage graph-flow-core graph-flow-io graph-flow-shape-evolution graph-flow-contour-correction graph-flow-utils)    
 endif ()
 
 
@@ -52,6 +39,11 @@ target_include_directories(test-coverage PRIVATE
         ${BOOST_INCLUDE_DIRS})
 
 target_link_libraries(test-coverage
+        -lgraph-flow-core
+        -lgraph-flow-utils
+        -lgraph-flow-io
+        -lgraph-flow-shape-evolution
+        -lgraph-flow-contour-correction
         -ldipacus-base
         -ldipacus-components
         -ldipacus-derivates    
