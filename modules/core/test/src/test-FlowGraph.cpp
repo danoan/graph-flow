@@ -144,4 +144,7 @@ TEST_CASE("initialize FlowGraph", "[core][FlowGraph]") {
   for (auto p : fg.sourceNodes) {
     REQUIRE_FALSE(connectedToSource.find(p) == connectedToSource.end());
   }
+
+  for(auto t: twv) delete t;
+  for(auto t: tev) delete t;
 }
