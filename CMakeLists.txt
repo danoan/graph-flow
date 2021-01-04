@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 project(graph-flow)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(EXTPROJECTS_SOURCE_DIR ${CMAKE_SOURCE_DIR}/ext-projects/source)
 
 add_definitions(-DMY_MAIN_DIR="${CMAKE_SOURCE_DIR}")
@@ -27,18 +28,19 @@ set(LEMON_LIBS_DIR ${CMAKE_PREFIX_PATH}/lib CACHE PATH "Lemon libraries location
 set(BOOST_INCLUDE_DIRS /usr/local/include/boost CACHE PATH "Boost include location path." )
 set(BOOST_LIBS_DIR /usr/local/lib CACHE PATH "Boost libraries location path.")
 
+set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/install" CACHE PATH "graph-flow binaries and libraries install location." )
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib:${BOOST_LIBS_DIR}:${DIPACUS_LIBS_DIR}:${LEMON_LIBS_DIR}")
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
 set(CREATE_SHARED_LIBRARIES ON CACHE BOOL "Create shared libraries. If off, create static libraries.")
 set(USE_REMOTE_REPOSITORIES ON CACHE BOOL "Pull external repositories from GitHub.")
+
 set(BUILD_TESTS OFF CACHE BOOL "Build tests.")
 set(BUILD_APPS ON CACHE BOOL "Build applications.")
 
 if (${USE_REMOTE_REPOSITORIES})
     add_subdirectory(ext-projects)
 endif ()
-
-set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/install" CACHE PATH "graph-flow binaries and libraries install location." )
-set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib:${BOOST_LIBS_DIR}:${DIPACUS_LIBS_DIR}:${GCURVE_LIBS_DIR}:${LEMON_LIBS_DIR}")
-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 link_directories(${CMAKE_BINARY_DIR}/modules/utils
         ${CMAKE_BINARY_DIR}/modules/core
