@@ -2,7 +2,7 @@
 
 namespace GraphFlow::Utils::Image {
 void setHighlightMask(cv::Mat &outputImage, const cv::Mat &baseImage,
-                      const cv::Mat &mask) {
+                      const cv::Mat &mask, cv::Vec3b color) {
   using namespace DGtal::Z2i;
   cv::Mat bwImage8UC1 = cv::Mat::zeros(baseImage.size(), CV_8UC1);
   cv::cvtColor(baseImage, bwImage8UC1, cv::COLOR_RGB2GRAY);
@@ -25,6 +25,6 @@ void setHighlightMask(cv::Mat &outputImage, const cv::Mat &baseImage,
       DIPaCUS::Neighborhood::FourNeighborhoodPredicate>(dsContour, dsMask, 2);
   DIPaCUS::Representation::digitalSetToCVMat(contourMask, dsContour);
 
-  outputImage.setTo(cv::Vec3b(150, 250, 250), contourMask);
+  outputImage.setTo(color, contourMask);
 }
 }  // namespace GraphFlow::Utils::Image

@@ -1,8 +1,12 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.10)
 project(graph-flow)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(EXTPROJECTS_SOURCE_DIR ${CMAKE_SOURCE_DIR}/ext-projects/source)
+set(CMAKE_Swift_NUM_THREADS 2)
+
+add_definitions(-DMY_MAIN_DIR="${CMAKE_SOURCE_DIR}")
 
 find_package(DGtal REQUIRED)
 find_package(OpenCV REQUIRED)
@@ -25,16 +29,19 @@ set(LEMON_LIBS_DIR ${CMAKE_PREFIX_PATH}/lib CACHE PATH "Lemon libraries location
 set(BOOST_INCLUDE_DIRS /usr/local/include/boost CACHE PATH "Boost include location path." )
 set(BOOST_LIBS_DIR /usr/local/lib CACHE PATH "Boost libraries location path.")
 
+set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/install" CACHE PATH "graph-flow binaries and libraries install location." )
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib:${BOOST_LIBS_DIR}:${DIPACUS_LIBS_DIR}:${LEMON_LIBS_DIR}")
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
 set(CREATE_SHARED_LIBRARIES ON CACHE BOOL "Create shared libraries. If off, create static libraries.")
 set(USE_REMOTE_REPOSITORIES ON CACHE BOOL "Pull external repositories from GitHub.")
+
+set(BUILD_TESTS OFF CACHE BOOL "Build tests.")
+set(BUILD_APPS ON CACHE BOOL "Build applications.")
 
 if (${USE_REMOTE_REPOSITORIES})
     add_subdirectory(ext-projects)
 endif ()
-
-set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/install" CACHE PATH "graph-flow binaries and libraries install location." )
-set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib:${BOOST_LIBS_DIR}:${DIPACUS_LIBS_DIR}:${GCURVE_LIBS_DIR}:${LEMON_LIBS_DIR}")
-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 link_directories(${CMAKE_BINARY_DIR}/modules/utils
         ${CMAKE_BINARY_DIR}/modules/core
@@ -52,10 +59,17 @@ add_subdirectory(modules/utils)
 add_subdirectory(modules/io/seed)
 add_subdirectory(modules/shape-evolution)
 add_subdirectory(modules/contour-correction)
-add_subdirectory(app/gf-shape-evolution)
-add_subdirectory(app/gf-contour-correction)
-add_subdirectory(app/seed-selector)
-add_subdirectory(app/grabcut)
-add_subdirectory(app/summary-flow)
+
+if(${BUILD_APPS})
+    add_subdirectory(app/gf-shape-evolution)
+    add_subdirectory(app/gf-contour-correction)
+    add_subdirectory(app/seed-selector)
+    add_subdirectory(app/grabcut)
+    add_subdirectory(app/summary-flow)
+endif()
+
+if(${BUILD_TESTS})
+    add_subdirectory(lab/test/coverage)
+endif()
 
 

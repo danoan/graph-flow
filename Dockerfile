@@ -1,5 +1,5 @@
 #Use an official Python runtime as a parent image
-FROM danoan/dipacus:lemon
+FROM danoan/graphflow:dgtal
 
 # Set the working directory to /app
 WORKDIR /app
@@ -8,4 +8,9 @@ WORKDIR /app
 COPY . /app
 
 RUN chmod +x /app/scripts/*
+
+#Install lcov
+
+RUN apt-get install -y lcov curl
+
 RUN /app/scripts/build-graph-flow.sh

@@ -1,8 +1,5 @@
 project(graph-flow-contour-correction)
 
-find_package(DGtal REQUIRED)
-find_package(OpenCV REQUIRED)
-
 set(LIBRARY_ACTION "STATIC")
 if(${CREATE_SHARED_LIBRARIES})
     set(LIBRARY_ACTION "SHARED")

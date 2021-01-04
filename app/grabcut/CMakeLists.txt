@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.10)
 project(grabcut)
 
 add_executable(grabcut GrabCut.cpp src/InputData.cpp src/GrabCutApplication.cpp)

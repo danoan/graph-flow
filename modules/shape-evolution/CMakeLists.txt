@@ -1,7 +1,5 @@
 project(graph-flow-shape-evolution)
 
-find_package(DGtal REQUIRED)
-
 set(LIBRARY_ACTION "STATIC")
 if(${CREATE_SHARED_LIBRARIES})
     set(LIBRARY_ACTION "SHARED")

@@ -11,7 +11,6 @@
 #include "model/GraphSegIteration.h"
 #include "model/graph/GraphContext.h"
 #include "model/graph/GraphModel.h"
-#include "utils.h"
 
 namespace GraphFlow::ContourCorrection {
 typedef DGtal::Z2i::DigitalSet DigitalSet;

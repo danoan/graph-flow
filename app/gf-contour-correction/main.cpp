@@ -16,6 +16,8 @@
 #include "input/InputData.h"
 #include "input/InputReader.h"
 
+#include "utils.h"
+
 using namespace DGtal::Z2i;
 using namespace GraphFlow;
 

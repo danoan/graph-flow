@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.com/danoan/graph-flow.svg?branch=master)](https://travis-ci.com/danoan/graph-flow)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6059626d43064254affc2b908bcd86e1)](https://app.codacy.com/manual/danoan/graph-flow?utm_source=github.com&utm_medium=referral&utm_content=danoan/graph-flow&utm_campaign=Badge_Grade_Dashboard)
+[![codecov](https://codecov.io/gh/danoan/graph-flow/branch/master/graph/badge.svg?token=15BDAZDRDS)](https://codecov.io/gh/danoan/graph-flow)
 
 
 ## graph-flow

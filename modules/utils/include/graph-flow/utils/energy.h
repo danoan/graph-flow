@@ -14,9 +14,6 @@ typedef DGtal::Z2i::Domain Domain;
 typedef DGtal::Z2i::Point Point;
 typedef std::set<Point> PointSet;
 
-void computeBoundaryCurve(Curve& boundOut, const DigitalSet& dsIn);
-double elasticaIndependentComponents(const DigitalSet& ds, double ballRadius,
-                                     double h, double alpha, double beta);
 double elastica(Curve::ConstIterator begin, Curve::ConstIterator end,
                 const DigitalSet& ds, double ballRadius, double h, double alpha,
                 double beta);

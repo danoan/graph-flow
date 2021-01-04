@@ -68,7 +68,7 @@ double evaluateData(const GraphSegInput& gfi, const DigitalSet& ds) {
 }
 
 double evaluateRegularization(const GraphSegInput& gfi, const DigitalSet& ds) {
-  return GraphFlow::Utils::Energy::elasticaIndependentComponents(
+  return GraphFlow::Utils::Energy::elastica(
       ds, gfi.vradius, gfi.h, gfi.alpha, gfi.curvatureWeightValidation);
 }
 
