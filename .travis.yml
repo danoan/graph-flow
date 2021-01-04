@@ -17,5 +17,5 @@ script:
 
 after_success:
   - ci_env=$(bash <(curl -s https://codecov.io/env) )
-  - ci_post_cov="bash <(curl -s https://codecov.io/bash) -t ee9f5805-fb7f-4d91-8d6b-8a2e79e6e788"
+  - ci_post_cov="bash <(curl -s https://codecov.io/bash)"
   - docker run $ci_env graphflow:build bash -c "$ci_post_cov"
