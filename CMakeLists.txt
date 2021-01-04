@@ -4,6 +4,7 @@ project(graph-flow)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(EXTPROJECTS_SOURCE_DIR ${CMAKE_SOURCE_DIR}/ext-projects/source)
+set(CMAKE_Swift_NUM_THREADS 2)
 
 add_definitions(-DMY_MAIN_DIR="${CMAKE_SOURCE_DIR}")
 
