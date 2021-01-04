@@ -30,7 +30,7 @@ DigitalSet prepareShape(const Image::DataDistribution& DD) {
   return tempDS;
 }
 
-TEST_CASE("shape evolution execution", "[shape-evolution]") {
+TEST_CASE("contour correction execution", "[contour-correction]") {
   std::string gcoInputFilepath = MY_MAIN_DIR;
   gcoInputFilepath += "/modules/contour-correction/test/input/coala.xml";
 

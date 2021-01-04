@@ -14,3 +14,7 @@ before_install:
   
 script:
   - docker run graphflow:build /bin/sh -c /app/scripts/test-graph-flow.sh
+  - docker run graphflow:build /bin/sh -c /app/scripts/generate-coverage.sh
+
+after_install:
+  - bash <(curl -s https://codecov.io/bash) -t ee9f5805-fb7f-4d91-8d6b-8a2e79e6e788

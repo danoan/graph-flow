@@ -6,13 +6,11 @@ BUILD_FOLDER=${PROJECT_ROOT}/cmake-build-release
 
 GCOV_FILES=${BUILD_FOLDER}/lab/test/coverage/CMakeFiles/test-coverage.dir
 COVERAGE_OUTPUT_FOLDER=${PROJECT_ROOT}/lab/test/coverage/output
-
-mkdir -p ${COVERAGE_OUTPUT_FOLDER}
-cd ${COVERAGE_OUTPUT_FOLDER}
+CODECOV_OUTPUT_FOLDER=${PROJECT_ROOT}/codecov
 
 ${BUILD_FOLDER}/lab/test/coverage/test-coverage
+mkdir -p ${COVERAGE_OUTPUT_FOLDER}
 
-for gcnoFile in $(find ${GCOV_FILES} -name *.gcno)
-do
-  gcov $gcnoFile
-done
+lcov --capture --directory ${GCOV_FILES} --output-file ${COVERAGE_OUTPUT_FOLDER}/test_coverage.info
+genhtml ${COVERAGE_OUTPUT_FOLDER}/test_coverage.info --output-directory ${COVERAGE_OUTPUT_FOLDER}
+

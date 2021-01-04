@@ -32,3 +32,4 @@ ignore:
   - modules/io/test/.*
   - modules/core/test/.*
   - modules/contour-correction/test/.*
+  - catch/.*
