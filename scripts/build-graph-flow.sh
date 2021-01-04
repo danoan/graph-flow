@@ -1,4 +1,3 @@
-
 #!/bin/sh
 
 $SCRIPT_BEGIN
@@ -15,7 +14,7 @@ cmake "$SRC_DIR" -DCMAKE_PREFIX_PATH="${DEPS_DIR}" -DCMAKE_INSTALL_PREFIX="${SRC
 -DBOOST_LIBS_DIR="${DEPS_DIR}/lib" -DBOOST_INCLUDE_DIRS="${DEPS_DIR}/include/boost" \
 -DUSE_REMOTE_REPOSITORIES="ON" -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS="ON"
 
-make -j $BJOBS
+make -j 1
 make install
 
 $SCRIPT_END
