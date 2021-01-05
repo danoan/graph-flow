@@ -27,9 +27,9 @@ void localLength(std::vector<double>& ev, const KSpace& kspace,
   DGtal::MostCenteredMaximalSegmentEstimator<SegmentComputer, SCEstimator>
       MCMDSSTangentEstimator(sc, f);
 
-  MCMDSSTangentEstimator.init(h, range.begin(), range.end());
+  MCMDSSTangentEstimator.init(range.begin(), range.end());
   MCMDSSTangentEstimator.eval(range.begin(), range.end(),
-                              std::back_inserter(tangentEstimations));
+                              std::back_inserter(tangentEstimations),h);
 
   int i = 0;
   for (auto it = itb; it != ite; ++it, ++i) {
