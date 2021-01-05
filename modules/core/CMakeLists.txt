@@ -12,7 +12,7 @@ add_library(graph-flow-core ${LIBRARY_ACTION}
         src/neighborhood/RandomNeighborhood.cpp)
 
 if(${USE_REMOTE_REPOSITORIES})
-    add_dependencies(graph-flow-core graph-flow-utils dipacus geoc)
+    add_dependencies(graph-flow-core graph-flow-utils dipacus)
 else()
     add_dependencies(graph-flow-core graph-flow-utils)
 endif()

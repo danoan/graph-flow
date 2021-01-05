@@ -14,7 +14,7 @@ add_library(graph-flow-utils ${LIBRARY_ACTION}
         src/image.cpp)
 
 if(${USE_REMOTE_REPOSITORIES})
-    add_dependencies(graph-flow-utils dipacus geoc)
+    add_dependencies(graph-flow-utils dipacus)
 endif()
 
 set_target_properties(graph-flow-utils PROPERTIES

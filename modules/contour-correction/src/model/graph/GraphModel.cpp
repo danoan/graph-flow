@@ -4,6 +4,8 @@ namespace GraphFlow::ContourCorrection::Graph {
 
 DigitalSet* optimizeConnectedComponent(const GraphSegInput& gfi,
                                        const DigitalSet& candidateDS) {
+  using namespace DGtal::Z2i;
+  
   Point lb, ub;
   candidateDS.computeBoundingBox(lb, ub);
   Point optBandBorder(gfi.optBand + 1, gfi.optBand + 1);
@@ -68,8 +70,8 @@ double evaluateData(const GraphSegInput& gfi, const DigitalSet& ds) {
 }
 
 double evaluateRegularization(const GraphSegInput& gfi, const DigitalSet& ds) {
-  return GraphFlow::Utils::Energy::elastica(
-      ds, gfi.vradius, gfi.h, gfi.alpha, gfi.curvatureWeightValidation);
+  return GraphFlow::Utils::Energy::elastica(ds, gfi.vradius, gfi.h, gfi.alpha,
+                                            gfi.curvatureWeightValidation);
 }
 
 TerminalWeightVector prepareTerminalWeights(const GraphSegInput& gfi,
