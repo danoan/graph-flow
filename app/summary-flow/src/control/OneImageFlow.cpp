@@ -82,10 +82,10 @@ void OneImageFlow::createUnifiedImage(const std::string& imgOutputPath,
 
 OneImageFlow::SetPoint OneImageFlow::setFromMask(const std::string& imgPath) {
   SetPoint ps;
-  typedef DIPaCUS::Representation::Image2D Image2D;
+  typedef GraphFlow::Utils::Digital::Representation::Image2D Image2D;
   Image2D img = DGtal::GenericReader<Image2D>::import(imgPath);
   DigitalSet ds(img.domain());
-  DIPaCUS::Representation::imageAsDigitalSet(ds, img);
+  GraphFlow::Utils::Digital::Representation::imageAsDigitalSet(ds, img);
   for (auto p : ds) ps.insert(p);
 
   return ps;
@@ -120,7 +120,7 @@ void OneImageFlow::extractContourPoints(SetPointSequence& contours,
   DigitalSet ds = Utils::imageToDigitalSet(imagePath);
 
   DigitalSet boundaryDS(ds.domain());
-  DIPaCUS::Misc::digitalBoundary<Pred8>(boundaryDS, ds);
+  GraphFlow::Utils::Digital::Contour::digitalBoundary<Pred8>(boundaryDS, ds);
 
   DigitalSet filteredDS = Utils::eliminatePixels(boundaryDS, fixedPixels);
 

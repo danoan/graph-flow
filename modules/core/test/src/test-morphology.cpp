@@ -1,5 +1,5 @@
-#include <DIPaCUS/base/Shapes.h>
-#include <DIPaCUS/components/Transform.h>
+#include <graph-flow/utils/digital/shapes.h>
+#include <graph-flow/utils/digital/transform.h>
 #include <graph-flow/core/neighborhood/MorphologyNeighborhood.h>
 
 #include "catch.hpp"
@@ -25,9 +25,9 @@ TEST_CASE("morphology neighborhood with size zero lifecycle",
   }
 
   SECTION("evaluate candidate") {
-    DigitalSet _shape = DIPaCUS::Shapes::ball(0.5);
+    DigitalSet _shape = GraphFlow::Utils::Digital::Shapes::ball(0.5);
     DigitalSet shape =
-        DIPaCUS::Transform::bottomLeftBoundingBoxAtOrigin(_shape);
+        GraphFlow::Utils::Digital::Transform::bottomLeftBoundingBoxAtOrigin(_shape);
 
     DigitalSet out(shape.domain());
     M.evaluateCandidate(out, *M.begin(), shape);
@@ -55,9 +55,9 @@ TEST_CASE("morphology neighborhood with size greater than zero lifecycle",
   }
 
   SECTION("evaluate candidate") {
-    DigitalSet _shape = DIPaCUS::Shapes::ball(0.5);
+    DigitalSet _shape = GraphFlow::Utils::Digital::Shapes::ball(0.5);
     DigitalSet shape =
-        DIPaCUS::Transform::bottomLeftBoundingBoxAtOrigin(_shape);
+        GraphFlow::Utils::Digital::Transform::bottomLeftBoundingBoxAtOrigin(_shape);
    
     int i = 0;
     for (auto it = M.begin(); it != M.end(); ++it, ++i) {

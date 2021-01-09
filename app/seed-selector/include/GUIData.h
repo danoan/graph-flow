@@ -1,8 +1,8 @@
 #ifndef GRAPH_FLOW_SEED_SELECTOR_GUIDATA_H
 #define GRAPH_FLOW_SEED_SELECTOR_GUIDATA_H
 
-#include <DIPaCUS/base/Representation.h>
-#include <DIPaCUS/derivates/Misc.h>
+#include <graph-flow/utils/digital/representation.h>
+#include <graph-flow/utils/digital/contour.h>
 
 #include <boost/filesystem.hpp>
 

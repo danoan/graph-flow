@@ -3,7 +3,7 @@
 
 #include <DGtal/helpers/StdDefs.h>
 #include <DGtal/io/writers/GenericWriter.h>
-#include <DIPaCUS/base/Representation.h>
+#include <graph-flow/utils/digital/representation.h>
 
 namespace GraphFlow::Utils::Display {
 typedef DGtal::Z2i::DigitalSet DigitalSet;

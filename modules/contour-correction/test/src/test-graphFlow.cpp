@@ -2,8 +2,8 @@
 #include <string>
 #include <sstream>
 
-#include <DIPaCUS/base/Shapes.h>
-#include <DIPaCUS/base/Representation.h>
+#include <graph-flow/utils/digital/shapes.h>
+#include <graph-flow/utils/digital/representation.h>
 #include <graph-flow/core/neighborhood/MorphologyNeighborhood.h>
 #include <graph-flow/contour-correction/graph-seg.h>
 #include <graph-flow/io/seed/GrabCutObject.h>
@@ -26,7 +26,7 @@ DigitalSet prepareShape(const Image::DataDistribution& DD) {
   else
     grayscale = segResult;
 
-  DIPaCUS::Representation::CVMatToDigitalSet(tempDS, grayscale, 1);
+  GraphFlow::Utils::Digital::Representation::CVMatToDigitalSet(tempDS, grayscale, 1);
   return tempDS;
 }
 

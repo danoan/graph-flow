@@ -17,9 +17,6 @@ else()
     set(EXTPROJECTS_BUILD_DIR ${CMAKE_SOURCE_DIR}/ext-projects/cmake-build-debug)
 endif ()
 
-set(DIPACUS_INCLUDE_DIRS ${EXTPROJECTS_BUILD_DIR}/include CACHE PATH "DIPaCUS include location path.")
-set(DIPACUS_LIBS_DIR ${EXTPROJECTS_BUILD_DIR}/lib CACHE PATH "DIPaCUS libraries location path.")
-
 set(MAGLAC_INCLUDE_DIRS ${EXTPROJECTS_BUILD_DIR}/include CACHE PATH "MagLac include location path.")
 
 set(LEMON_INCLUDE_DIRS ${CMAKE_PREFIX_PATH}/include CACHE PATH "Lemon include location path.")
@@ -29,7 +26,7 @@ set(BOOST_INCLUDE_DIRS /usr/local/include/boost CACHE PATH "Boost include locati
 set(BOOST_LIBS_DIR /usr/local/lib CACHE PATH "Boost libraries location path.")
 
 set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/install" CACHE PATH "graph-flow binaries and libraries install location." )
-set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib:${BOOST_LIBS_DIR}:${DIPACUS_LIBS_DIR}:${LEMON_LIBS_DIR}")
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib:${BOOST_LIBS_DIR}:${LEMON_LIBS_DIR}")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 set(CREATE_SHARED_LIBRARIES ON CACHE BOOL "Create shared libraries. If off, create static libraries.")
@@ -48,7 +45,6 @@ link_directories(${CMAKE_BINARY_DIR}/modules/utils
         ${CMAKE_BINARY_DIR}/modules/shape-evolution
         ${CMAKE_BINARY_DIR}/modules/contour-correction
         ${LEMON_LIBS_DIR}
-        ${DIPACUS_LIBS_DIR}
         ${BOOST_LIBS_DIR}
         ${DGTAL_LIBS_DIR})
 

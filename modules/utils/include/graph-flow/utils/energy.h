@@ -7,7 +7,6 @@
 #include <DGtal/geometry/surfaces/estimation/IIGeometricFunctors.h>
 #include <DGtal/geometry/surfaces/estimation/IntegralInvariantVolumeEstimator.h>
 #include <DGtal/helpers/StdDefs.h>
-#include <DIPaCUS/derivates/Misc.h>
 
 namespace GraphFlow::Utils::Energy {
 typedef DGtal::Z2i::DigitalSet DigitalSet;

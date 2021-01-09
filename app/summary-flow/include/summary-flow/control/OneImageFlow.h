@@ -3,9 +3,8 @@
 
 #include <DGtal/helpers/StdDefs.h>
 #include <DGtal/io/boards/Board2D.h>
-#include <DIPaCUS/base/Representation.h>
-#include <DIPaCUS/components/Neighborhood.h>
-#include <DIPaCUS/derivates/Misc.h>
+#include <graph-flow/utils/digital/representation.h>
+#include <graph-flow/utils/digital/contour.h>
 
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/path.hpp>
@@ -29,8 +28,8 @@ class OneImageFlow {
   typedef std::set<Point> SetPoint;
   typedef std::vector<SetPoint> SetPointSequence;
 
-  typedef DIPaCUS::Representation::Image2D Image2D;
-  typedef DIPaCUS::Neighborhood::EightNeighborhoodPredicate Pred8;
+  typedef GraphFlow::Utils::Digital::Representation::Image2D Image2D;
+  typedef GraphFlow::Utils::Digital::Neighborhood::EightNeighborhoodPredicate Pred8;
 
  public:
   OneImageFlow(const std::string& imageSrcFolder,

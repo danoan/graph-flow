@@ -12,7 +12,7 @@ add_library(graph-flow-core ${LIBRARY_ACTION}
         src/neighborhood/RandomNeighborhood.cpp)
 
 if(${USE_REMOTE_REPOSITORIES})
-    add_dependencies(graph-flow-core graph-flow-utils dipacus)
+    add_dependencies(graph-flow-core graph-flow-utils)
 else()
     add_dependencies(graph-flow-core graph-flow-utils)
 endif()
@@ -24,12 +24,11 @@ set_target_properties(graph-flow-core PROPERTIES
 target_include_directories(graph-flow-core PRIVATE
         include
         ${CMAKE_SOURCE_DIR}/modules/utils/include
-        ${DIPACUS_INCLUDE_DIRS}
         ${BOOST_INCLUDE_DIRS}
         ${DGTAL_INCLUDE_DIRS})
 
 target_link_libraries(graph-flow-core
-        -ldipacus-base
+        -lgraph-flow-utils
         -lgraph-flow-utils
         -lboost_system
         -lemon

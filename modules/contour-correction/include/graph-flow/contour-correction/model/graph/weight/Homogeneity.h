@@ -2,7 +2,6 @@
 #define GRAPH_FLOW_IMAGE_SEGMENTATION_HOMOGENEITY_H
 
 #include <DGtal/helpers/StdDefs.h>
-#include <DIPaCUS/derivates/Misc.h>
 #include <graph-flow/core/EdgeWeight.h>
 
 namespace GraphFlow::ContourCorrection::Graph::Weight {

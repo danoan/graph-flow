@@ -13,8 +13,7 @@ target_include_directories(grabcut PRIVATE
 target_link_libraries(grabcut
         -lgraph-flow-io
         -lgraph-flow-utils
-        -ldipacus-components
-        -ldipacus-base
+        -lgraph-flow-utils
         -lboost_filesystem
         -lboost_system
         ${DGTAL_LIBRARIES}

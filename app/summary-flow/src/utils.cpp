@@ -7,7 +7,7 @@ LinelSet selectLinels(const DigitalSet& ds) {
   LinelSet ls;
 
   Curve curve;
-  DIPaCUS::Misc::computeBoundaryCurve(curve, ds);
+  GraphFlow::Utils::Digital::Contour::computeBoundaryCurve(curve, ds);
   int n = curve.size() - 5;
   auto it = curve.begin();
   while (n-- > 0) {
@@ -45,8 +45,9 @@ DigitalSet eliminatePixels(const DigitalSet& ds, const LinelSet& ls) {
   PixelSet ps = SummaryFlow::Utils::incidentPixels(ds.domain(), ls);
 
   DigitalSet pixelBoundary(ds.domain());
-  DIPaCUS::Misc::digitalBoundary<
-      DIPaCUS::Neighborhood::FourNeighborhoodPredicate>(pixelBoundary, ds);
+  GraphFlow::Utils::Digital::Contour::digitalBoundary<
+      GraphFlow::Utils::Digital::Neighborhood::FourNeighborhoodPredicate>(
+      pixelBoundary, ds);
   DigitalSet diff = SummaryFlow::Utils::eliminatePixels(pixelBoundary, ps);
 
   return diff;
@@ -61,7 +62,7 @@ DigitalSet imageToDigitalSet(const std::string& imgPath) {
 
   DigitalSet ds(
       Domain(Point(0, 0), Point(grayscale.cols - 1, grayscale.rows - 1)));
-  DIPaCUS::Representation::CVMatToDigitalSet(ds, grayscale);
+  GraphFlow::Utils::Digital::Representation::CVMatToDigitalSet(ds, grayscale);
   return ds;
 }
 
@@ -69,11 +70,12 @@ DigitalSet centerBall(const std::set<Point>& lastSP, double radius, double h) {
   DGtal::Z2i::RealPoint avgPt(0, 0);
   for (auto p : lastSP) avgPt += p;
   avgPt /= lastSP.size();
-  DigitalSet ball =
-      DIPaCUS::Shapes::ball(h, avgPt[0] * h, avgPt[1] * h, radius);
+  DigitalSet ball = GraphFlow::Utils::Digital::Shapes::ball(
+      h, avgPt[0] * h, avgPt[1] * h, radius);
   DigitalSet ballContour(ball.domain());
-  DIPaCUS::Misc::digitalBoundary<
-      DIPaCUS::Neighborhood::EightNeighborhoodPredicate>(ballContour, ball, 1);
+  GraphFlow::Utils::Digital::Contour::digitalBoundary<
+      GraphFlow::Utils::Digital::Neighborhood::EightNeighborhoodPredicate>(
+      ballContour, ball, 1);
 
   return ballContour;
 }

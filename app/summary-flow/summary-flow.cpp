@@ -1,7 +1,6 @@
 #include <DGtal/helpers/StdDefs.h>
 #include <DGtal/io/boards/Board2D.h>
-#include <DIPaCUS/base/Shapes.h>
-#include <DIPaCUS/derivates/Misc.h>
+#include <graph-flow/utils/digital/shapes.h>
 
 #include <boost/filesystem/operations.hpp>
 

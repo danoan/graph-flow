@@ -2,8 +2,8 @@
 #define GRAPH_FLOW_SUMMARY_FLOW_SUMMARY_FLOW_UTILS_H
 
 #include <DGtal/helpers/StdDefs.h>
-#include <DIPaCUS/base/Shapes.h>
-#include <DIPaCUS/derivates/Misc.h>
+#include <graph-flow/utils/digital/shapes.h>
+#include <graph-flow/utils/digital/contour.h>
 
 #include "types.h"
 

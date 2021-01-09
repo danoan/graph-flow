@@ -45,16 +45,16 @@ void GUIData::loadContours(const std::string& segImageMask) {
   Point lb(0, 0);
   Domain domain(lb, ub);
   DigitalSet ds(domain);
-  DIPaCUS::Representation::imageAsDigitalSet(ds, segImageMask);
+  GraphFlow::Utils::Digital::Representation::imageAsDigitalSet(ds, segImageMask);
 
   DigitalSet boundary(domain);
-  DIPaCUS::Misc::digitalBoundary<
-      DIPaCUS::Neighborhood::FourNeighborhoodPredicate>(boundary, ds, 2);
+  GraphFlow::Utils::Digital::Contour::digitalBoundary<
+      GraphFlow::Utils::Digital::Neighborhood::FourNeighborhoodPredicate>(boundary, ds, 2);
 
   Point dims = boundary.domain().upperBound() - boundary.domain().lowerBound() +
                Point(1, 1);
   cv::Mat maskBoundary = cv::Mat::zeros(dims(1), dims(0), CV_8UC1);
-  DIPaCUS::Representation::digitalSetToCVMat(maskBoundary, boundary);
+  GraphFlow::Utils::Digital::Representation::digitalSetToCVMat(maskBoundary, boundary);
 
   cvImg.setTo(color, maskBoundary);
   _meProbablyForeground.restart();

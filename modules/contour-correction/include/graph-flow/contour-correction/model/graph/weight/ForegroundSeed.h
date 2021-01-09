@@ -3,17 +3,17 @@
 
 #include <DGtal/helpers/StdDefs.h>
 #include <graph-flow/core/TerminalWeight.h>
-#include <graph-flow/utils/digital.h>
+#include <graph-flow/utils/digital/misc.h>
 
 namespace GraphFlow::ContourCorrection::Graph::Weight {
 class ForegroundSeed : public GraphFlow::Core::TerminalWeight {
  public:
   typedef DGtal::Z2i::DigitalSet DigitalSet;
-  typedef GraphFlow::Utils::Digital::DTL2 DTL2;
+  typedef GraphFlow::Utils::Digital::Misc::DTL2 DTL2;
 
   ForegroundSeed(const DTL2 &dtl2, int optBand, double ballRadius)
       : connectedToSource(
-            GraphFlow::Utils::Digital::level(dtl2, optBand, optBand - 1)),
+            GraphFlow::Utils::Digital::Misc::level(dtl2, optBand, optBand - 1)),
         maxPenal(M_PI * pow(ballRadius, 2) * 1024) {}
 
   double operator()(const Point &p) {

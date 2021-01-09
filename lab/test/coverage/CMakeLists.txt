@@ -21,7 +21,7 @@ target_compile_options(test-coverage PRIVATE
 )
 
 if (${USE_REMOTE_REPOSITORIES})
-  add_dependencies(test-coverage dipacus graph-flow-core graph-flow-io graph-flow-shape-evolution graph-flow-contour-correction graph-flow-utils)    
+  add_dependencies(test-coverage graph-flow-core graph-flow-io graph-flow-shape-evolution graph-flow-contour-correction graph-flow-utils)    
 else()
   add_dependencies(test-coverage graph-flow-core graph-flow-io graph-flow-shape-evolution graph-flow-contour-correction graph-flow-utils)    
 endif ()
@@ -34,7 +34,7 @@ target_include_directories(test-coverage PRIVATE
         ${CMAKE_SOURCE_DIR}/modules/io/seed/include
         ${CMAKE_SOURCE_DIR}/modules/core/include
         ${CMAKE_SOURCE_DIR}/modules/contour-correction/include
-        ${DIPACUS_INCLUDE_DIRS}
+        ${MAGLAC_INCLUDE_DIRS}
         ${DGTAL_INCLUDE_DIRS}
         ${BOOST_INCLUDE_DIRS})
 
@@ -44,9 +44,7 @@ target_link_libraries(test-coverage
         -lgraph-flow-io
         -lgraph-flow-shape-evolution
         -lgraph-flow-contour-correction
-        -ldipacus-base
-        -ldipacus-components
-        -ldipacus-derivates    
+        -lgraph-flow-utils 
         -lemon
         -lboost_filesystem    
         -lboost_system

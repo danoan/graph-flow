@@ -11,7 +11,7 @@ add_executable(summary-flow
         )
 
 if(${USE_REMOTE_REPOSITORIES})
-        add_dependencies(summary-flow dipacus)
+        add_dependencies(summary-flow graph-flow-utils)
 endif()
 
 target_compile_features(summary-flow PRIVATE cxx_auto_type)
@@ -19,15 +19,13 @@ target_compile_options(summary-flow PRIVATE -fext-numeric-literals)
 
 target_include_directories(summary-flow PRIVATE
         include
-        ${DIPACUS_INCLUDE_DIRS}
+        ${CMAKE_SOURCE_DIR}/modules/utils/include
         ${DGTAL_INCLUDE_DIRS}
         ${BOOST_INCLUDE_DIRS}
         )
 
 target_link_libraries(summary-flow
-        -ldipacus-derivates
-        -ldipacus-components
-        -ldipacus-base
+        -lgraph-flow-utils
         -lboost_filesystem
         -lboost_system
         ${DGTAL_LIBRARIES}

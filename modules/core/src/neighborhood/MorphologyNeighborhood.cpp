@@ -5,7 +5,7 @@ namespace GraphFlow::Core::Neighborhood {
 void Morphology::evaluateCandidate(DigitalSet& dsOutput,
                                    const Blueprint& candidate,
                                    const DigitalSet& dsInput) const {
-  using namespace DIPaCUS::Morphology;
+  using namespace GraphFlow::Utils::Digital::Morphology;
   if (candidate.operationType == Blueprint::OperationType::Erosion)
     erode(dsOutput, dsInput, StructuringElement(me, candidate.morphologySize),
           1);

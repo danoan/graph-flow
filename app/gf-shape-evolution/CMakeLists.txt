@@ -8,7 +8,7 @@ src/utils.cpp
         main.cpp)
 
 if(${USE_REMOTE_REPOSITORIES})
-    add_dependencies(gf-shape-evolution graph-flow-utils graph-flow-shape-evolution dipacus magLac)
+    add_dependencies(gf-shape-evolution graph-flow-utils graph-flow-shape-evolution magLac)
 else()
     add_dependencies(gf-shape-evolution graph-flow-utils graph-flow-shape-evolution)
 endif()
@@ -18,15 +18,12 @@ target_include_directories(gf-shape-evolution PRIVATE
         ${CMAKE_SOURCE_DIR}/modules/core/include
         ${CMAKE_SOURCE_DIR}/modules/utils/include
         ${CMAKE_SOURCE_DIR}/modules/shape-evolution/include
-        ${DIPACUS_INCLUDE_DIRS}
         ${MAGLAC_INCLUDE_DIRS}
         ${DGTAL_INCLUDE_DIRS}
         ${BOOST_INCLUDE_DIRS})
 
 target_link_libraries(gf-shape-evolution
-        -ldipacus-base
-        -ldipacus-components
-        -ldipacus-derivates
+        -lgraph-flow-utils
         -lgraph-flow-core
         -lgraph-flow-utils
         -lgraph-flow-shape-evolution

@@ -27,22 +27,22 @@ typename TNeighborhoodExplorer::VisitNeighborFunction visitNeighbor(
     Point optBandBorder(context.gfi.optBand + 1, context.gfi.optBand + 1);
     Domain reducedDomain(lb - optBandBorder, ub + optBandBorder);
 
-    auto dtInterior = GraphFlow::Utils::Digital::interiorDistanceTransform(
+    auto dtInterior = GraphFlow::Utils::Digital::Misc::interiorDistanceTransform(
         reducedDomain, candidateDS);
-    auto dtExterior = GraphFlow::Utils::Digital::exteriorDistanceTransform(
+    auto dtExterior = GraphFlow::Utils::Digital::Misc::exteriorDistanceTransform(
         reducedDomain, candidateDS);
 
     auto ewv = prepareEdgeWeightVector(context.gfi, candidateDS);
     auto twv = prepareTerminalWeights(context.gfi, dtInterior, dtExterior);
 
     DigitalSet vertexSet =
-        GraphFlow::Utils::Digital::level(dtInterior, context.gfi.optBand, 0);
+        GraphFlow::Utils::Digital::Misc::level(dtInterior, context.gfi.optBand, 0);
     vertexSet +=
-        GraphFlow::Utils::Digital::level(dtExterior, context.gfi.optBand, 0);
+        GraphFlow::Utils::Digital::Misc::level(dtExterior, context.gfi.optBand, 0);
 
     FlowGraph fg(vertexSet, twv, ewv);
     DigitalSet *solutionSet = new DigitalSet(candidateDS.domain());
-    DIPaCUS::SetOperations::setDifference(*solutionSet, candidateDS, vertexSet);
+    GraphFlow::Utils::Digital::SetOperations::setDifference(*solutionSet, candidateDS, vertexSet);
     solutionSet->insert(fg.sourceNodes.begin(), fg.sourceNodes.end());
 
     double energyValue = GraphFlow::Utils::Energy::elastica(

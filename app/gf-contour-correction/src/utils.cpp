@@ -14,7 +14,7 @@ void outputImages(const GrabCutObject &gco, const cv::Mat &segResultImg,
   const cv::Mat &inputImage = gco.inputImage;
 
   cv::Mat foregroundMask = cv::Mat::zeros(inputImage.size(), CV_8UC1);
-  DIPaCUS::Representation::digitalSetToCVMat(foregroundMask, outputDS);
+  GraphFlow::Utils::Digital::Representation::digitalSetToCVMat(foregroundMask, outputDS);
 
   cv::Mat imgOutput = cv::Mat::zeros(inputImage.size(), CV_8UC3);
 

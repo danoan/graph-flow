@@ -2,8 +2,6 @@
 #define GRAPH_FLOW_IMAGE_SEGMENTATION_GRAPHCONTEXT_H
 
 #include <graph-flow/core/neighborhood/MorphologyNeighborhood.h>
-#include <graph-flow/utils/digital.h>
-
 #include "graph-flow/contour-correction/model/GraphSegInput.h"
 
 namespace GraphFlow::ContourCorrection::Graph {

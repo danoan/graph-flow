@@ -13,9 +13,9 @@ DigitalSet* optimizeConnectedComponent(const GraphSegInput& gfi,
   Domain reducedDomain(lb - 2 * optBandBorder, ub + 2 * optBandBorder);
   const Domain& domain = candidateDS.domain();
 
-  auto dtInterior = GraphFlow::Utils::Digital::interiorDistanceTransform(
+  auto dtInterior = GraphFlow::Utils::Digital::Misc::interiorDistanceTransform(
       reducedDomain, candidateDS);
-  auto dtExterior = GraphFlow::Utils::Digital::exteriorDistanceTransform(
+  auto dtExterior = GraphFlow::Utils::Digital::Misc::exteriorDistanceTransform(
       reducedDomain, candidateDS);
 
   auto ewv = prepareEdgeWeightVector(gfi, candidateDS,
@@ -24,15 +24,15 @@ DigitalSet* optimizeConnectedComponent(const GraphSegInput& gfi,
   auto twv = prepareTerminalWeights(gfi, candidateDS, dtInterior, dtExterior);
 
   DigitalSet _vertexSet =
-      GraphFlow::Utils::Digital::level(dtInterior, gfi.optBand, 0);
-  _vertexSet += GraphFlow::Utils::Digital::level(dtExterior, gfi.optBand, 0);
+      GraphFlow::Utils::Digital::Misc::level(dtInterior, gfi.optBand, 0);
+  _vertexSet += GraphFlow::Utils::Digital::Misc::level(dtExterior, gfi.optBand, 0);
   DigitalSet vertexSet(domain);
   for (auto p : _vertexSet)
     if (domain.isInside(p)) vertexSet.insert(p);
 
   FlowGraph fg(vertexSet, twv, ewv);
   DigitalSet* solutionSet = new DigitalSet(domain);
-  DIPaCUS::SetOperations::setDifference(*solutionSet, candidateDS, vertexSet);
+  GraphFlow::Utils::Digital::SetOperations::setDifference(*solutionSet, candidateDS, vertexSet);
   solutionSet->insert(fg.sourceNodes.begin(), fg.sourceNodes.end());
 
   for (auto ew : ewv) delete ew;
