@@ -1,7 +1,13 @@
 project(test-coverage)
 
 add_executable(test-coverage
-${CMAKE_SOURCE_DIR}/modules/utils/test/src/test-digital.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/test/src/digital/test-contour.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/test/src/digital/test-misc.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/test/src/digital/test-morphology.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/test/src/digital/test-representation.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/test/src/digital/test-set-operations.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/test/src/digital/test-shapes.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/test/src/digital/test-transform.cpp
 ${CMAKE_SOURCE_DIR}/modules/utils/test/src/test-display.cpp
 ${CMAKE_SOURCE_DIR}/modules/utils/test/src/test-energy.cpp
 ${CMAKE_SOURCE_DIR}/modules/utils/test/src/test-image.cpp
