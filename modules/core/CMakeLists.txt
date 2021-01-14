@@ -29,7 +29,6 @@ target_include_directories(graph-flow-core PRIVATE
 
 target_link_libraries(graph-flow-core
         -lgraph-flow-utils
-        -lgraph-flow-utils
         -lboost_system
         -lemon
         ${DGTAL_LIBRARIES})

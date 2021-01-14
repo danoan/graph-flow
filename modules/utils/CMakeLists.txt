@@ -31,7 +31,6 @@ target_include_directories(graph-flow-utils PRIVATE
         ${BOOST_INCLUDE_DIRS})
 
 target_link_libraries(graph-flow-utils
-        -lgraph-flow-utils
         -lboost_system
         ${DGTAL_LIBRARIES}
         ${OpenCV_LIBS})
