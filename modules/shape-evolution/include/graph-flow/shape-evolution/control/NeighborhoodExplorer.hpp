@@ -1,43 +1,38 @@
 #include "NeighborhoodExplorer.h"
 
 namespace GraphFlow::ShapeEvolution {
-template <class TCombinator, class TUserVars, class TParams, class TContext>
-NeighborhoodExplorer<TCombinator, TUserVars, TParams,
+template <class TCombinator, class TThreadData, class TContext>
+NeighborhoodExplorer<TCombinator, TThreadData,
                      TContext>::~NeighborhoodExplorer() {
   for (auto it = this->begin(); it != this->end(); ++it) {
-    for (auto ep : it->vars.candidatesVector) delete ep.ds;
+    for (auto ep : it->mutableData.candidatesVector) delete ep.ds;
   }
   delete threadTrigger;
 }
 
-template <class TCombinator, class TUserVars, class TParams, class TContext>
-NeighborhoodExplorer<TCombinator, TUserVars, TParams,
-                     TContext>::NeighborhoodExplorer(MyCombinator &combinator,
-                                                     const Context &context)
+template <class TCombinator, class TThreadData, class TContext>
+NeighborhoodExplorer<TCombinator, TThreadData, TContext>::NeighborhoodExplorer(
+    MyCombinator &combinator, const MyContext &context)
     : combinator(combinator), context(context) {}
 
-template <class TCombinator, class TUserVars, class TParams, class TContext>
-void NeighborhoodExplorer<TCombinator, TUserVars, TParams, TContext>::start(
+template <class TCombinator, class TThreadData, class TContext>
+void NeighborhoodExplorer<TCombinator, TThreadData, TContext>::start(
     VisitNeighborFunction vnf, int numThreads) {
-  Params params;
-  const Context &myContext = this->context;
-  threadTrigger = new MyThreadTrigger(
-      numThreads, 1,
-      [&myContext, &vnf](MyResolver &resolver, MyThreadInput &ti,
-                         ThreadControl &tc) {
-        vnf(myContext, resolver, ti, tc);
-      }
+  typename MyThreadData::ConstantData params;
+  const MyContext &myContext = this->context;
 
-  );
-  threadTrigger->start(combinator, params);
+  threadTrigger = new MyThreadTrigger(numThreads, 1);
+  threadTrigger->start(combinator, params,
+                       [&myContext, &vnf](MyThreadInfo &&ti) mutable {
+                         vnf(myContext, std::move(ti));
+                       });
 }
 
-template <class TUserVars, class TParams, class TRange, class TContext>
+template <class TThreadData, class TRange, class TContext>
 auto createNeighborExplorer(TRange &range, const TContext &context) {
-  auto src = magLac::Core::Single::createCombinator(range);
+  auto src = magLac::Core::Combinator(range);
   typedef decltype(src) MyCombinator;
-  return NeighborhoodExplorer<MyCombinator, TUserVars, TParams, TContext>(
-      src, context);
+  return NeighborhoodExplorer<MyCombinator, TThreadData, TContext>(src,
+                                                                   context);
 }
-
 }  // namespace GraphFlow::ShapeEvolution

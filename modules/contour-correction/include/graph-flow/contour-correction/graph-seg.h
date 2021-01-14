@@ -16,12 +16,17 @@ namespace GraphFlow::ContourCorrection {
 typedef DGtal::Z2i::DigitalSet DigitalSet;
 typedef std::function<void(const GraphSegIteration &)> IterationCallback;
 
-struct UserVars {
-  void restart(){};
-  std::vector<Candidate> vectorOfCandidates;
-};
+struct MyThreadData{
+  struct MutableData {
+    void restart(){};
+    std::vector<Candidate> candidatesVector;
+  };
 
-struct Params {};
+  struct ConstantData {};
+
+  MutableData mutableData;
+  ConstantData constantData;
+};
 
 template <class TNeighExplorer>
 double buildBestSolution(DigitalSet &solution, TNeighExplorer &neighExplorer);

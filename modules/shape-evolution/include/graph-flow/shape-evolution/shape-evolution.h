@@ -16,12 +16,17 @@ namespace GraphFlow::ShapeEvolution {
 typedef DGtal::Z2i::DigitalSet DigitalSet;
 typedef std::function<void(const GraphFlowIteration &)> IterationCallback;
 
-struct UserVars {
-  void restart(){};
-  std::vector<Candidate> candidatesVector;
-};
+struct MyThreadData{
+  struct MutableData {
+    void restart(){};
+    std::vector<Candidate> candidatesVector;
+  };
 
-struct Params {};
+  struct ConstantData {};
+
+  MutableData mutableData;
+  ConstantData constantData;
+};
 
 template <class TNeighExplorerIterator>
 Candidate selectBestCandidate(TNeighExplorerIterator begin,
