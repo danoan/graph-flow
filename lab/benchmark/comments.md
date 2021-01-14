@@ -1,5 +1,7 @@
 # Benchmark comments
 
+<img alt="Last benchmark" src="https://github.com/danoan/graph-flow/blob/master/benchmark/last-benchmark.png" height="200" />
+
 ## v0.2.5
 There is a nitid increase in the execution time for the shape evolution application. That is due to the use of the more general contour detection function `extractAll2DSCellContours`.
 
