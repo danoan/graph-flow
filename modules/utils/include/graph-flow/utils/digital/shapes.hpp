@@ -2,7 +2,7 @@
 
 namespace GraphFlow::Utils::Digital::Shapes {
 template <typename TShape>
-DigitalSet Shapes::digitizeShape(const TShape &shape, double h) {
+DigitalSet digitizeShape(const TShape &shape, double h) {
   using namespace DGtal::Z2i;
   
   BOOST_CONCEPT_ASSERT((DGtal::concepts::CEuclideanBoundedShape<TShape>));
