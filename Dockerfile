@@ -1,5 +1,5 @@
 #Use an official Python runtime as a parent image
-FROM danoan/graphflow:dgtal
+FROM danoan/graphflow:dgtal1.1
 
 # Set the working directory to /app
 WORKDIR /app
