@@ -2,7 +2,7 @@
 #define GRAPH_FLOW_CORE_MORPHOLOGYNEIGHBORHOOD_H
 
 #include <DGtal/helpers/StdDefs.h>
-#include <graph-flow/utils/digital.h>
+#include <graph-flow/utils/digital/morphology.h>
 
 namespace GraphFlow::Core::Neighborhood {
 class Morphology {
@@ -19,7 +19,7 @@ class Morphology {
   };
 
   typedef DGtal::Z2i::DigitalSet DigitalSet;
-  typedef DIPaCUS::Morphology::StructuringElement::Type MorphologyElement;
+  typedef GraphFlow::Utils::Digital::Morphology::StructuringElement::Type MorphologyElement;
   typedef std::vector<Blueprint> VectorOfBlueprints;
   typedef VectorOfBlueprints::const_iterator BlueprintsIterator;
 

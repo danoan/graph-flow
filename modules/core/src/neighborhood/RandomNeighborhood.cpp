@@ -17,7 +17,7 @@ void Random::randomOnContour(DigitalSet& dsOutput) const {
   std::vector<Point>& vpoints = vcontours[0];
   int bSize = vpoints.size();
 
-  DigitalSet ballDS = DIPaCUS::Shapes::ball(1.0, 0, 0, 10);
+  DigitalSet ballDS = GraphFlow::Utils::Digital::Shapes::ball(1.0, 0, 0, 10);
   std::random_device rd;
 
   std::uniform_int_distribution opType(0, 1);
@@ -47,7 +47,7 @@ void Random::randomOnContour(DigitalSet& dsOutput) const {
 void Random::randomOnDomain(DigitalSet& dsOutput) const {
   using namespace DGtal::Z2i;
 
-  DigitalSet ballDS = DIPaCUS::Shapes::ball(1.0, 0, 0, 5);
+  DigitalSet ballDS = GraphFlow::Utils::Digital::Shapes::ball(1.0, 0, 0, 5);
   std::random_device rd;
 
   Point lb = dsOutput.domain().lowerBound();
@@ -82,14 +82,14 @@ void Random::randomOnDomain(DigitalSet& dsOutput) const {
 void Random::evaluateCandidate(DigitalSet& dsOutput, const Blueprint& candidate,
                                const DigitalSet& dsInput) const {
   using namespace DGtal::Z2i;
-  auto me = DIPaCUS::Morphology::StructuringElement::CIRCLE;
+  auto me = GraphFlow::Utils::Digital::Morphology::StructuringElement::CIRCLE;
   if (candidate.operationType == Blueprint::None) {
     dsOutput = dsInput;
   } else if (candidate.operationType == Blueprint::Dilation) {
-    dilate(dsOutput, dsInput, DIPaCUS::Morphology::StructuringElement(me, 1),
+    dilate(dsOutput, dsInput, GraphFlow::Utils::Digital::Morphology::StructuringElement(me, 1),
            1);
   } else if (candidate.operationType == Blueprint::Erosion) {
-    erode(dsOutput, dsInput, DIPaCUS::Morphology::StructuringElement(me, 1), 1);
+    erode(dsOutput, dsInput, GraphFlow::Utils::Digital::Morphology::StructuringElement(me, 1), 1);
   } else if (candidate.operationType == Blueprint::RandomOnContour) {
     dsOutput = dsInput;
     randomOnContour(dsOutput);

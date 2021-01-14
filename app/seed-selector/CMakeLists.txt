@@ -9,7 +9,7 @@ add_executable(seed-selector seed-selector.cpp
         src/RectSelector.cpp)
 
 if(${USE_REMOTE_REPOSITORIES})
-    add_dependencies(seed-selector dipacus)
+    add_dependencies(seed-selector graph-flow-utils)
 endif()
 
 
@@ -17,12 +17,11 @@ target_include_directories(seed-selector PRIVATE
         include
         ${CMAKE_SOURCE_DIR}/modules/utils/include
         ${BOOST_INCLUDE_DIRS}
-        ${DIPACUS_INCLUDE_DIRS}        
         ${DGTAL_INCLUDE_DIRS})
 
 target_link_libraries(seed-selector
-        -ldipacus-components
-        -ldipacus-base
+        -lgraph-flow-utils
+        -lgraph-flow-utils
         -lboost_filesystem
         -lboost_system
         ${DGTAL_LIBRARIES}

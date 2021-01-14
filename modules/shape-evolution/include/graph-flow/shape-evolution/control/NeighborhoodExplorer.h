@@ -1,51 +1,52 @@
 #ifndef GRAPH_FLOW_SHAPE_EVOLUTION_NeighborhoodExplorer_h
 #define GRAPH_FLOW_SHAPE_EVOLUTION_NeighborhoodExplorer_h
 
-#include <magLac/core/multithread/ThreadInput.h>
 #include <magLac/core/multithread/Trigger.h>
 
 #include <magLac/core/base/Range.hpp>
-#include <magLac/core/single/Combinator.hpp>
+#include <magLac/core/base/Combinator.h>
 
 namespace GraphFlow::ShapeEvolution {
-template <class TCombinator, class TUserVars, class TParams, class TContext>
+template <class TCombinator, class TThreadData, class TContext>
 class NeighborhoodExplorer {
  public:
   typedef TCombinator MyCombinator;
-  typedef TUserVars UserVars;
-  typedef TParams Params;
-  typedef TContext Context;
+  typedef TThreadData MyThreadData;
+  typedef TContext MyContext;
 
   typedef typename MyCombinator::MyResolver MyResolver;
 
-  typedef typename magLac::Core::MultiThread::ThreadInput<MyCombinator,
-                                                          UserVars, Params>
-      MyThreadInput;
-  typedef typename magLac::Core::MultiThread::Trigger<MyThreadInput>
-      MyThreadTrigger;
-  typedef typename magLac::Core::MultiThread::ThreadControl ThreadControl;
+  typedef typename magLac::Core::MultiThread::DataChunk<MyCombinator,
+                                                          MyThreadData>
+      MyThreadDataChunk;
 
-  typedef std::function<void(const Context&, MyResolver&, MyThreadInput&,
-                             ThreadControl&)>
+  typedef typename magLac::Core::MultiThread::Trigger<MyThreadDataChunk>
+      MyThreadTrigger;
+
+  typedef typename magLac::Core::MultiThread::ThreadControl MyThreadControl;
+
+  typedef magLac::Core::MultiThread::ThreadInfo<MyThreadDataChunk> MyThreadInfo;
+
+  typedef std::function<void(const MyContext&, MyThreadInfo&&)>
       VisitNeighborFunction;
 
  public:
-  NeighborhoodExplorer(MyCombinator& combinator, const Context& context);
+  NeighborhoodExplorer(MyCombinator& combinator, const MyContext& context);
   void start(VisitNeighborFunction vnf, int numThreads);
 
-  auto begin() { return threadTrigger->threadInputVector.begin(); }
-  auto end() { return threadTrigger->threadInputVector.end(); }
+  auto begin() { return threadTrigger->begin(); }
+  auto end() { return threadTrigger->end(); }
 
   ~NeighborhoodExplorer();
 
  private:
   MyCombinator combinator;
-  const Context& context;
+  const MyContext& context;
 
   MyThreadTrigger* threadTrigger;
 };
 
-template <class TTUserVars, class TTParams, class TRange, class TContext>
+template <class TThreadData, class TRange, class TContext>
 auto createNeighhborExplorer(TRange& range, const TContext& context);
 }  // namespace GraphFlow::ShapeEvolution
 

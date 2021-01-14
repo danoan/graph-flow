@@ -6,16 +6,20 @@ if(${CREATE_SHARED_LIBRARIES})
 endif()
 
 add_library(graph-flow-utils ${LIBRARY_ACTION}
-        src/timer.cpp
-        src/digital.cpp
+        src/digital/morphology.cpp
+        src/digital/representation.cpp
+        src/digital/shapes.cpp        
+        src/digital/contour.cpp
+        src/digital/transform.cpp
+        src/digital/set-operations.cpp
+        src/digital/misc.cpp
+        src/digital/types/BeanShape.cpp
+        src/digital/types/Neighborhood.cpp
         src/energy.cpp
         src/display.cpp
         src/string.cpp
-        src/image.cpp)
-
-if(${USE_REMOTE_REPOSITORIES})
-    add_dependencies(graph-flow-utils dipacus geoc)
-endif()
+        src/image.cpp
+        src/timer.cpp)
 
 set_target_properties(graph-flow-utils PROPERTIES
         COMPILE_FLAGS -fPIC
@@ -23,13 +27,10 @@ set_target_properties(graph-flow-utils PROPERTIES
 
 target_include_directories(graph-flow-utils PRIVATE
         include
-        ${DIPACUS_INCLUDE_DIRS}
         ${DGTAL_INCLUDE_DIRS}
         ${BOOST_INCLUDE_DIRS})
 
 target_link_libraries(graph-flow-utils
-        -ldipacus-base
-        -ldipacus-components
         -lboost_system
         ${DGTAL_LIBRARIES}
         ${OpenCV_LIBS})

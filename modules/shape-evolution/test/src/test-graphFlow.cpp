@@ -2,7 +2,7 @@
 #include <string>
 #include <sstream>
 
-#include <DIPaCUS/base/Shapes.h>
+#include <graph-flow/utils/digital/shapes.h>
 #include <graph-flow/core/neighborhood/MorphologyNeighborhood.h>
 #include <graph-flow/shape-evolution/shape-evolution.h>
 
@@ -12,7 +12,7 @@ using namespace GraphFlow::Core::Neighborhood;
 TEST_CASE("shape evolution execution", "[shape-evolution]") {
   using namespace DGtal::Z2i;
 
-  DigitalSet ds = DIPaCUS::Shapes::square(0.5,0,0,20);
+  DigitalSet ds = GraphFlow::Utils::Digital::Shapes::square(0.5,0,0,20);
   GraphFlowInput gfi(ds);
   gfi.h = 0.5;
   gfi.iterations = 30;

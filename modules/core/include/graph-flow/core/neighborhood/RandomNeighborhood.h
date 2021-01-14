@@ -2,9 +2,8 @@
 #define GRAPH_FLOW_CORE_RANDOMNEIGHBORHOOD_H
 
 #include <DGtal/helpers/StdDefs.h>
-#include <DIPaCUS/components/Neighborhood.h>
-#include <DIPaCUS/derivates/Misc.h>
-#include <graph-flow/utils/digital.h>
+#include <graph-flow/utils/digital/morphology.h>
+#include <graph-flow/utils/digital/shapes.h>
 
 #include <random>
 

@@ -7,8 +7,9 @@ Candidate selectBestCandidate(TNeighExplorerIterator begin,
                               TNeighExplorerIterator end) {
   std::vector<Candidate> candidates;
   for (auto it = begin; it != end; ++it) {
-    candidates.insert(candidates.end(), it->vars.candidatesVector.begin(),
-                      it->vars.candidatesVector.end());
+    candidates.insert(candidates.end(),
+                      it->mutableData.candidatesVector.begin(),
+                      it->mutableData.candidatesVector.end());
   }
 
   std::sort(candidates.begin(), candidates.end(),
@@ -34,14 +35,14 @@ void graphFlow(const GraphFlowInput &gfi, TNeighborhood &&neighborhood,
   icb(GraphFlowIteration(itNumber++, lastEnergyValue, ds,
                          GraphFlowIteration::Init));
 
+  auto range =
+      magLac::Core::addRange(neighborhood.begin(), neighborhood.end(), 1);
+
   bool execute = true;
   while (execute) {
     Graph::Context context(gfi, ds, neighborhood);
-    auto range = magLac::Core::addRange(context.neighborhood.begin(),
-                                        context.neighborhood.end(), 1);
-    auto neighExplorer =
-        createNeighborExplorer<UserVars, Params>(range, context);
 
+    auto neighExplorer = createNeighborExplorer<MyThreadData>(*range, context);
     neighExplorer.start(Graph::visitNeighbor(neighExplorer), gfi.nThreads);
 
     Candidate bestCandidate =

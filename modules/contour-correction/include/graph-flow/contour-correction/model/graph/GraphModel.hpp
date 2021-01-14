@@ -6,15 +6,12 @@ template <class TNeighborhoodExplorer>
 typename TNeighborhoodExplorer::VisitNeighborFunction visitNeighbor(
     TNeighborhoodExplorer& neighExplorer) {
   typedef TNeighborhoodExplorer NE;
-  typedef typename NE::MyResolver MyResolver;
-  typedef typename NE::MyThreadInput MyThreadInput;
-  typedef typename NE::ThreadControl ThreadControl;
-  typedef typename NE::Context MyContext;
+  typedef typename NE::MyThreadInfo MyThreadInfo;
+  typedef typename NE::MyContext MyContext;
 
-  return [](const MyContext& context, MyResolver& resolver, MyThreadInput& ti,
-            ThreadControl& tc) {
+  return [](const MyContext& context, MyThreadInfo&& ti) mutable {
     typename MyContext::Neighborhood::VectorOfBlueprints c1(1);
-    resolver >> c1;
+    ti.resolver >> c1;
 
     typename MyContext::Neighborhood::Blueprint& blueprint = c1[0];
     const GraphSegInput& gfi = context.gfi;
@@ -40,7 +37,8 @@ typename TNeighborhoodExplorer::VisitNeighborFunction visitNeighbor(
     double elasticaValue = evaluateRegularization(gfi, *optimalSet);
     double energyValue = dataFidelityValue + elasticaValue;
 
-    ti.vars.vectorOfCandidates.push_back(Candidate{optimalSet, energyValue});
+    ti.data.mutableData.candidatesVector.push_back(
+        Candidate{optimalSet, energyValue});
   };
 }
 }  // namespace GraphFlow::ContourCorrection::Graph

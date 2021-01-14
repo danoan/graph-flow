@@ -20,10 +20,10 @@ void setHighlightMask(cv::Mat &outputImage, const cv::Mat &baseImage,
   DigitalSet dsContour(dsMask.domain());
   cv::Mat contourMask = cv::Mat::zeros(baseImage.size(), CV_8UC1);
 
-  DIPaCUS::Representation::CVMatToDigitalSet(dsMask, mask, 1);
-  DIPaCUS::Misc::digitalBoundary<
-      DIPaCUS::Neighborhood::FourNeighborhoodPredicate>(dsContour, dsMask, 2);
-  DIPaCUS::Representation::digitalSetToCVMat(contourMask, dsContour);
+  GraphFlow::Utils::Digital::Representation::CVMatToDigitalSet(dsMask, mask, 1);
+  GraphFlow::Utils::Digital::Contour::digitalBoundary<
+      GraphFlow::Utils::Digital::Neighborhood::FourNeighborhoodPredicate>(dsContour, dsMask, 2);
+  GraphFlow::Utils::Digital::Representation::digitalSetToCVMat(contourMask, dsContour);
 
   outputImage.setTo(color, contourMask);
 }

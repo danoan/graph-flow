@@ -22,7 +22,7 @@ namespace GraphFlow::ContourCorrection::Graph {
 
 typedef DGtal::Z2i::DigitalSet DigitalSet;
 typedef DGtal::Z2i::Domain Domain;
-typedef GraphFlow::Utils::Digital::DTL2 DTL2;
+typedef GraphFlow::Utils::Digital::Misc::DTL2 DTL2;
 
 typedef GraphFlow::Core::TerminalWeight TerminalWeight;
 typedef GraphFlow::Core::EdgeWeight EdgeWeight;

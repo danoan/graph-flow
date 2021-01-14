@@ -1,4 +1,4 @@
-#include <DIPaCUS/base/Shapes.h>
+#include <graph-flow/utils/digital/shapes.h>
 #include <graph-flow/utils/energy.h>
 
 #include <catch.hpp>
@@ -10,8 +10,8 @@ TEST_CASE("elastica", "[energy]") {
   double R1 = 8;
   double R2 = 16;
 
-  DigitalSet B1 = DIPaCUS::Shapes::ball(h, 0, 0, R1);
-  DigitalSet B2 = DIPaCUS::Shapes::ball(h, 0, 0, R2);
+  DigitalSet B1 = GraphFlow::Utils::Digital::Shapes::ball(h, 0, 0, R1);
+  DigitalSet B2 = GraphFlow::Utils::Digital::Shapes::ball(h, 0, 0, R2);
 
   double estimationBallRadius = 5;
 

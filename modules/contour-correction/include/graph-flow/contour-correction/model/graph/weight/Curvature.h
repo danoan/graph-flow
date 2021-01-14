@@ -2,14 +2,15 @@
 #define GRAPH_FLOW_IMAGE_SEGMENTATION_CURVATURE_H
 
 #include <DGtal/helpers/StdDefs.h>
-#include <DIPaCUS/derivates/Misc.h>
 #include <graph-flow/core/EdgeWeight.h>
+#include <graph-flow/utils/digital/set-operations.h>
 
 namespace GraphFlow::ContourCorrection::Graph::Weight {
 class Curvature : public GraphFlow::Core::EdgeWeight {
  public:
   typedef DGtal::Z2i::DigitalSet DigitalSet;
-  typedef DIPaCUS::Misc::DigitalBallIntersection DigitalBallIntersection;
+  typedef GraphFlow::Utils::Digital::SetOperations::DigitalBallIntersection
+      DigitalBallIntersection;
   typedef EdgeWeight::Point Point;
 
   typedef std::map<Point, double> PointMap;

@@ -2,8 +2,7 @@
 #define GRAPH_FLOW_CORE_FLOWGRAPH_H
 
 #include <DGtal/helpers/StdDefs.h>
-#include <DIPaCUS/components/SetOperations.h>
-#include <graph-flow/utils/digital.h>
+#include <graph-flow/utils/digital/set-operations.h>
 #include <graph-flow/utils/timer.h>
 #include <lemon/adaptors.h>
 #include <lemon/graph_to_eps.h>

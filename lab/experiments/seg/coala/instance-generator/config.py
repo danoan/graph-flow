@@ -5,13 +5,13 @@ class Param:
         self.type=type
         self.items=[ {'path':resolver(prefix,v),'value':v} for v in items]
 
-RADIUS=[3,5,9]
-LENGTH_PENALIZATION=[0,0.05,0.01]
+RADIUS=[5,9,16]
+LENGTH_PENALIZATION=[0,0.01]
 DATA_REGIONAL_TERM=[1,2]
 CURVATURE_TERM=[2.5]
-ITERATIONS=100
+ITERATIONS=30
 OPT_BAND=[2]
-NEIGH_SIZE=[2,3]
+NEIGH_SIZE=[0,2,4]
 NUM_THREADS=32
 
 

@@ -1,5 +1,5 @@
 #include <DGtal/helpers/StdDefs.h>
-#include <DIPaCUS/components/Transform.h>
+#include <graph-flow/utils/digital/transform.h>
 #include <graph-flow/contour-correction/graph-seg.h>
 #include <graph-flow/contour-correction/model/GraphSegInput.h>
 #include <graph-flow/contour-correction/model/GraphSegIteration.h>
@@ -34,14 +34,14 @@ DigitalSet prepareShape(const ContourCorrection::Image::DataDistribution& DD) {
   else
     grayscale = segResult;
 
-  DIPaCUS::Representation::CVMatToDigitalSet(tempDS, grayscale, 1);
+  GraphFlow::Utils::Digital::Representation::CVMatToDigitalSet(tempDS, grayscale, 1);
   return tempDS;
 }
 
 void renderSegmentation(cv::Mat& bcImage, const DigitalSet& ds,
                         const ContourCorrection::Image::DataDistribution& DD) {
   cv::Mat foregroundMask = cv::Mat::zeros(DD.segResultImg.size(), CV_8UC1);
-  DIPaCUS::Representation::digitalSetToCVMat(foregroundMask, ds);
+  GraphFlow::Utils::Digital::Representation::digitalSetToCVMat(foregroundMask, ds);
   Utils::Image::setHighlightMask(bcImage, DD.gco.inputImage, foregroundMask);
 }
 

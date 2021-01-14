@@ -1,4 +1,2 @@
 include(ExternalProject)
-include(cmake-files/DIPaCUS.cmake)
-include(cmake-files/GEOC.cmake)
 include(cmake-files/magLac.cmake)

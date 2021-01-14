@@ -3,7 +3,8 @@
 #include <opencv2/highgui.hpp>
 
 #include <DGtal/helpers/StdDefs.h>
-#include <DIPaCUS/components/Transform.h>
+#include <graph-flow/utils/digital/transform.h>
+#include <graph-flow/utils/digital/shapes.h>
 
 #include <graph-flow/utils/display.h>
 #include <graph-flow/utils/string.h>
@@ -25,14 +26,14 @@ using namespace GraphFlow;
 
 DigitalSet prepareShapeAndMask(const App::InputData& id)
 {
-  DigitalSet _ds = Utils::Digital::resolveShape(id.shapeName,id.h);
+  DigitalSet _ds = GraphFlow::Utils::Digital::Shapes::resolveShape(id.shapeName,id.h);
   Point lb,ub;
 
   _ds.computeBoundingBox(lb,ub);
   Point border(id.border/id.h,id.border/id.h);
   Point shift = -lb+border;
 
-  return DIPaCUS::Transform::bottomLeftBoundingBoxAtOrigin(_ds,border);
+  return GraphFlow::Utils::Digital::Transform::bottomLeftBoundingBoxAtOrigin(_ds,border);
 }
 
 void setGraphFlowInput(const App::InputData& id, ShapeEvolution::GraphFlowInput& gfi){
@@ -94,7 +95,7 @@ int main(int argc, char* argv[])
         if(id.displayFlow){
           DigitalSet::Point size = ds.domain().upperBound() - ds.domain().lowerBound() + DigitalSet::Point(1,1);
           cv::Mat cvImg = cv::Mat::zeros( size[1],size[0],CV_8UC1);
-          DIPaCUS::Representation::digitalSetToCVMat(cvImg,gfIteration.ds);
+          GraphFlow::Utils::Digital::Representation::digitalSetToCVMat(cvImg,gfIteration.ds);
           cv::imshow(windowName,cvImg);
           cv::waitKey(10);
           break;

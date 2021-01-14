@@ -4,7 +4,7 @@
 #include <graph-flow/core/EdgeWeight.h>
 #include <graph-flow/core/FlowGraph.h>
 #include <graph-flow/core/TerminalWeight.h>
-#include <graph-flow/utils/digital.h>
+#include <graph-flow/utils/digital/misc.h>
 #include <graph-flow/utils/energy.h>
 
 #include "graph-flow/shape-evolution/model/Candidate.h"
@@ -17,7 +17,7 @@ namespace GraphFlow::ShapeEvolution::Graph {
 typedef DGtal::Z2i::DigitalSet DigitalSet;
 typedef DGtal::Z2i::Domain Domain;
 
-typedef GraphFlow::Utils::Digital::DTL2 DTL2;
+typedef GraphFlow::Utils::Digital::Misc::DTL2 DTL2;
 
 typedef GraphFlow::Core::TerminalWeight TerminalWeight;
 typedef GraphFlow::Core::EdgeWeight EdgeWeight;

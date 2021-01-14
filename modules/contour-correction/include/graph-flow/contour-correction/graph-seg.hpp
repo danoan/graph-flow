@@ -7,8 +7,8 @@ double buildBestSolution(DigitalSet &solution, TNeighExplorer &neighExplorer) {
   std::vector<Candidate> allCandidates;
   for (auto it = neighExplorer.begin(); it != neighExplorer.end(); ++it) {
     allCandidates.insert(allCandidates.end(),
-                         it->vars.vectorOfCandidates.begin(),
-                         it->vars.vectorOfCandidates.end());
+                         it->mutableData.candidatesVector.begin(),
+                         it->mutableData.candidatesVector.end());
   }
 
   std::sort(allCandidates.begin(), allCandidates.end(),
@@ -37,13 +37,14 @@ DigitalSet graphSeg(const GraphSegInput &gfi, TNeighborhood &&neighborhood,
   icb(GraphSegIteration(itNumber++, lastEnergyValue, ds,
                         GraphSegIteration::Init));
 
+  auto range =
+      magLac::Core::addRange(neighborhood.begin(), neighborhood.end(), 1);
+
   bool executing = true;
   while (executing) {
     Graph::Context context(gfi, ds, neighborhood);
-    auto range = magLac::Core::addRange(context.neighborhood.begin(),
-                                        context.neighborhood.end(), 1);
-    auto neighExplorer =
-        createNeighborExplorer<UserVars, Params>(range, context);
+
+    auto neighExplorer = createNeighborExplorer<MyThreadData>(*range, context);
 
     neighExplorer.start(Graph::visitNeighbor(neighExplorer), gfi.nThreads);
 

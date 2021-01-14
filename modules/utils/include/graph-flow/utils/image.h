@@ -2,9 +2,8 @@
 #define GRAPH_FLOW_UTILS_IMAGE_H
 
 #include <DGtal/helpers/StdDefs.h>
-#include <DIPaCUS/base/Representation.h>
-#include <DIPaCUS/components/Neighborhood.h>
-#include <DIPaCUS/derivates/Misc.h>
+#include <graph-flow/utils/digital/representation.h>
+#include <graph-flow/utils/digital/contour.h>
 
 #include <opencv2/opencv.hpp>
 

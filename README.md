@@ -4,20 +4,20 @@
 
 
 ## graph-flow
- Elastica-driven flow optmized via graph-cut based model. 
- Its main applications are the **gf-shape-evolution** 
- and ***interactive-seg** apps. The 
- latter integrates all the necessary steps to execute
- a segmentation regularized by the Elastica energy.
+ Implements a flow driven by Elastica energy minimization via graph-cuts.
+
+ Its main applications are
+ - **gf-shape-evolution**: Evolves a digital shape towards the shape of minimum Elastica energy. 
+ - **interactive-seg**. Interactive segmentation with Elastica regularization.
  
  
 ## Dependencies 
 
-[libboost1.66.0-dev](https://www.boost.org/users/history/version_1_66_0.html)
+[libboost1.70.0-dev](https://www.boost.org/users/history/version_1_70_0.html)
 
-[opencv-3.3.0](https://opencv.org/releases.html)
+[opencv-3.4](https://opencv.org/releases.html)
 
-[DGtal0.9](https://dgtal.org/download/)
+[DGtal1.1](https://dgtal.org/download/)
 
 [lemon1.3.1](https://lemon.cs.elte.hu/trac/lemon/wiki/Downloads)
 
@@ -39,24 +39,22 @@ cmake ..
 make install
 ```
 
-There are plenty of configuration parameters, but usually, if 
+If 
 all dependencies are installed in their standard
 locations, that should be enough. Otherwise, if errors occur, 
 it is likely that a manual configuration should be
-done. In this scenario, ccmake is quite handy.
+done. In this scenario, **ccmake** (cmake-curses-gui package) is quite handy.
 
 ## How to use
 
-Build instructions can be found in INSTALL.txt
-
-This source contains eight applications. For detailed description,
-type: [application] -?
+This package contains six applications. For a detailed description,
+type: [application_binary] -?
 
 We give output examples of the main applications: gf-shape-evolution and interactive-seg
 
 ### gf-shape-evolution
 
-Evolve the digital curvature flow for a given digital shape.
+Evolve a digital shape towards the shape of minimum Elastica energy
 
 ```
 ./gf-shape-evolution -Striangle -r15 -h0.1
@@ -69,7 +67,7 @@ Evolve the digital curvature flow for a given digital shape.
 
 ### interactive-seg
 
-Load a image, select foreground/background seeds and then execute the graph-seg algorithm.
+Load a image, select foreground/background seeds and then execute the gf-contour-correction algorithm.
 
 ```
 ./interactive-seg.sh -I input/images/coala.jpg output/coala

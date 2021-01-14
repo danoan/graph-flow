@@ -1,7 +1,13 @@
 project(test-coverage)
 
 add_executable(test-coverage
-${CMAKE_SOURCE_DIR}/modules/utils/test/src/test-digital.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/test/src/digital/test-contour.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/test/src/digital/test-misc.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/test/src/digital/test-morphology.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/test/src/digital/test-representation.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/test/src/digital/test-set-operations.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/test/src/digital/test-shapes.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/test/src/digital/test-transform.cpp
 ${CMAKE_SOURCE_DIR}/modules/utils/test/src/test-display.cpp
 ${CMAKE_SOURCE_DIR}/modules/utils/test/src/test-energy.cpp
 ${CMAKE_SOURCE_DIR}/modules/utils/test/src/test-image.cpp
@@ -21,7 +27,7 @@ target_compile_options(test-coverage PRIVATE
 )
 
 if (${USE_REMOTE_REPOSITORIES})
-  add_dependencies(test-coverage dipacus graph-flow-core graph-flow-io graph-flow-shape-evolution graph-flow-contour-correction graph-flow-utils)    
+  add_dependencies(test-coverage graph-flow-core graph-flow-io graph-flow-shape-evolution graph-flow-contour-correction graph-flow-utils)    
 else()
   add_dependencies(test-coverage graph-flow-core graph-flow-io graph-flow-shape-evolution graph-flow-contour-correction graph-flow-utils)    
 endif ()
@@ -34,7 +40,7 @@ target_include_directories(test-coverage PRIVATE
         ${CMAKE_SOURCE_DIR}/modules/io/seed/include
         ${CMAKE_SOURCE_DIR}/modules/core/include
         ${CMAKE_SOURCE_DIR}/modules/contour-correction/include
-        ${DIPACUS_INCLUDE_DIRS}
+        ${MAGLAC_INCLUDE_DIRS}
         ${DGTAL_INCLUDE_DIRS}
         ${BOOST_INCLUDE_DIRS})
 
@@ -44,9 +50,7 @@ target_link_libraries(test-coverage
         -lgraph-flow-io
         -lgraph-flow-shape-evolution
         -lgraph-flow-contour-correction
-        -ldipacus-base
-        -ldipacus-components
-        -ldipacus-derivates    
+        -lgraph-flow-utils 
         -lemon
         -lboost_filesystem    
         -lboost_system
