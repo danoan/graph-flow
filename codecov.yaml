@@ -27,9 +27,11 @@ comment:
 
 ignore:
   - lab/.*  # ignore folders and all its contents
-  - modules/utils/test/.*
-  - modules/shape-evolution/test/.*
-  - modules/io/test/.*
-  - modules/core/test/.*
   - modules/contour-correction/test/.*
+  - modules/core/test/.*
+  - modules/io/seed/test/.*
+  - modules/shape-evolution/test/.*
+  - modules/utils/test/.*
+  - scripts/.*
+  - repGen/*.
   - catch/.*

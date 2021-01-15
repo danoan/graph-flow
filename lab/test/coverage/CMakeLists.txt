@@ -18,6 +18,27 @@ ${CMAKE_SOURCE_DIR}/modules/io/seed/test/src/test-GrabCutIO.cpp
 ${CMAKE_SOURCE_DIR}/modules/core/test/src/test-FlowGraph.cpp
 ${CMAKE_SOURCE_DIR}/modules/core/test/src/test-morphology.cpp
 ${CMAKE_SOURCE_DIR}/modules/contour-correction/test/src/test-graphFlow.cpp
+${CMAKE_SOURCE_DIR}/modules/contour-correction/src/model/graph/GraphModel.cpp
+${CMAKE_SOURCE_DIR}/modules/contour-correction/src/model/image/GMM.cpp
+${CMAKE_SOURCE_DIR}/modules/core/src/neighborhood/MorphologyNeighborhood.cpp
+${CMAKE_SOURCE_DIR}/modules/core/src/neighborhood/RandomNeighborhood.cpp
+${CMAKE_SOURCE_DIR}/modules/core/src/FlowGraph.cpp
+${CMAKE_SOURCE_DIR}/modules/io/seed/src/GrabCutIO.cpp
+${CMAKE_SOURCE_DIR}/modules/shape-evolution/src/model/GraphContext.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/src/digital/types/BeanShape.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/src/digital/types/Neighborhood.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/src/digital/contour.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/src/digital/misc.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/src/digital/morphology.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/src/digital/representation.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/src/digital/set-operations.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/src/digital/shapes.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/src/digital/transform.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/src/display.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/src/energy.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/src/image.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/src/string.cpp
+${CMAKE_SOURCE_DIR}/modules/utils/src/timer.cpp
 ${CMAKE_SOURCE_DIR}/catch/catch.cpp)
 
 target_compile_options(test-coverage PRIVATE
@@ -45,12 +66,6 @@ target_include_directories(test-coverage PRIVATE
         ${BOOST_INCLUDE_DIRS})
 
 target_link_libraries(test-coverage
-        -lgraph-flow-core
-        -lgraph-flow-utils
-        -lgraph-flow-io
-        -lgraph-flow-shape-evolution
-        -lgraph-flow-contour-correction
-        -lgraph-flow-utils 
         -lemon
         -lboost_filesystem    
         -lboost_system
