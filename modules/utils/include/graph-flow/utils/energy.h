@@ -8,6 +8,8 @@
 #include <DGtal/geometry/surfaces/estimation/IntegralInvariantVolumeEstimator.h>
 #include <DGtal/helpers/StdDefs.h>
 
+#include "digital/contour.h"
+
 namespace GraphFlow::Utils::Energy {
 typedef DGtal::Z2i::DigitalSet DigitalSet;
 typedef DGtal::Z2i::Domain Domain;
@@ -26,9 +28,12 @@ void curvature(std::vector<double>& ev, const KSpace& kspace, CurveIterator itb,
 double elastica(CurveIterator begin, CurveIterator end,
                 const DigitalSet& ds, double estimationRadius, double h,
                 double alpha, double beta);
-                
+
+
 double elastica(const DigitalSet& ds, double estimationRadius, double h,
                 double alpha, double beta);
+double elastica(const DigitalSet& ds, double estimationRadius, double h,
+                double alpha, double beta, const DigitalSet& belMask);
 }  // namespace GraphFlow::Utils::Energy
 
 #endif  // GRAPH_FLOW_UTILS_ENERGY_H
