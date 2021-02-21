@@ -1,0 +1,12 @@
+#Use an official Python runtime as a parent image
+FROM graphflow:dgtal-1.1
+
+# Set the working directory to /app
+WORKDIR /app
+
+RUN bash /app/scripts/install-graph-flow.sh v0.2.6
+
+# Copy docker-last-layer-scripts at /app/scripts
+COPY /docker-container-scripts /app/scripts
+
+RUN chmod +x /app/scripts/*
