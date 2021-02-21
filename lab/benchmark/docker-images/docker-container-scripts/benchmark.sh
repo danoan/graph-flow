@@ -45,7 +45,7 @@ function benchmark(){
     DATA_TEMP_DIR="$(dirname ${OUTPUT_FILE})/data"
     mkdir -p ${DATA_TEMP_DIR}
 
-    $SHAPE_EVOLUTION_APP -S${SHAPE} -h${H} -i${IT} "${DATA_TEMP_DIR}"
+    $SHAPE_EVOLUTION_APP -S${SHAPE} -h${H} -r${R} -O${O} -N${N} -i${IT} "${DATA_TEMP_DIR}"
 
     EXECUTION_TIME=$(tail -n1 "${DATA_TEMP_DIR}/energy.txt" | cut -d":" -f2)
     TIME_FMT="$(formatTime "${EXECUTION_TIME}")"
