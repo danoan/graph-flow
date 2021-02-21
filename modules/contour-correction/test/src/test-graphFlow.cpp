@@ -38,10 +38,6 @@ TEST_CASE("contour correction execution", "[contour-correction]") {
   Image::DataDistribution DD(gco, 10);
 
   DigitalSet ds = prepareShape(DD);
-  GraphSegInput gsi(ds, DD);
-  gsi.h = 0.25;
-  gsi.iterations = 10;
-
   Morphology M(Morphology::MorphologyElement::CIRCLE, 2);
   
   std::string s;
@@ -63,12 +59,32 @@ TEST_CASE("contour correction execution", "[contour-correction]") {
       }
       case GraphSegIteration::End:
       {
-        REQUIRE(gsIteration.iteration==11);        
+        REQUIRE(gsIteration.iteration<15);      
         break;
       }
     }
-
   };
 
-  graphSeg(gsi, M, ss,callback);
+  GraphSegInput gsi(ds, DD);
+  
+  SECTION("fixed number of iterations") {    
+    gsi.h = 0.25;
+    gsi.iterations = 10;
+    graphSeg(gsi, M, ss,callback);
+  }
+
+  SECTION("unlimited number of iterations") {    
+    gsi.h = 0.25;
+    gsi.iterations = -1;
+    graphSeg(gsi, M, ss,callback);
+  }
+
+  SECTION("positive tolerance") {    
+    gsi.h = 0.25;
+    gsi.iterations = 10;
+    gsi.tolerance = 1e-1;
+
+    graphSeg(gsi, M, ss,callback);
+  }  
+  
 }
