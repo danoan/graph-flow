@@ -14,3 +14,5 @@ TEST_CASE("compute boundary curve","[digital]"){
   computeBoundaryCurve(curve, ball);
   REQUIRE( curve.size()==84 );
 }
+
+//TODO: Tests for extract2DScellContourFromMask

@@ -59,6 +59,15 @@ bool digitalPointsMapsImagePoints(const DigitalSet& ds, const Image2D& image,
   return flag_ds_assert;
 }
 
+bool digitalPointsMapsImagePoints(const cv::Mat& cvImg, const Image2D& image,
+                                  const Point& translation) {
+  Domain domain(Point(0, 0), Point(cvImg.cols - 1, cvImg.rows - 1));                                    
+  DigitalSet ds(domain);
+
+  CVMatToDigitalSet(ds,cvImg);
+  return digitalPointsMapsImagePoints(ds,image,translation);
+}
+
 void boundingBox(BoundingBox& bb, const Image2D& img) {
   DigitalSet ds(img.domain());
   imageAsDigitalSet(ds, img);
@@ -78,7 +87,7 @@ TEST_CASE("conversion between representations", "[digital]") {
   using namespace DGtal::Z2i;
   const int GRAYSCALE_IMAGE_TYPE = CV_8UC1;
 
-  DigitalSet square = GraphFlow::Utils::Digital::Shapes::square();
+  DigitalSet square = GraphFlow::Utils::Digital::Shapes::flower(0.5);
   std::string tempOutputFolder = MY_MAIN_DIR;
   tempOutputFolder += "/tempDigitalRepresentation";
 
@@ -101,7 +110,25 @@ TEST_CASE("conversion between representations", "[digital]") {
     REQUIRE(Intern::digitalPointsMapsImagePoints(square, image, Point(0, 0)));
   }
 
-  SECTION("imageAsDigitalSet") {
+  SECTION("imageAsDigitalSet from image path") {
+    Image2D image = DGtal::GenericReader<Image2D>::import(imagePath);    
+    
+    Point size = square.domain().upperBound() - square.domain().lowerBound();
+    
+    DigitalSet ds( Domain(Point(0,0),size) );
+    imageAsDigitalSet(ds, imagePath);    
+
+    Intern::BoundingBox bbImage;
+    Intern::boundingBox(bbImage, image);
+
+    Intern::BoundingBox bbDs;
+    ds.computeBoundingBox(bbDs.lb, bbDs.ub);
+
+    REQUIRE(bbDs == bbImage);
+    REQUIRE(Intern::digitalPointsMapsImagePoints(ds, image, Point(0,0)));
+  }  
+
+  SECTION("imageAsDigitalSet from digital set") {
     Image2D image = DGtal::GenericReader<Image2D>::import(imagePath);
     DigitalSet ds(image.domain());
     imageAsDigitalSet(ds, image);
@@ -152,6 +179,23 @@ TEST_CASE("conversion between representations", "[digital]") {
     REQUIRE(bbDs == bbCvImg);
     REQUIRE(Intern::digitalPointsMapsImagePoints(ds, cvImg, Point(0, 0)));
   }
+
+  SECTION("CVMatToImage") {
+    cv::Mat cvImg = cv::imread(imagePath, GRAYSCALE_IMAGE_TYPE);
+    Domain domain(Point(0, 0), Point(cvImg.cols - 1, cvImg.rows - 1));
+
+    Image2D image(domain);
+    CVMatToImage(image, cvImg);
+
+    Intern::BoundingBox bbCvImg;
+    Intern::boundingBox(bbCvImg, cvImg);
+
+    Intern::BoundingBox bbImg;
+    Intern::boundingBox(bbImg,image);
+
+    REQUIRE(bbImg == bbCvImg);
+    REQUIRE(Intern::digitalPointsMapsImagePoints(cvImg, image, Point(0, 0)));
+  }  
 
   SECTION("imageToCVMat") {
     Image2D image = DGtal::GenericReader<Image2D>::import(imagePath);

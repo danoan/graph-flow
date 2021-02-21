@@ -29,7 +29,7 @@ void localLength(std::vector<double>& ev, const KSpace& kspace,
 
   MCMDSSTangentEstimator.init(range.begin(), range.end());
   MCMDSSTangentEstimator.eval(range.begin(), range.end(),
-                              std::back_inserter(tangentEstimations),h);
+                              std::back_inserter(tangentEstimations), h);
 
   int i = 0;
   for (auto it = itb; it != ite; ++it, ++i) {
@@ -92,6 +92,12 @@ double elastica(CurveIterator begin, CurveIterator end, const DigitalSet& ds,
 
 double elastica(const DigitalSet& ds, double ballRadius, double h, double alpha,
                 double beta) {
+  DigitalSet dumb(ds.domain());
+  return elastica(ds,ballRadius,h, alpha, beta, dumb);
+}
+
+double elastica(const DigitalSet& ds, double ballRadius, double h, double alpha,
+                double beta, const DigitalSet& belMask) {
   using namespace DGtal::Z2i;
   KSpace kspace;
   kspace.init(ds.domain().lowerBound(), ds.domain().upperBound(), true);
@@ -99,7 +105,13 @@ double elastica(const DigitalSet& ds, double ballRadius, double h, double alpha,
   DGtal::SurfelAdjacency<2> sadj(true);
   std::vector<std::vector<DGtal::Z2i::SCell> > vscells;
 
-  DGtal::Surfaces<KSpace>::extractAll2DSCellContours(vscells, kspace, sadj, ds);
+  if (belMask.size() > 0) {
+    GraphFlow::Utils::Digital::Contour::extractAll2DSCellContoursFromMask(
+        vscells, kspace, sadj, belMask, ds);
+  } else {
+    DGtal::Surfaces<KSpace>::extractAll2DSCellContours(vscells, kspace, sadj,
+                                                       ds);
+  }
 
   double elasticaValue = 0;
   for (auto v : vscells) {

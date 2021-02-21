@@ -48,8 +48,18 @@ double regionValue(double& fgv, double& bgv, const DigitalSet& ds,
 
 double evaluateData(const GraphSegInput& gfi, const DigitalSet& ds);
 double evaluateRegularization(const GraphSegInput& gfi, const DigitalSet& ds);
+double evaluateRegularization(const GraphSegInput& gfi, const DigitalSet& ds,
+                              const DigitalSet& belMask);
 
-DigitalSet* optimizeConnectedComponent(const GraphSegInput& gfi,
+Domain getReducedDomain(const GraphSegInput& gfi,
+                        const DigitalSet& candidateDS);
+
+void buildLevelSet(DigitalSet& levelSet, const GraphSegInput& gfi,
+                   const DigitalSet& candidateDS, DTL2& dtInterior,
+                   DTL2& dtExterior);
+
+DigitalSet* optimizeConnectedComponent(DigitalSet& vertexSet,
+                                       const GraphSegInput& gfi,
                                        const DigitalSet& candidateDS);
 
 template <class TNeighborhoodExplorer>

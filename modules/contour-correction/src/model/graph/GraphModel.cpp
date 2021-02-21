@@ -2,37 +2,57 @@
 
 namespace GraphFlow::ContourCorrection::Graph {
 
-DigitalSet* optimizeConnectedComponent(const GraphSegInput& gfi,
-                                       const DigitalSet& candidateDS) {
+Domain getReducedDomain(const GraphSegInput& gfi,
+                        const DigitalSet& candidateDS) {
   using namespace DGtal::Z2i;
-  
+
   Point lb, ub;
   candidateDS.computeBoundingBox(lb, ub);
   Point optBandBorder(gfi.optBand + 1, gfi.optBand + 1);
 
-  Domain reducedDomain(lb - 2 * optBandBorder, ub + 2 * optBandBorder);
+  return Domain(lb - 2 * optBandBorder, ub + 2 * optBandBorder);
+}
+
+void buildLevelSet(DigitalSet& levelSet, const GraphSegInput& gfi,
+                   const DigitalSet& candidateDS, DTL2& dtInterior,
+                   DTL2& dtExterior) {
+  using namespace DGtal::Z2i;
+
   const Domain& domain = candidateDS.domain();
+
+  DigitalSet _levelSet =
+      GraphFlow::Utils::Digital::Misc::level(dtInterior, gfi.optBand, 0);
+  _levelSet +=
+      GraphFlow::Utils::Digital::Misc::level(dtExterior, gfi.optBand, 0);
+
+  for (auto p : _levelSet)
+    if (domain.isInside(p)) levelSet.insert(p);
+}
+
+DigitalSet* optimizeConnectedComponent(DigitalSet& vertexSet,
+                                       const GraphSegInput& gfi,
+                                       const DigitalSet& candidateDS) {
+  using namespace DGtal::Z2i;
+
+  const Domain& domain = candidateDS.domain();
+  Domain reducedDomain = getReducedDomain(gfi, candidateDS);
 
   auto dtInterior = GraphFlow::Utils::Digital::Misc::interiorDistanceTransform(
       reducedDomain, candidateDS);
   auto dtExterior = GraphFlow::Utils::Digital::Misc::exteriorDistanceTransform(
       reducedDomain, candidateDS);
 
+  buildLevelSet(vertexSet, gfi, candidateDS, dtInterior, dtExterior);
+
   auto ewv = prepareEdgeWeightVector(gfi, candidateDS,
                                      gfi.dataDistribution.segResultImg);
 
   auto twv = prepareTerminalWeights(gfi, candidateDS, dtInterior, dtExterior);
 
-  DigitalSet _vertexSet =
-      GraphFlow::Utils::Digital::Misc::level(dtInterior, gfi.optBand, 0);
-  _vertexSet += GraphFlow::Utils::Digital::Misc::level(dtExterior, gfi.optBand, 0);
-  DigitalSet vertexSet(domain);
-  for (auto p : _vertexSet)
-    if (domain.isInside(p)) vertexSet.insert(p);
-
   FlowGraph fg(vertexSet, twv, ewv);
   DigitalSet* solutionSet = new DigitalSet(domain);
-  GraphFlow::Utils::Digital::SetOperations::setDifference(*solutionSet, candidateDS, vertexSet);
+  GraphFlow::Utils::Digital::SetOperations::setDifference(
+      *solutionSet, candidateDS, vertexSet);
   solutionSet->insert(fg.sourceNodes.begin(), fg.sourceNodes.end());
 
   for (auto ew : ewv) delete ew;
@@ -72,6 +92,13 @@ double evaluateData(const GraphSegInput& gfi, const DigitalSet& ds) {
 double evaluateRegularization(const GraphSegInput& gfi, const DigitalSet& ds) {
   return GraphFlow::Utils::Energy::elastica(ds, gfi.vradius, gfi.h, gfi.alpha,
                                             gfi.curvatureWeightValidation);
+}
+
+double evaluateRegularization(const GraphSegInput& gfi, const DigitalSet& ds,
+                              const DigitalSet& belMask) {
+  return GraphFlow::Utils::Energy::elastica(ds, gfi.vradius, gfi.h, gfi.alpha,
+                                            gfi.curvatureWeightValidation,
+                                            belMask);
 }
 
 TerminalWeightVector prepareTerminalWeights(const GraphSegInput& gfi,

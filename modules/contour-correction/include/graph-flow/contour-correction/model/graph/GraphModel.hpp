@@ -27,14 +27,15 @@ typename TNeighborhoodExplorer::VisitNeighborFunction visitNeighbor(
 
     if (candidateDS.empty()) return;
 
-    DigitalSet* optimalSet = optimizeConnectedComponent(gfi, candidateDS);
+    DigitalSet belMask(candidateDS.domain());
+    DigitalSet* optimalSet = optimizeConnectedComponent(belMask,gfi, candidateDS);
     if (optimalSet->empty()) {
       delete optimalSet;
       return;
     }
 
     double dataFidelityValue = evaluateData(gfi, ds);
-    double elasticaValue = evaluateRegularization(gfi, *optimalSet);
+    double elasticaValue = evaluateRegularization(gfi, *optimalSet,belMask);
     double energyValue = dataFidelityValue + elasticaValue;
 
     ti.data.mutableData.candidatesVector.push_back(
