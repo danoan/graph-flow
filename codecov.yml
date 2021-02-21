@@ -27,6 +27,8 @@ comment:
 
 ignore:
   - lab/.*  # ignore folders and all its contents
+  - deps/.*
+  - ext-projects/.*
   - modules/contour-correction/test/.*
   - modules/core/test/.*
   - modules/io/seed/test/.*
