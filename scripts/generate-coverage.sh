@@ -13,3 +13,5 @@ mkdir -p ${COVERAGE_OUTPUT_FOLDER}
 
 lcov --capture --directory ${GCOV_FILES} --output-file ${COVERAGE_OUTPUT_FOLDER}/test_coverage.info
 # genhtml "${COVERAGE_OUTPUT_FOLDER}/test_coverage.info" --output-directory "${COVERAGE_OUTPUT_FOLDER}/report"
+
+bash <(curl -s https://codecov.io/bash)
