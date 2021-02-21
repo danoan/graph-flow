@@ -36,8 +36,9 @@ if [ $CURRENT_VERSION_ONLY = "False" ]
 then
   #Build DGtal docker images
   cd "${DOCKER_IMAGES_FOLDER}"
+
   docker build . -f Dockerfile-dgtal-0.9.4 -t graphflow:dgtal-0.9.4
-  # docker build . -f Dockerfile-dgtal-1.1 -t graphflow:dgtal-1.1
+  docker build . -f Dockerfile-dgtal-1.1 -t graphflow:dgtal-1.1
 
   #Build graph-flow docker images
   for V in ${VERSIONS}
@@ -55,11 +56,13 @@ then
 fi
 
 
-#Benchmark current version
+Benchmark current version
 export SRC_DIR="${PROJECT_PATH}"
 BENCHMARK_SCRIPT="${SCRIPT_PATH}/docker-images/docker-container-scripts/benchmark.sh"
 
 ${BENCHMARK_SCRIPT} ${CURRENT_VERSION}
+
+rm -rf "${SCRIPT_PATH}/output/benchmark/${CURRENT_VERSION}"
 mv "${PROJECT_PATH}/benchmark/${CURRENT_VERSION}" "${SCRIPT_PATH}/output/benchmark"
 rm -rf "${PROJECT_PATH}/benchmark"
 

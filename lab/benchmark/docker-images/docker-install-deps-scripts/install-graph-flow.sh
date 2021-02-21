@@ -18,8 +18,12 @@ cmake -DCMAKE_INSTALL_PREFIX="${SRC_DIR}/install" \
 
 make install
 
-cd "${TEMP_DIR}/graph-flow"
-cp ext-projects/cmake-build-release/lib/*.* "${SRC_DIR}/install/lib"
+if [ ${VERSION_SUFFIX} -le 5 ]
+then
+  cd "${TEMP_DIR}/graph-flow"
+  cp ext-projects/cmake-build-release/lib/*.* "${SRC_DIR}/install/lib"  
+fi
+
 
 cd "${TEMP_DIR}"
 rm -rf graph-flow
