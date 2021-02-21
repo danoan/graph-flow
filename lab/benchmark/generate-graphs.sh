@@ -3,7 +3,7 @@ PROJECT_PATH="$(cd ${SCRIPT_PATH} && cd ../.. && pwd)"
 
 #DOES NOT WORK IF THE PATH HAS SPACES!!!!
 
-source "config.sh"
+source "${SCRIPT_PATH}/config.sh"
 
 function generate_graph(){
   GRAPH_TITLE="${1}"
