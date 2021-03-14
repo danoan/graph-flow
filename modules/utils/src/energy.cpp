@@ -39,6 +39,40 @@ void localLength(std::vector<double>& ev, const KSpace& kspace,
   }
 }
 
+double perimeter(const KSpace& kspace, CurveIterator itb, CurveIterator ite,
+                 double h) {
+  std::vector<double> ev;
+  localLength(ev, kspace, itb, ite, h);
+  double perimeter = 0;
+  for (double localLength : ev) {
+    perimeter += localLength;
+  }
+
+  return perimeter;
+}
+
+double perimeter(const DigitalSet& ds, const DigitalSet& belMask, double h) {
+  using namespace DGtal::Z2i;
+  KSpace kspace;
+  kspace.init(ds.domain().lowerBound(), ds.domain().upperBound(), true);
+
+  DGtal::SurfelAdjacency<2> sadj(true);
+  std::vector<std::vector<DGtal::Z2i::SCell> > vscells;
+
+  GraphFlow::Utils::Digital::Contour::extractAll2DSCellContoursFromMask(
+      vscells, kspace, sadj, belMask, ds);
+
+  double totalPerimeter = 0;
+  for (auto v : vscells) {
+    Curve curve;
+    curve.initFromSCellsVector(v);
+    totalPerimeter +=
+        perimeter(kspace,curve.begin(), curve.end(),h);
+  }
+
+  return totalPerimeter;
+}
+
 void curvature(std::vector<double>& ev, const KSpace& kspace, CurveIterator itb,
                CurveIterator ite, const DigitalSet& digShape,
                double estimationRadius, double h) {
@@ -93,7 +127,7 @@ double elastica(CurveIterator begin, CurveIterator end, const DigitalSet& ds,
 double elastica(const DigitalSet& ds, double ballRadius, double h, double alpha,
                 double beta) {
   DigitalSet dumb(ds.domain());
-  return elastica(ds,ballRadius,h, alpha, beta, dumb);
+  return elastica(ds, ballRadius, h, alpha, beta, dumb);
 }
 
 double elastica(const DigitalSet& ds, double ballRadius, double h, double alpha,

@@ -21,14 +21,16 @@ typedef std::set<Point> PointSet;
 void localLength(std::vector<double>& ev, const KSpace& kspace,
                  CurveIterator itb, CurveIterator ite, double h);
 
+double perimeter(const KSpace& kspace, CurveIterator itb, CurveIterator ite,
+                 double h);
+double perimeter(const DigitalSet& ds, const DigitalSet& belMask, double h);
+
 void curvature(std::vector<double>& ev, const KSpace& kspace, CurveIterator itb,
                CurveIterator ite, const DigitalSet& digShape,
                double estimationRadius, double h);
 
-double elastica(CurveIterator begin, CurveIterator end,
-                const DigitalSet& ds, double estimationRadius, double h,
-                double alpha, double beta);
-
+double elastica(CurveIterator begin, CurveIterator end, const DigitalSet& ds,
+                double estimationRadius, double h, double alpha, double beta);
 
 double elastica(const DigitalSet& ds, double estimationRadius, double h,
                 double alpha, double beta);
