@@ -18,7 +18,6 @@ FlowGraph::FlowGraph(const DigitalSet& vertexSet, TerminalWeightVector twv,
   setMax(vertexSet);
 
   for (int i = 0; i < twv.size(); ++i) {
-    for (auto p : vertexSet) {
       auto& tw = twv[i];
       double factor;
       if (tw->normalize())
@@ -26,6 +25,7 @@ FlowGraph::FlowGraph(const DigitalSet& vertexSet, TerminalWeightVector twv,
       else
         factor = 1.0;
 
+    for (auto p : vertexSet) {
       if (tw->type() == TerminalWeight::TerminalType::Source) {
         ListDigraph::Arc a = digraph.addArc(terminalSource, ptn[p]);
         double v = factor * tw->weight() * (*tw)(p);
@@ -41,6 +41,13 @@ FlowGraph::FlowGraph(const DigitalSet& vertexSet, TerminalWeightVector twv,
   Point neighbors[4] = {Point(0, 1), Point(1, 0), Point(-1, 0), Point(0, -1)};
   std::set<Point> visited;
   for (int i = 0; i < ewv.size(); ++i) {
+    auto& ew = ewv[i];
+    double factor;
+    if (ew->normalize())
+      factor = 1.0 / this->ewvMax[i];
+    else
+      factor = 1.0;
+
     for (auto p : vertexSet) {
       visited.insert(p);
       for (auto n : neighbors) {
@@ -51,12 +58,6 @@ FlowGraph::FlowGraph(const DigitalSet& vertexSet, TerminalWeightVector twv,
           ListDigraph::Arc a1 = digraph.addArc(ptn[p], ptn[np]);
           ListDigraph::Arc a2 = digraph.addArc(ptn[np], ptn[p]);
 
-          auto& ew = ewv[i];
-          double factor;
-          if (ew->normalize())
-            factor = 1.0 / this->ewvMax[i];
-          else
-            factor = 1.0;
           arcWeightMap[a1] = factor * ew->weight() * (*ew)(p, np);
           arcWeightMap[a2] = factor * ew->weight() * (*ew)(np, p);
         }
