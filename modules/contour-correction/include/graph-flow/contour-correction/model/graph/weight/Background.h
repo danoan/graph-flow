@@ -12,7 +12,7 @@ class Background : public GraphFlow::Core::TerminalWeight {
       : bkgDistr(bkgDistr), regionalWeight(regionalWeight) {}
 
   double operator()(const Point &p) {
-    return -log(bkgDistr(bkgDistr.img.rows - p[1], p[0]));
+    return -log(bkgDistr(bkgDistr.img.rows - p[1]-1, p[0]));
   }
 
   double weight() const { return regionalWeight; }
