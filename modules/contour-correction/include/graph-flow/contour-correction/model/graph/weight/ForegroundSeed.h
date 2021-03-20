@@ -8,13 +8,18 @@
 namespace GraphFlow::ContourCorrection::Graph::Weight {
 class ForegroundSeed : public GraphFlow::Core::TerminalWeight {
  public:
+  typedef GraphFlow::Core::NormalizationGroup NormalizationGroup;
+
   typedef DGtal::Z2i::DigitalSet DigitalSet;
   typedef GraphFlow::Utils::Digital::Misc::DTL2 DTL2;
 
   ForegroundSeed(const DTL2 &dtl2, int optBand, double ballRadius)
       : connectedToSource(
             GraphFlow::Utils::Digital::Misc::level(dtl2, optBand, optBand - 1)),
-        maxPenal(M_PI * pow(ballRadius, 2) * 1024) {}
+        maxPenal(1000) {}
+
+  ForegroundSeed(const DigitalSet &ds)
+      : connectedToSource(ds), maxPenal(1000) {}
 
   double operator()(const Point &p) {
     if (connectedToSource(p))
@@ -24,7 +29,9 @@ class ForegroundSeed : public GraphFlow::Core::TerminalWeight {
   }
 
   double weight() const { return 1.0; }
-  bool normalize() const { return false; }
+  NormalizationGroup normalizationGroup() const {
+    return NormalizationGroup::None;
+  }
 
   TerminalType type() const { return TerminalType::Source; }
 

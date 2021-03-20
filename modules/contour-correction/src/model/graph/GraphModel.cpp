@@ -105,14 +105,27 @@ TerminalWeightVector prepareTerminalWeights(const GraphSegInput& gfi,
                                             const DigitalSet& ds,
                                             const DTL2& dtInterior,
                                             const DTL2& dtExterior) {
-  TerminalWeightVector twv(4);
-  twv[0] = new Weight::ForegroundSeed(dtInterior, gfi.optBand, gfi.radius);
-  twv[1] = new Weight::BackgroundSeed(dtExterior, gfi.optBand, gfi.radius);
+  TerminalWeightVector twv;
 
-  twv[2] = new Weight::Foreground(*gfi.dataDistribution.fgDistr,
-                                  gfi.dataWeightCandidate);
-  twv[3] = new Weight::Background(*gfi.dataDistribution.bgDistr,
-                                  gfi.dataWeightCandidate);
+  twv.push_back(new Weight::ForegroundSeed(dtInterior, gfi.optBand, gfi.radius));
+  twv.push_back(new Weight::BackgroundSeed(dtExterior, gfi.optBand, gfi.radius));
+
+  if( gfi.dataWeightCandidate==0 ){
+    return twv;
+  }
+
+  DigitalSet dsFGSeeds(ds.domain());
+  dsFGSeeds.insert(gfi.dataDistribution.fgSeeds.begin(),gfi.dataDistribution.fgSeeds.end());
+  twv.push_back(new Weight::ForegroundSeed(dsFGSeeds));
+
+  DigitalSet dsBGSeeds(ds.domain());
+  dsBGSeeds.insert(gfi.dataDistribution.bgSeeds.begin(),gfi.dataDistribution.bgSeeds.end());
+  twv.push_back(new Weight::BackgroundSeed(dsBGSeeds));
+
+  twv.push_back(new Weight::Foreground(*gfi.dataDistribution.fgDistr,
+                                  gfi.dataWeightCandidate));
+  twv.push_back(new Weight::Background(*gfi.dataDistribution.bgDistr,
+                                  gfi.dataWeightCandidate));
 
   return twv;
 }

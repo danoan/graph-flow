@@ -8,6 +8,7 @@
 namespace GraphFlow::ContourCorrection::Graph::Weight {
 class Curvature : public GraphFlow::Core::EdgeWeight {
  public:
+  typedef GraphFlow::Core::NormalizationGroup NormalizationGroup;
   typedef DGtal::Z2i::DigitalSet DigitalSet;
   typedef GraphFlow::Utils::Digital::SetOperations::DigitalBallIntersection
       DigitalBallIntersection;
@@ -47,7 +48,9 @@ class Curvature : public GraphFlow::Core::EdgeWeight {
   }
 
   double weight() const { return curvatureWeight; }
-  bool normalize() const { return true; }
+  NormalizationGroup normalizationGroup() const {
+    return NormalizationGroup::GeometryRelated;
+  }
 
  private:
   PointMap pm;
