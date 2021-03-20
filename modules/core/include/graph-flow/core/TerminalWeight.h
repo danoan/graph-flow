@@ -2,6 +2,7 @@
 #define GRAPH_FLOW_TERMINALWEIGHT_H
 
 #include <DGtal/helpers/StdDefs.h>
+#include "NormalizationGroup.h"
 
 namespace GraphFlow::Core {
 class TerminalWeight {
@@ -12,7 +13,7 @@ class TerminalWeight {
   virtual double operator()(const Point& p) = 0;
   virtual double weight() const = 0;
   virtual TerminalType type() const = 0;
-  virtual bool normalize() const = 0;
+  virtual NormalizationGroup normalizationGroup() const = 0;
   virtual ~TerminalWeight() {}
 };
 }  // namespace GraphFlow::Core

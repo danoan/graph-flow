@@ -57,8 +57,7 @@ class FlowGraph {
   DigitalSet sourceNodes;
   double cutValue;
 
-  std::vector<double> twvMax;
-  std::vector<double> ewvMax;
+  std::vector<double> normalizationGroupFactors;
 };
 }  // namespace GraphFlow::Core
 

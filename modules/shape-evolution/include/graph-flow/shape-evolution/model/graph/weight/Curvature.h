@@ -8,6 +8,8 @@
 namespace GraphFlow::ShapeEvolution::Graph::Weight {
 class Curvature : public GraphFlow::Core::EdgeWeight {
  public:
+  typedef GraphFlow::Core::NormalizationGroup NormalizationGroup;
+
   typedef DGtal::Z2i::DigitalSet DigitalSet;
   typedef GraphFlow::Utils::Digital::SetOperations::DigitalBallIntersection
       DigitalBallIntersection;
@@ -46,7 +48,7 @@ class Curvature : public GraphFlow::Core::EdgeWeight {
   }
 
   double weight() const { return 1.0; }
-  bool normalize() const { return false; }
+  NormalizationGroup normalizationGroup() const { return NormalizationGroup::None; }
 
  private:
   PointMap pm;
