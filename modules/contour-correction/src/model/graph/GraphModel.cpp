@@ -123,7 +123,7 @@ EdgeWeightVector prepareEdgeWeightVector(const GraphSegInput& gfi,
   EdgeWeightVector ewv(2);
   ewv[0] = new Weight::Curvature(gfi.radius, gfi.h, ds,
                                  gfi.curvatureWeightCandidate);
-  ewv[1] = new Weight::Homogeneity(colorImage, 1.0);
+  ewv[1] = new Weight::Homogeneity(colorImage, gfi.dataWeightCandidate);
 
   return ewv;
 }

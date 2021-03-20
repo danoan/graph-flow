@@ -12,7 +12,7 @@ class Foreground : public GraphFlow::Core::TerminalWeight {
       : frgDistr(frgDistr), regionalWeight(regionalWeight) {}
 
   double operator()(const Point &p) {
-    return -log(frgDistr(frgDistr.img.rows - p[1], p[0]));
+    return -log(frgDistr(frgDistr.img.rows - p[1]-1, p[0]));
   }
 
   double weight() const { return regionalWeight; }
