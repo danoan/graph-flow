@@ -35,7 +35,7 @@ for i in range(1,nversions*2+1,2):
 dataset_template = list(data_dict.values())[0][1] 
 nversions=len(data_dict)
 nsamples=len(dataset_template)
-xlabels = [ "h={}".format(i) for i in dataset_template.iloc[:,0].to_list() ]
+xlabels = [ "r={}".format(i) for i in dataset_template.iloc[:,0].to_list() ]
 
 BP = BarPositioner(0.25)
 
