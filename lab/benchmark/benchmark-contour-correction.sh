@@ -1,8 +1,8 @@
 SCRIPT_PATH="$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)"
 PROJECT_PATH="$(cd ${SCRIPT_PATH} && cd ../.. && pwd)"
 
-usage(){ 
-  echo "Run benchmark tests across versions of gf-shape-evolution."
+usage(){
+  echo "Run benchmark tests across versions of gf-contour-correction."
   echo "Usage: $0 "
   echo "[-c Current version only]"
 }
@@ -29,7 +29,7 @@ source "${SCRIPT_PATH}/config.sh"
 DOCKER_IMAGES_FOLDER="${SCRIPT_PATH}/docker-images"
 OUTPUT_FOLDER="${SCRIPT_PATH}/output"
 
-mkdir -p "${OUTPUT_FOLDER}/benchmark"
+mkdir -p "${OUTPUT_FOLDER}/benchmark-contour-correction"
 
 
 if [ $CURRENT_VERSION_ONLY = "False" ]
@@ -49,8 +49,8 @@ then
   #Run benchmarks in container
   for V in ${VERSIONS}
   do
-    docker run --name container-gf-v${V} graphflow:v${V} bash /app/scripts/benchmark.sh ${V}
-    docker cp container-gf-v${V}:/app/benchmark "${OUTPUT_FOLDER}"
+    docker run --name container-gf-v${V} graphflow:v${V} bash /app/scripts/benchmark-contour-correction.sh ${V}
+    docker cp container-gf-v${V}:/app/benchmark-contour-correction "${OUTPUT_FOLDER}"
     docker rm container-gf-v${V}
   done
 fi
@@ -58,12 +58,10 @@ fi
 
 # Benchmark current version
 export SRC_DIR="${PROJECT_PATH}"
-BENCHMARK_SCRIPT="${SCRIPT_PATH}/docker-images/docker-container-scripts/benchmark.sh"
+BENCHMARK_SCRIPT="${SCRIPT_PATH}/docker-images/docker-container-scripts/benchmark-contour-correction.sh"
 
 ${BENCHMARK_SCRIPT} ${CURRENT_VERSION}
 
-rm -rf "${SCRIPT_PATH}/output/benchmark/${CURRENT_VERSION}"
-mv "${PROJECT_PATH}/benchmark/${CURRENT_VERSION}" "${SCRIPT_PATH}/output/benchmark"
-rm -rf "${PROJECT_PATH}/benchmark"
-
-
+rm -rf "${SCRIPT_PATH}/output/benchmark-contour-correction${CURRENT_VERSION}"
+mv "${PROJECT_PATH}/benchmark-contour-correction/${CURRENT_VERSION}" "${SCRIPT_PATH}/output/benchmark-contour-correction"
+rm -rf "${PROJECT_PATH}/benchmark-contour-correction"
