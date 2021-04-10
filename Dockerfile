@@ -11,6 +11,6 @@ RUN chmod +x /app/scripts/*
 
 #Install lcov
 
-RUN apt-get install -y lcov curl
+RUN apt-get update && apt-get install -y lcov curl --fix-missing
 
 RUN /app/scripts/build-graph-flow.sh
