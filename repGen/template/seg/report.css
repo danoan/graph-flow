@@ -1,7 +1,12 @@
+.table{
+	text-align:center;
+	display:inline-block;
+}
+
 .row{
-    width:100%;
+    width:1200px;
     height:250px;
-    font-size:10px;
+    font-size:15px;
     font-family: "Open Sans", "DejaVu Sans", sans;
     margin-bottom:4em;
     text-align: center;
@@ -9,7 +14,7 @@
 .collumn{
     display:inline-block;
     width:150px;
-    background-color:pink;
+    background-color:#8a897c;
     margin:1em;
     text-align:center;
     float:left;
@@ -30,7 +35,7 @@
     clear:both;
     display:block;
     content: "";
-    border-top: .2rem solid silver;
+    //border-top: .2rem solid silver;
     width: 100%;
 }
 
@@ -114,4 +119,7 @@
 
 body{
     visibility:hidden;
+    padding:2em;
+    text-align:center;
+    
 }

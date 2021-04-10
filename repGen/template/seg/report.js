@@ -53,21 +53,9 @@ function load_figure()
 {
     var relPath=build_path();
 
-    var seed_masks_img=basePath.concat("/",relPath,"seeds.png");
-    var seed_masks = get_active_subdisplay("seeds");
-    seed_masks.children[0].setAttribute("src",seed_masks_img);
-
-    var grabcut_seg_img = basePath.concat("/",relPath,"gc-seg.png");
-    var grabcut_seg = get_active_subdisplay("grabcut-seg");
-    grabcut_seg.children[0].setAttribute("src",grabcut_seg_img);
-
     var corrected_seg_img = basePath.concat("/",relPath,"corrected-seg.png");
     var corrected_seg = get_active_subdisplay("corrected-seg");
     corrected_seg.children[0].setAttribute("src",corrected_seg_img);
-
-    var summary_seg_img = basePath.concat("/",relPath,"summary.svg");
-    var summary_seg = get_active_subdisplay("summary-seg");
-    summary_seg.children[0].setAttribute("src",summary_seg_img);
 }
 
 
@@ -118,15 +106,10 @@ function open_src(el)
 
 function init()
 {
-    basePath=window.prompt("Enter images base folder");
-    if(basePath=="")
-    {
-        basePath=window.location.toString();
-        basePath=basePath.substring(0, basePath.lastIndexOf("/") );
-    }else
-    {
-        basePath="file://".concat(basePath);
-    }
+
+    basePath=window.location.toString();
+    basePath=basePath.substring(0, basePath.lastIndexOf("/") );
+
     default_buttons();
     load_figure();
     document.body.style.visibility="visible";

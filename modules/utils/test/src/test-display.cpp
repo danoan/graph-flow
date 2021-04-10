@@ -29,3 +29,26 @@ TEST_CASE("save digital set as image", "[display]") {
   REQUIRE(boost::filesystem::exists(imageOutputPath));
   boost::filesystem::remove_all(tempOutputFolder);
 }
+
+TEST_CASE("save set of points with domain as an image", "[display]") {
+  using namespace DGtal::Z2i;
+
+  std::string tempOutputFolder = MY_MAIN_DIR;
+  tempOutputFolder += "/temp_diplay";
+  std::string imageOutputPath = tempOutputFolder + "/point-set.png";
+
+  boost::filesystem::create_directories(tempOutputFolder);
+
+  try {
+    std::set<Point> ps;
+    ps.insert(Point(5,5));
+    Domain domain(Point(0,0),Point(10,10));
+
+    saveDigitalSetAsImage(domain,ps,imageOutputPath);
+  }catch(std::exception ex){
+    std::cerr << ex.what() << std::endl;
+  }
+
+  REQUIRE(boost::filesystem::exists(imageOutputPath));
+  boost::filesystem::remove_all(tempOutputFolder);
+}

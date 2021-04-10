@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Shape flow experiment report</title>
+    <title>Parameter tuning report</title>
 
     <link rel="stylesheet" type="text/css" href="report.css"></link>
     <script type="text/javascript" src="report.js"></script>
 
 </head>
 <body>
+    <h1>Parameter tuning report</h1>
 
+<div class="table">
 <div class="row">
     {% for param in paramCollection %}
         <div class="collumn" menu>
@@ -21,30 +23,25 @@
             </ul>
         </div>
     {% endfor %}
-
+</div>
 </div>
 
 <div class="display">
     <div class="display-1 full active">
 
         <div class="seeds">
-            <img src="invalid.png" onclick="open_src(this)" onerror="this.src='invalid.png'" /><br>
-            Seeds
+            <img src="radius_5/opt_band_2/neigh_size_0/len_pen_0.00000/data_term0.00000/curvature_term1.00000/seeds.png" /><br>
+            Input seeds
         </div>
 
         <div class="grabcut-seg">
-            <img src="invalid.png" img_seq="0" onclick="open_src(this)" onerror="this.src='invalid.png'" /><br>
-            Grab Cut Segmentation
+            <img src="radius_5/opt_band_2/neigh_size_0/len_pen_0.00000/data_term0.00000/curvature_term1.00000/gc-seg.png" /><br>
+            Grabcut segmentation
         </div>
 
         <div class="corrected-seg">
             <img src="invalid.png" onclick="open_src(this)" onerror="this.src='invalid.png'" /><br>
-            Corrected Segmentation
-        </div>
-
-        <div class="summary-seg">
-            <img src="invalid.png" onclick="open_src(this)" onerror="this.src='invalid.png'" /><br>
-            Evolution Segmentation
+            Contour correction via graph-flow
         </div>
     </div>
 

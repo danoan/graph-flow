@@ -37,3 +37,4 @@ ignore:
   - scripts/.*
   - repGen/*.
   - catch/.*
+  - modules/contour-correction/src/model/image.GMM.cpp

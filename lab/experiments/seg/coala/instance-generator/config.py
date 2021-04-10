@@ -6,11 +6,11 @@ class Param:
         self.items=[ {'path':resolver(prefix,v),'value':v} for v in items]
 
 RADIUS=[5,9,16]
-LENGTH_PENALIZATION=[0,1,10]
+LENGTH_PENALIZATION=[0,10,100]
 DATA_TERM=[0,1,2,5]
 CURVATURE_TERM=[0,1,2,5]
 ITERATIONS=30
-OPT_BAND=[2,5]
+OPT_BAND=[5]
 NEIGH_SIZE=[0,2,4]
 NUM_THREADS=8
 
