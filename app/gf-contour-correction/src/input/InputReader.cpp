@@ -23,6 +23,7 @@ void usage(char *argv[]) {
          "[-t Tolerance. Stop if change between iterations is smaller than "
          "tolerance (>=0) (default:-1, never stop)]\n"
          "[-n Maximum number of threads (default:4)]\n"
+         "[-v Validation weight mode (automatic-correction-length-data, automatic-correction-length, automatic-correction-data, manual) (default: automatic-correction-length-data)\n"
          "[-w print energy value]\n"
          "[-s save figures]\n"
          "[-d display flow]"
@@ -33,7 +34,7 @@ InputData readInput(int argc, char *argv[]) {
   InputData id;
 
   int opt;
-  while ((opt = getopt(argc, argv, "R:r:G:K:g:k:a:O:N:H:j:i:t:n:wsd")) != -1) {
+  while ((opt = getopt(argc, argv, "R:r:G:K:g:k:a:O:N:H:j:i:t:n:v:wsd")) != -1) {
     switch (opt) {
       case 'R': {
         id.radius = std::atof(optarg);
@@ -96,6 +97,17 @@ InputData readInput(int argc, char *argv[]) {
         id.nThreads = std::atoi(optarg);
         break;
       }
+      case 'v': {
+        if( strcmp(optarg,"automatic-correction-length-data")==0 )
+          id.validationWeightMode = InputData::AutomaticCorrectionLengthData;
+        else if( strcmp(optarg,"automatic-correction-length")==0 )
+          id.validationWeightMode = InputData::AutomaticCorrectionLength;
+        else if( strcmp(optarg,"automatic-correction-data")==0 )
+          id.validationWeightMode = InputData::AutomaticCorrectionData;
+        else if( strcmp(optarg,"manual")==0 )
+          id.validationWeightMode = InputData::Manual;
+        else throw std::runtime_error("Validation weight setting type not recognized.\n");
+      }
       case 'w': {
         id.printEnergyValue = true;
         break;
@@ -129,6 +141,19 @@ std::string resolveNeighborhoodType(InputData::NeighborhoodType nt) {
     return "unknown";
 }
 
+std::string resolveValidationWeightMode(InputData::ValidationWeightMode vm) {
+  if (vm == InputData::AutomaticCorrectionLengthData)
+    return "automatic-correction-length-data";
+  else if (vm == InputData::AutomaticCorrectionLength)
+    return "automatic-correection-length";
+  else if (vm == InputData::AutomaticCorrectionData)
+    return "automatic-correection-data";
+  else if (vm == InputData::Manual)
+    return "manual";
+  else
+    return "unknown";
+}
+
 void writeInputData(const InputData &id, std::ostream &os) {
   os << "GrabcutObject filepath:" << id.gcoFilepath << "\n"
      << "Balance coefficient disk radius:" << id.radius << "\n"
@@ -143,6 +168,7 @@ void writeInputData(const InputData &id, std::ostream &os) {
      << "Neighborhood type:" << resolveNeighborhoodType(id.neighborhoodType)
      << "Grabcut iterations:" << id.grabcutIterations << "\n"
      << "Iterations:" << id.iterations << "\n"
+     << "Validation weight mode:" << resolveValidationWeightMode(id.validationWeightMode) << "\n"
      << "\n"
      << "Save figures:" << (id.saveAllFigures ? "True" : "False") << "\n"
      << "Display flow:" << (id.displayFlow ? "True" : "False") << "\n"

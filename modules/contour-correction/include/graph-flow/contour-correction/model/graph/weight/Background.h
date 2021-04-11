@@ -8,15 +8,19 @@
 namespace GraphFlow::ContourCorrection::Graph::Weight {
 class Background : public GraphFlow::Core::TerminalWeight {
  public:
+  typedef GraphFlow::Core::NormalizationGroup NormalizationGroup;
+
   Background(Image::CVMatDistribution &bkgDistr, double regionalWeight)
       : bkgDistr(bkgDistr), regionalWeight(regionalWeight) {}
 
   double operator()(const Point &p) {
-    return -log(bkgDistr(bkgDistr.img.rows - p[1], p[0]));
+    return -log(bkgDistr(bkgDistr.img.rows - p[1] - 1, p[0]));
   }
 
   double weight() const { return regionalWeight; }
-  bool normalize() const { return true; }
+  NormalizationGroup normalizationGroup() const {
+    return NormalizationGroup::DataRelated;
+  }
 
   TerminalType type() const { return TerminalType::Source; }
 

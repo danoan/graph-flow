@@ -17,7 +17,7 @@ struct DataDistribution {
     gco.inputImage = _gco.inputImage;
     gco.seeds = _gco.seeds;
 
-    gco.grabCutMask = cv::Mat::zeros(_gco.inputImage.size(), CV_8UC1);
+    gco.grabCutMask = cv::Mat::zeros(gco.inputImage.size(), CV_8UC1);
     if (pbfgMask.size > 0) {
       cv::Mat sureBGMask = cv::Mat::zeros(gco.inputImage.size(), CV_8UC1);
       cv::bitwise_not(pbfgMask, sureBGMask);

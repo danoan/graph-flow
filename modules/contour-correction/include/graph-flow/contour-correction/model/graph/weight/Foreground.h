@@ -8,15 +8,17 @@
 namespace GraphFlow::ContourCorrection::Graph::Weight {
 class Foreground : public GraphFlow::Core::TerminalWeight {
  public:
+ typedef GraphFlow::Core::NormalizationGroup NormalizationGroup;
+
   Foreground(Image::CVMatDistribution &frgDistr, double regionalWeight)
       : frgDistr(frgDistr), regionalWeight(regionalWeight) {}
 
   double operator()(const Point &p) {
-    return -log(frgDistr(frgDistr.img.rows - p[1], p[0]));
+    return -log(frgDistr(frgDistr.img.rows - p[1]-1, p[0]));
   }
 
   double weight() const { return regionalWeight; }
-  bool normalize() const { return true; }
+  NormalizationGroup normalizationGroup() const { return NormalizationGroup::DataRelated; }
 
   TerminalType type() const { return TerminalType::Target; }
 

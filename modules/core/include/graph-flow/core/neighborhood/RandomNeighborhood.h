@@ -14,7 +14,6 @@ class Random {
     enum OperationType {
       None,
       RandomOnContour,
-      RandomOnDomain,
       Dilation,
       Erosion
     };
@@ -43,7 +42,6 @@ class Random {
   BlueprintsIterator end() const { return blueprints.end(); }
 
   void randomOnContour(DigitalSet& dsOutput) const;
-  void randomOnDomain(DigitalSet& dsOutput) const;
   void evaluateCandidate(DigitalSet& dsOutput, const Blueprint& candidate,
                          const DigitalSet& dsInput) const;
 

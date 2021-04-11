@@ -12,6 +12,8 @@ class MyTerminalWeight : public TerminalWeight {
   std::set<Point> m_connectedToTerminal;
 
  public:
+ typedef GraphFlow::Core::NormalizationGroup NormalizationGroup;
+
   MyTerminalWeight(TerminalType terminalType,
                    const std::set<Point>& connectedToTerminal)
       : m_terminalType(terminalType),
@@ -29,7 +31,7 @@ class MyTerminalWeight : public TerminalWeight {
 
   TerminalType type() const { return m_terminalType; }
 
-  bool normalize() const { return false; }
+  NormalizationGroup normalizationGroup() const { return NormalizationGroup::None; }
 
   ~MyTerminalWeight() = default;
 };
@@ -39,13 +41,15 @@ class MyEdgeWeight : public EdgeWeight {
   std::unordered_map<Point, double> m_pointWeights;
 
  public:
+ typedef GraphFlow::Core::NormalizationGroup NormalizationGroup;
+
   MyEdgeWeight(const std::unordered_map<Point, double>& pointWeights)
       : m_pointWeights(pointWeights) {}
   double operator()(const Point& p1, const Point& p2) {
     return m_pointWeights[p1] + m_pointWeights[p2];
   }
   double weight() const { return 1.0; }
-  bool normalize() const { return false; }
+  NormalizationGroup normalizationGroup() const { return NormalizationGroup::None; }
   ~MyEdgeWeight() = default;
 };
 

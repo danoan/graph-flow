@@ -8,6 +8,7 @@
 namespace GraphFlow::ShapeEvolution::Graph::Weight {
 class Background : public GraphFlow::Core::TerminalWeight {
  public:
+  typedef GraphFlow::Core::NormalizationGroup NormalizationGroup;
   typedef DGtal::Z2i::DigitalSet DigitalSet;
   typedef GraphFlow::Utils::Digital::Misc::DTL2 DTL2;
 
@@ -24,7 +25,7 @@ class Background : public GraphFlow::Core::TerminalWeight {
   }
 
   double weight() const { return 1.0; }
-  bool normalize() const { return false; }
+  NormalizationGroup normalizationGroup() const { return NormalizationGroup::None; }
 
   TerminalType type() const { return TerminalType::Target; }
 

@@ -20,11 +20,6 @@ typename TNeighborhoodExplorer::VisitNeighborFunction visitNeighbor(
     DigitalSet candidateDS(ds.domain());
     context.neighborhood.evaluateCandidate(candidateDS, blueprint, ds);
 
-    // Insert fg seeds to the current candidate
-    for (auto p : gfi.dataDistribution.fgSeeds) candidateDS.insert(p);
-    // Remove bg seeds from the current candidate
-    for (auto pt : gfi.dataDistribution.bgSeeds) candidateDS.erase(pt);
-
     if (candidateDS.empty()) return;
 
     DigitalSet belMask(candidateDS.domain());

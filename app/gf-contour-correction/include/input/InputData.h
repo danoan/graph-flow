@@ -6,6 +6,12 @@
 namespace App {
 struct InputData {
   enum NeighborhoodType { Morphology, Random };
+  enum ValidationWeightMode {
+    AutomaticCorrectionLengthData,
+    AutomaticCorrectionLength,
+    AutomaticCorrectionData,
+    Manual
+  };
 
   InputData() {
     iterations = 10;
@@ -26,6 +32,8 @@ struct InputData {
     nThreads = 4;
     neighborhoodSize = 2;
     neighborhoodType = Morphology;
+
+    validationWeightMode = AutomaticCorrectionLengthData;
 
     outputFolder = "";
     gcoFilepath = "";
@@ -53,6 +61,8 @@ struct InputData {
   int nThreads;
   int neighborhoodSize;
   NeighborhoodType neighborhoodType;
+
+  ValidationWeightMode validationWeightMode;
 
   std::string outputFolder;
   std::string gcoFilepath;

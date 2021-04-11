@@ -1,5 +1,11 @@
 GRAPH_FLOW_REPO="https://github.com/danoan/graph-flow"
 GRAPH_FLOW_VERSION="${1}"
+VERSION_SUFFIX="$(echo ${GRAPH_FLOW_VERSION} | cut -d"." -f3)"
+
+if [ -z ${VERSION_SUFFIX} ]
+then
+  VERSION_SUFFIX=0
+fi
 
 cd "${TEMP_DIR}"
 mkdir -p "${TEMP_DIR}"
@@ -23,6 +29,9 @@ then
   cd "${TEMP_DIR}/graph-flow"
   cp ext-projects/cmake-build-release/lib/*.* "${SRC_DIR}/install/lib"  
 fi
+
+mkdir -p "${SRC_DIR}/input/pre-processed"
+cp "${TEMP_DIR}/graph-flow/input/pre-processed/coala.xml" "${SRC_DIR}/input/pre-processed/coala.xml"
 
 
 cd "${TEMP_DIR}"

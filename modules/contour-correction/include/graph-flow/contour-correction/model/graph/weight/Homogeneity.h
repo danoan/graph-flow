@@ -7,6 +7,8 @@
 namespace GraphFlow::ContourCorrection::Graph::Weight {
 class Homogeneity : public GraphFlow::Core::EdgeWeight {
  public:
+  typedef GraphFlow::Core::NormalizationGroup NormalizationGroup;
+
   typedef DGtal::Z2i::DigitalSet DigitalSet;
   typedef EdgeWeight::Point Point;
 
@@ -21,7 +23,7 @@ class Homogeneity : public GraphFlow::Core::EdgeWeight {
     cv::Vec3d v2 = img.at<cv::Vec3b>(img.rows - p2[1], p2[0]);
 
     cv::Vec3d diff = v1 - v2;
-    double s = pow(diff[0], 2) + pow(diff[1], 2) + pow(diff[2], 2);
+    double s = fabs(diff[0]) + fabs(diff[1]) + fabs(diff[2]);
 
     Point pdiff = p1 - p2;
     double d = pow(pdiff[0], 2) + pow(pdiff[1], 2);
@@ -31,7 +33,9 @@ class Homogeneity : public GraphFlow::Core::EdgeWeight {
   }
 
   double weight() const { return boundaryWeight; }
-  bool normalize() const { return true; }
+  NormalizationGroup normalizationGroup() const {
+    return NormalizationGroup::DataRelated;
+  }
 
  private:
   const cv::Mat &img;

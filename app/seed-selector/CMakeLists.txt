@@ -8,9 +8,7 @@ add_executable(seed-selector seed-selector.cpp
         src/MaskSelector.cpp
         src/RectSelector.cpp)
 
-if(${USE_REMOTE_REPOSITORIES})
-    add_dependencies(seed-selector graph-flow-utils)
-endif()
+add_dependencies(seed-selector graph-flow-utils)
 
 
 target_include_directories(seed-selector PRIVATE

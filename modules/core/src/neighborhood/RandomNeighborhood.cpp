@@ -44,41 +44,6 @@ void Random::randomOnContour(DigitalSet& dsOutput) const {
   }
 }
 
-void Random::randomOnDomain(DigitalSet& dsOutput) const {
-  using namespace DGtal::Z2i;
-
-  DigitalSet ballDS = GraphFlow::Utils::Digital::Shapes::ball(1.0, 0, 0, 5);
-  std::random_device rd;
-
-  Point lb = dsOutput.domain().lowerBound();
-  Point ub = dsOutput.domain().upperBound();
-
-  std::uniform_int_distribution opType(0, 1);
-  std::uniform_int_distribution col(lb[0], ub[0]);
-  std::uniform_int_distribution row(lb[1], ub[1]);
-
-  int nCenters = 10;
-  for (int i = 0; i < nCenters; ++i) {
-    int c = col(rd);
-    int r = row(rd);
-    int op = opType(rd);
-
-    Point translation{c, r};
-
-    if (op == 0) {
-      for (Point p : ballDS) {
-        Point curr = p + translation;
-        if (dsOutput.domain().isInside(curr)) dsOutput.erase(curr);
-      }
-    } else {
-      for (Point p : ballDS) {
-        Point curr = p + translation;
-        if (dsOutput.domain().isInside(curr)) dsOutput.insert(curr);
-      }
-    }
-  }
-}
-
 void Random::evaluateCandidate(DigitalSet& dsOutput, const Blueprint& candidate,
                                const DigitalSet& dsInput) const {
   using namespace DGtal::Z2i;
@@ -93,9 +58,6 @@ void Random::evaluateCandidate(DigitalSet& dsOutput, const Blueprint& candidate,
   } else if (candidate.operationType == Blueprint::RandomOnContour) {
     dsOutput = dsInput;
     randomOnContour(dsOutput);
-  } else if (candidate.operationType == Blueprint::RandomOnDomain) {
-    dsOutput = dsInput;
-    randomOnDomain(dsOutput);
   }
 }
 

@@ -13,6 +13,7 @@ void usage(char *argv[]);
 InputData readInput(int argc, char *argv[]);
 
 std::string resolveNeighborhoodType(InputData::NeighborhoodType nt);
+std::string resolveValidationWeightMode(InputData::ValidationWeightMode vm);
 void writeInputData(const InputData &id, std::ostream &os);
 }  // namespace App
 

@@ -1,12 +1,13 @@
 #include <DGtal/helpers/StdDefs.h>
-#include <graph-flow/utils/digital/transform.h>
 #include <graph-flow/contour-correction/graph-seg.h>
 #include <graph-flow/contour-correction/model/GraphSegInput.h>
 #include <graph-flow/contour-correction/model/GraphSegIteration.h>
 #include <graph-flow/contour-correction/model/image/DataDistribution.h>
 #include <graph-flow/core/neighborhood/MorphologyNeighborhood.h>
 #include <graph-flow/core/neighborhood/RandomNeighborhood.h>
+#include <graph-flow/utils/digital/transform.h>
 #include <graph-flow/utils/display.h>
+#include <graph-flow/utils/energy.h>
 #include <graph-flow/utils/image.h>
 #include <graph-flow/utils/string.h>
 #include <graph-flow/utils/timer.h>
@@ -15,7 +16,6 @@
 
 #include "input/InputData.h"
 #include "input/InputReader.h"
-
 #include "utils.h"
 
 using namespace DGtal::Z2i;
@@ -34,28 +34,55 @@ DigitalSet prepareShape(const ContourCorrection::Image::DataDistribution& DD) {
   else
     grayscale = segResult;
 
-  GraphFlow::Utils::Digital::Representation::CVMatToDigitalSet(tempDS, grayscale, 1);
+  GraphFlow::Utils::Digital::Representation::CVMatToDigitalSet(tempDS,
+                                                               grayscale, 1);
   return tempDS;
 }
 
 void renderSegmentation(cv::Mat& bcImage, const DigitalSet& ds,
                         const ContourCorrection::Image::DataDistribution& DD) {
   cv::Mat foregroundMask = cv::Mat::zeros(DD.segResultImg.size(), CV_8UC1);
-  GraphFlow::Utils::Digital::Representation::digitalSetToCVMat(foregroundMask, ds);
+  GraphFlow::Utils::Digital::Representation::digitalSetToCVMat(foregroundMask,
+                                                               ds);
   Utils::Image::setHighlightMask(bcImage, DD.gco.inputImage, foregroundMask);
 }
 
 void setGraphSegInput(const App::InputData& id,
                       ContourCorrection::GraphSegInput& gsi) {
+
+  DigitalSet belMask(gsi.inputDS.domain());
+  GraphFlow::Utils::Digital::Morphology::dilate(belMask,gsi.inputDS,1);
+
+  double perimeter =
+      GraphFlow::Utils::Energy::perimeter(gsi.inputDS, belMask, 1);
+  double automaticAlpha = (4 * M_PI * M_PI) / pow(perimeter, 2);
+
+  double elastica = GraphFlow::Utils::Energy::elastica(
+      gsi.inputDS, id.radius, 1, automaticAlpha, 1, belMask);
+
+  double dataValue =
+      GraphFlow::ContourCorrection::Graph::evaluateData(gsi, gsi.inputDS);
+  double automaticGamma = elastica / dataValue;
+
+  gsi.alpha = id.alpha;
+  gsi.dataWeightValidation = id.dataWeightValidation;
+
+  if (id.validationWeightMode == App::InputData::AutomaticCorrectionLengthData) {
+    gsi.alpha *= automaticAlpha;
+    gsi.dataWeightValidation *= automaticGamma;
+  } else if (id.validationWeightMode == App::InputData::AutomaticCorrectionLength) {
+    gsi.alpha *= automaticAlpha;
+  } else if (id.validationWeightMode == App::InputData::AutomaticCorrectionData) {
+    gsi.dataWeightValidation *= automaticGamma;
+  }
+
   gsi.iterations = id.iterations;
   gsi.radius = id.radius;
   gsi.vradius = id.vradius;
-  gsi.alpha = id.alpha;
   gsi.optBand = id.optBand;
   gsi.tolerance = id.tolerance;
   gsi.grabcutIterations = id.grabcutIterations;
   gsi.dataWeightCandidate = id.dataWeightCandidate;
-  gsi.dataWeightValidation = id.dataWeightValidation;
   gsi.curvatureWeightCandidate = id.curvatureWeightCandidate;
   gsi.curvatureWeightValidation = id.curvatureWeightValidation;
   gsi.nThreads = id.nThreads;

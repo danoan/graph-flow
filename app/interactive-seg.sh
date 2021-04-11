@@ -13,9 +13,14 @@ echo "[-K Curvature term penalization at candidate selection (default: 1.0) ]"
 echo "[-g Data term penalization at validation (default: 2.0) ]"
 echo "[-k Curvature term penalization at validation (default: 1.0) ]"
 echo "[-a Length term penalization at validation (default:0.01) ]"
+echo "[-O Optimization band (default:2)]"
+echo "[-N neighborhood size (default:2)]"
+echo "[-H neighborhood type (morphology, random) (default:morphology)]"
+echo "[-j Grabcut iterations (default:1)]"
 echo "[-i Max iterations (default:30) ]"
 echo "[-t Tolerance. Stop if change between iterations is smaller than tolerance (>=0) (default:-1, stop when max iterations is reached)]\n"
 echo "[-n Number of threads (default:4) ]"
+echo "[-v Validation weight mode (automatic-correction-length-data, automatic-correction-length, automatic-correction-data, manual) (default: automatic-correction-length-data)\n"
 echo "[-w Print energy value ]"
 echo "[-s Save all figures ]"
 echo "[-I INPUT_IMAGE_PATH (default:$INPUT_IMAGE) ]"
@@ -28,12 +33,17 @@ K="1.0"
 g="2.0"
 k="1.0"
 a="0.01"
+O="2"
+N="2"
+H="morphology"
+j="1"
 i="30"
 t="-1"
 w=""
 s=""
 n="4"
-while getopts ":R:r:G:K:g:k:a:i:t:n:I:ws" o; do
+v="automatic-correction-length-data"
+while getopts ":R:r:G:K:g:k:a:O:N:H:j:i:t:n:v:I:ws" o; do
     case "${o}" in
         R)
             R=$OPTARG
@@ -56,6 +66,18 @@ while getopts ":R:r:G:K:g:k:a:i:t:n:I:ws" o; do
 	    a)
 	        a=$OPTARG
 	        ;;
+	    O)
+	        O=$OPTARG
+	        ;;
+	    N)
+	        N=$OPTARG
+	        ;;
+	    H)
+	        H=$OPTARG
+	        ;;
+	    j)
+	        j=$OPTARG
+	        ;;
 	    i)
 	        i=$OPTARG
 	        ;;
@@ -64,6 +86,9 @@ while getopts ":R:r:G:K:g:k:a:i:t:n:I:ws" o; do
 	        ;;            
 	    n)
 	        n=$OPTARG
+	        ;;
+	    v)
+	        v=$OPTARG
 	        ;;
 	    I)
 	        INPUT_IMAGE=$OPTARG
@@ -124,7 +149,7 @@ then
     "${SP_OUT}/gc-object.xml" \
     -u "${SP_OUT}/mask-pbfg-0.pgm" -d
 
-    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -R"$R" -r"$r" -G"$G" -g"$g" -K"$K" -k"$k" -a"$a" -N0 -i"$i" -t"$t" -n${n} -d ${s} ${w} "${SP_OUT}/graph-seg"
+    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -R"$R" -r"$r" -G"$G" -g"$g" -K"$K" -k"$k" -a"$a" -N"${N}" -H"${H}" -O"${O}" -j"${j}" -i"$i" -t"$t" -n${n} -v"${v}" -d ${s} ${w} "${SP_OUT}/graph-seg"
 fi
 
 while :
@@ -143,6 +168,6 @@ do
     "${GRAB_CUT_APP}" "${INPUT_IMAGE}" "${SP_OUT}/mask-fg-0.pgm" "${SP_OUT}/mask-bg-0.pgm" "${SP_OUT}/gc-object.xml" \
     -u "${SP_OUT}/mask-pbfg-0.pgm" -s "${SP_OUT}/graph-seg/mask-seg.png"
 
-    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -R"$R" -r"$r" -G"$G" -g"$g" -K"$K" -k"$k" -a"$a" -N0 -i"$i" -t"$t" -n${n} -d ${s} ${w} "${SP_OUT}/graph-seg"
+    "${GRAPH_SEG_APP}" "${SP_OUT}/gc-object.xml" -R"$R" -r"$r" -G"$G" -g"$g" -K"$K" -k"$k" -a"$a" -N"${N}" -H"${H}" -O"${O}" -j"${j}" -i"$i" -t"$t" -n${n} -v"${v}" -d ${s} ${w} "${SP_OUT}/graph-seg"
 done
 

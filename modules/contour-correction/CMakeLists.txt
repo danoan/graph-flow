@@ -35,6 +35,9 @@ target_link_libraries(graph-flow-contour-correction
         ${DGTAL_LIBRARIES}
         ${OpenCV_LIBS})
 
+install(DIRECTORY include
+        DESTINATION ${CMAKE_INSTALL_PREFIX})
+
 install(TARGETS graph-flow-contour-correction
         DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
         ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)

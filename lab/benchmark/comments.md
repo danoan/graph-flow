@@ -1,6 +1,10 @@
 # Benchmark comments
 
-<img alt="Last benchmark" src="https://github.com/danoan/graph-flow/blob/master/lab/benchmark/last-benchmark.png" height="600" />
+<img alt="Last benchmark" src="https://github.com/danoan/graph-flow/blob/master/lab/benchmark/last-benchmark.png" width="400" />
+<img alt="Last benchmark" src="https://github.com/danoan/graph-flow/blob/master/lab/benchmark/last-benchmark-contour-correction.png" width="300" />
+
+## v0.2.8
+Slightly regression in running time for shape-evolution. Investigate if changes in the graph construction is the culprit. On the other hand, we had a slightly improve in running time for contour-correction.
 
 ## v0.2.7
 There is a nitid decrease in the execution time for the shape evolution application. That is due to the use of the faster `extractAll2DSCellContoursFromMask` implementation.
