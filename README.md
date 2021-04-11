@@ -8,6 +8,7 @@
 
  Its main applications are
  - **gf-shape-evolution**: Evolves a digital shape towards the shape of minimum Elastica energy. 
+  - **gf-contour-correction**. Contour correction via Elastica regularization.
  - **interactive-seg**. Interactive segmentation with Elastica regularization.
  
  
@@ -72,7 +73,9 @@ Load a image, select foreground/background seeds and then execute the gf-contour
 ```
 ./interactive-seg.sh -I input/images/coala.jpg output/coala
 ```
-<img alt="Coala seeds" src="https://github.com/danoan/graph-flow/blob/master/doc/images/coala-seeds.png" height="200" /> <img alt="Coala segmentation" src="https://github.com/danoan/graph-flow/blob/master/doc/images/coala-seg.png" height="200" />
+<img alt="Coala seeds" src="https://github.com/danoan/graph-flow/blob/master/doc/images/coala-seeds.png" height="300" /> <img alt="Coala segmentation" src="https://github.com/danoan/graph-flow/blob/master/doc/images/coala-seg.png" height="300" />
+
+Check the influence of each parameter in this [report](https://danoan.github.io/content/papers/graph-flow-parameters/report.html).
 
 
 
