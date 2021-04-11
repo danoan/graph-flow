@@ -1,7 +1,6 @@
 # Benchmark comments
 
-<img alt="Last benchmark" src="https://github.com/danoan/graph-flow/blob/master/lab/benchmark/last-benchmark.png" width="400" />
-<img alt="Last benchmark" src="https://github.com/danoan/graph-flow/blob/master/lab/benchmark/last-benchmark-contour-correction.png" width="300" />
+<img alt="Last benchmark" src="https://github.com/danoan/graph-flow/blob/master/lab/benchmark/last-benchmark.png" width="400" /><img alt="Last benchmark" src="https://github.com/danoan/graph-flow/blob/master/lab/benchmark/last-benchmark-contour-correction.png" width="400" />
 
 ## v0.2.8
 Slightly regression in running time for shape-evolution. Investigate if changes in the graph construction is the culprit. On the other hand, we had a slightly improve in running time for contour-correction.
