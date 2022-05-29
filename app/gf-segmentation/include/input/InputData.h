@@ -15,17 +15,17 @@ struct InputData {
 
   InputData() {
     iterations = 10;
-    radius = 12;
+    radius = 6;
     vradius = radius;
-    alpha = 10;
+    alpha = 0.01;
 
-    dataWeightCandidate = 1.0;
-    dataWeightValidation = 1.0;
+    dataWeightCandidate = 0.5;
+    dataWeightValidation = 0.5;
 
     curvatureWeightCandidate = 1.0;
     curvatureWeightValidation = 1.0;
 
-    optBand = 4;
+    optBand = 2;
     grabcutIterations = 1;
     tolerance = -1;
 

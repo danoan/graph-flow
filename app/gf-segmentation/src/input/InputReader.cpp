@@ -7,12 +7,12 @@ void usage(char *argv[]) {
   std::cerr
       << "Usage: " << argv[0]
       << " GrabcutObjectFilepath OutputFolder \n"
-         "[-R Balance coefficient disk radius (default: 12)]\n"
-         "[-r Validation disk radius (default: 12)]\n"
+         "[-R Balance coefficient disk radius (default: 6)]\n"
+         "[-r Validation disk radius (default: 6)]\n"
          "[-G Data term penalization at candidate selection  (default:0.5)]\n"
          "[-K Curvature term penalization at candidate selection "
          "(default:1.0)]\n"
-         "[-g Data term penalization at validation  (default:2.0)]\n"
+         "[-g Data term penalization at validation  (default:0.5)]\n"
          "[-k Curvature term penalization at validation (default:1.0)]\n"
          "[-a Length term penalization at validation (default:0.01)]\n"
          "[-O Optimization band (default:2)]\n"
