@@ -127,6 +127,11 @@ InputData readInput(int argc, char *argv[]) {
     }
   }
 
+  if (optind>=argc-1){
+    std::cerr << "Please specify a Grabcut object (the output of the grabcut application) and an output folder.\n";
+    exit(0);
+  }
+
   id.gcoFilepath = argv[optind++];
   id.outputFolder = argv[optind++];
   return id;
