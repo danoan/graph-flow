@@ -1,7 +1,7 @@
 FROM danoan/graphflow:v0.2.8.1
 
-# Set the working directory to /app
-WORKDIR /app
+# Set the working directory to /graph-flow
+WORKDIR /graph-flow
 
 #Install vnc
 
@@ -10,4 +10,4 @@ xfce4-goodies \
 tightvncserver \
 --fix-missing
 
-COPY ./scripts/start-vnc.sh /app/scripts/start-vnc.sh
+COPY ./scripts/start-vnc.sh /graph-flow/scripts/start-vnc.sh

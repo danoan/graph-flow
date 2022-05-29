@@ -22,8 +22,8 @@ docker run --rm -it danoan/graphflow:0.2.8.1vnc
 To execute the applications, type
 
 ```bash
-./app/install/bin/gf-shape-evolution <output_folder>
-./app/interactive-seg.sh <output_folder>
+./graph-flow/install/bin/gf-shape-evolution <output_folder>
+./graph-flow/interactive-seg.sh <output_folder>
 ```
 
 It is recommended to create a vnc server in the container and access it via
@@ -34,7 +34,7 @@ a vnc client to make use of the graphical interface of the applications.
 Start the vnc server in the container
 
 ```bash
-./app/scripts/start-vnc.sh
+./graph-flow/scripts/start-vnc.sh
 ```
 
 Next, check the container IP address with docker inspect
@@ -49,7 +49,7 @@ You should be able to access the container via a graphical interface now. Use
 the flag `-d` to display the shape evolution.
 
 ```bash
-./app/install/bin/gf-shape-evolution -d <output_folder>
+./graph-flow/install/bin/gf-shape-evolution -d <output_folder>
 ```
 
 ## Manual build and installation

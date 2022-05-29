@@ -14,4 +14,4 @@ before_install:
 
 script:
   - ci_env=$(bash <(curl -s https://codecov.io/env))
-  - docker run $ci_env graphflow:build /bin/sh -c /app/build-tools/scripts/generate-coverage.sh
+  - docker run $ci_env graphflow:build /bin/sh -c /graph-flow/build-tools/scripts/generate-coverage.sh
