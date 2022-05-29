@@ -1,15 +1,14 @@
 [![Build Status](https://travis-ci.com/danoan/graph-flow.svg?branch=master)](https://travis-ci.com/danoan/graph-flow)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6059626d43064254affc2b908bcd86e1)](https://app.codacy.com/manual/danoan/graph-flow?utm_source=github.com&utm_medium=referral&utm_content=danoan/graph-flow&utm_campaign=Badge_Grade_Dashboard)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/0d5ca9a759264e3eb2c5b3e907e76bf7)](https://www.codacy.com/gh/danoan/graph-flow/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=danoan/graph-flow&amp;utm_campaign=Badge_Grade)
 [![codecov](https://codecov.io/gh/danoan/graph-flow/branch/master/graph/badge.svg?token=15BDAZDRDS)](https://codecov.io/gh/danoan/graph-flow)
-
 
 # graph-flow
  Shape evolution and image segmentation by elastica regularization and graph cuts.
 
 ## Built-in executables
 
- - **gf-shape-evolution**: Evolves a digital shape towards the shape of minimum Elastica energy.
- - **interactive-seg**. Interactive segmentation with Elastica regularization.
+-  **gf-shape-evolution**: Evolves a digital shape towards the shape of minimum Elastica energy.
+-  **interactive-seg**. Interactive segmentation with Elastica regularization.
 
 ## Running in a Docker container
 
@@ -58,23 +57,23 @@ Before proceeding with the build and installation, make sure the dependencies be
 are installed
 ### Dependencies
 
-- [libboost1.70.0-dev](https://www.boost.org/users/history/version_1_70_0.html)
-- [opencv-3.4](https://opencv.org/releases.html)
-- [DGtal1.1](https://dgtal.org/download/)
-- [lemon1.3.1](https://lemon.cs.elte.hu/trac/lemon/wiki/Downloads)
-- [cmake>=3.10](https://cmake.org/)
-- qt5-default
-- zlib1g-dev
-- libgtk2.0-dev
-- graphviz
-- g++
-- gfortran
-- libgraphicsmagick++1-dev
-- wget
+-  [libboost1.70.0-dev](https://www.boost.org/users/history/version_1_70_0.html)
+-  [opencv-3.4](https://opencv.org/releases.html)
+-  [DGtal1.1](https://dgtal.org/download/)
+-  [lemon1.3.1](https://lemon.cs.elte.hu/trac/lemon/wiki/Downloads)
+-  [cmake>=3.10](https://cmake.org/)
+-  qt5-default
+-  zlib1g-dev
+-  libgtk2.0-dev
+-  graphviz
+-  g++
+-  gfortran
+-  libgraphicsmagick++1-dev
+-  wget
 
 Next, open a console and type the commands below
 
-```
+```bash
 cd [GRAPHFLOW_ROOT_FOLDER]
 mkdir build
 cd build
@@ -116,6 +115,3 @@ Load a image, select foreground/background seeds and then execute the gf-segment
 <img alt="Coala seeds" src="https://github.com/danoan/graph-flow/blob/master/doc/images/coala-seeds.png" height="300" /> <img alt="Coala segmentation" src="https://github.com/danoan/graph-flow/blob/master/doc/images/coala-seg.png" height="300" />
 
 Check the influence of each parameter in this [report](https://danoan.github.io/content/papers/graph-flow/reports/parameter-tuning).
-
-
-
