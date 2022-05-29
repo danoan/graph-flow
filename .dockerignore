@@ -1,12 +1,16 @@
 .vscode
 .git
-**/output
-cmake-build-release
-cmake-build-debug
-ext-projects/cmake-build-release
-ext-projects/source
-install
-doc
-input
 __pycache__
+**/cmake-build-debug
+**/cmake-build-release
+**/output
+**/source
+app/report-generator
+build-tools/docker
+doc
+install
+images/pre-processed
+lab/benchmark
+lab/experiments
+lab/test/seg
 
