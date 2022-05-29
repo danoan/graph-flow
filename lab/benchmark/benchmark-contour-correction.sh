@@ -2,7 +2,7 @@ SCRIPT_PATH="$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)"
 PROJECT_PATH="$(cd ${SCRIPT_PATH} && cd ../.. && pwd)"
 
 usage(){
-  echo "Run benchmark tests across versions of gf-contour-correction."
+  echo "Run benchmark tests across versions of gf-segmentation."
   echo "Usage: $0 "
   echo "[-c Current version only]"
 }

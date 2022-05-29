@@ -6,7 +6,7 @@ export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${SRC_DIR}/install/lib"
 
 if [ ${VERSION_SUFFIX} -ge 4 ]
 then
-  CONTOUR_CORRECTION_APP="${SRC_DIR}/install/bin/gf-contour-correction"
+  CONTOUR_CORRECTION_APP="${SRC_DIR}/install/bin/gf-segmentation"
 fi
 
 COALA_GC_OBJECT_PATH="${SRC_DIR}/input/pre-processed/coala.xml"

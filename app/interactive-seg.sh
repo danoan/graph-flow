@@ -121,7 +121,7 @@ fi
 
 SEED_SELECTOR_APP="${GRAPH_SEG_BIN}/seed-selector"
 GRAB_CUT_APP="${GRAPH_SEG_BIN}/grabcut"
-GRAPH_SEG_APP="${GRAPH_SEG_BIN}/gf-contour-correction"
+GRAPH_SEG_APP="${GRAPH_SEG_BIN}/gf-segmentation"
 
 
 IMAGE_NAME="$(basename $INPUT_IMAGE)"
