@@ -15,8 +15,9 @@ $SCRIPT_BEGIN
     -DBUILD_TESTING="OFF" \
     -DCMAKE_INSTALL_PREFIX="${DEPS_DIR}" \
     -DBoost_INCLUDE_DIR="${DEPS_DIR}/include/boost" \
+    -DWITH_MAGICK="ON" \
     -DCMAKE_PREFIX_PATH="${CMAKE_PREFIX_PATH}"
-    
+
     make install
 
     cd "${TEMP_DIR}"

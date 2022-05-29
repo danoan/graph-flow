@@ -1,4 +1,3 @@
-#Use an official Python runtime as a parent image
 FROM danoan/graphflow:deps
 
 # Set the working directory to /app

@@ -27,7 +27,8 @@ $SCRIPT_BEGIN
 -DBUILD_opencv_videoio="OFF" \
 -DBUILD_opencv_videostab="OFF" \
 -DWITH_GTK="ON" \
--DWITH_GTK_2_X="ON"
+-DWITH_GTK_2_X="ON" \
+-DWITH_QT="ON"
 
     make install
 

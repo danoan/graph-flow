@@ -5,7 +5,7 @@ $SCRIPT_BEGIN
 
     cd "${TEMP_DIR}"
 
-    wget "https://dl.bintray.com/boostorg/release/1.70.0/source/boost_1_70_0.tar.gz"
+    wget "https://boostorg.jfrog.io/artifactory/main/release/1.70.0/source/boost_1_70_0.tar.gz"
     tar -xzvf "boost_1_70_0.tar.gz"
     rm "boost_1_70_0.tar.gz"
 
