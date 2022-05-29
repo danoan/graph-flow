@@ -9,12 +9,14 @@ using namespace SeedSelector;
 
 void print_instructions() {
   std::cout << "***Seed selector instructions***\n\n"
-            << "f: Select foreground image mask\n"
-            << "b: Select background image mask\n"
-            << "+: Increase pen width\n"
-            << "-: Decrease pen width\n"
-            << "s: Save masks\n"
-            << "q: Quit selector\n\n";
+            << "Press p to select the region containing the object to be segmented\n"
+            << "Press f to change to foreground mode and select foreground seeds\n"
+            << "Press b to change to background mode and select the background image seeds\n"
+            << "Press r to erase the seeds in the current mode\n"
+            << "Press + to increase the pen width\n"
+            << "Press - to decrease the pen width\n"
+            << "Press s to save the masks\n"
+            << "Press q to quit the seed selector interface\n\n";
 }
 
 void handleEvent(int key, GUIData& gd, bool& onExecution) {

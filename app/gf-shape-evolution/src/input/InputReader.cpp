@@ -108,6 +108,11 @@ InputData readInput(int argc, char *argv[]) {
     }
   }
 
+  if (optind>=argc){
+    std::cerr << "Please specify an output folder.\n";
+    exit(0);
+  }
+
   id.outputFolder = argv[optind++];
   return id;
 }

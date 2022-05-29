@@ -3,7 +3,7 @@ project(graph-flow)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-set(EXTPROJECTS_SOURCE_DIR ${CMAKE_SOURCE_DIR}/ext-projects/source)
+set(EXTPROJECTS_SOURCE_DIR ${CMAKE_SOURCE_DIR}/ext)
 set(CMAKE_Swift_NUM_THREADS 2)
 
 add_definitions(-DMY_MAIN_DIR="${CMAKE_SOURCE_DIR}")
@@ -11,10 +11,10 @@ add_definitions(-DMY_MAIN_DIR="${CMAKE_SOURCE_DIR}")
 find_package(DGtal REQUIRED)
 find_package(OpenCV REQUIRED)
 
-if (${CMAKE_BUILD_TYPE} STREQUAL Release)
-    set(EXTPROJECTS_BUILD_DIR ${CMAKE_SOURCE_DIR}/ext-projects/cmake-build-release)
+if (${CMAKE_BUILD_TYPE} STREQUAL release)
+    set(EXTPROJECTS_BUILD_DIR ${CMAKE_SOURCE_DIR}/ext/cmake-build-release)
 else()
-    set(EXTPROJECTS_BUILD_DIR ${CMAKE_SOURCE_DIR}/ext-projects/cmake-build-debug)
+    set(EXTPROJECTS_BUILD_DIR ${CMAKE_SOURCE_DIR}/ext/cmake-build-debug)
 endif ()
 
 message("Build directory: ${CMAKE_BINARY_DIR}")
@@ -38,7 +38,7 @@ set(BUILD_TESTS OFF CACHE BOOL "Build tests.")
 set(BUILD_APPS ON CACHE BOOL "Build applications.")
 
 if (${USE_REMOTE_REPOSITORIES})
-    add_subdirectory(ext-projects)
+    add_subdirectory(ext)
 endif ()
 
 link_directories(${CMAKE_BINARY_DIR}/modules/utils
@@ -59,7 +59,7 @@ add_subdirectory(modules/contour-correction)
 
 if(${BUILD_APPS})
     add_subdirectory(app/gf-shape-evolution)
-    add_subdirectory(app/gf-contour-correction)
+    add_subdirectory(app/gf-segmentation)
     add_subdirectory(app/seed-selector)
     add_subdirectory(app/grabcut)
     add_subdirectory(app/summary-flow)

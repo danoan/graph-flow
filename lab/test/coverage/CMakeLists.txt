@@ -39,7 +39,7 @@ ${CMAKE_SOURCE_DIR}/modules/utils/src/energy.cpp
 ${CMAKE_SOURCE_DIR}/modules/utils/src/image.cpp
 ${CMAKE_SOURCE_DIR}/modules/utils/src/string.cpp
 ${CMAKE_SOURCE_DIR}/modules/utils/src/timer.cpp
-${CMAKE_SOURCE_DIR}/catch/catch.cpp)
+${CMAKE_SOURCE_DIR}/ext/catch/catch.cpp)
 
 target_compile_options(test-coverage PRIVATE
 -fprofile-arcs
@@ -48,14 +48,14 @@ target_compile_options(test-coverage PRIVATE
 )
 
 if (${USE_REMOTE_REPOSITORIES})
-  add_dependencies(test-coverage graph-flow-core graph-flow-io graph-flow-shape-evolution graph-flow-contour-correction graph-flow-utils)    
+  add_dependencies(test-coverage graph-flow-core graph-flow-io graph-flow-shape-evolution graph-flow-contour-correction graph-flow-utils)
 else()
-  add_dependencies(test-coverage graph-flow-core graph-flow-io graph-flow-shape-evolution graph-flow-contour-correction graph-flow-utils)    
+  add_dependencies(test-coverage graph-flow-core graph-flow-io graph-flow-shape-evolution graph-flow-contour-correction graph-flow-utils)
 endif ()
 
 
 target_include_directories(test-coverage PRIVATE
-        ${CMAKE_SOURCE_DIR}/catch
+        ${CMAKE_SOURCE_DIR}/ext/catch
         ${CMAKE_SOURCE_DIR}/modules/utils/include
         ${CMAKE_SOURCE_DIR}/modules/shape-evolution/include
         ${CMAKE_SOURCE_DIR}/modules/io/seed/include
@@ -67,7 +67,7 @@ target_include_directories(test-coverage PRIVATE
 
 target_link_libraries(test-coverage
         -lemon
-        -lboost_filesystem    
+        -lboost_filesystem
         -lboost_system
         -lpthread
         -lgcov

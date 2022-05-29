@@ -49,8 +49,8 @@ then
   #Run benchmarks in container
   for V in ${VERSIONS}
   do
-    docker run --name container-gf-v${V} graphflow:v${V} bash /app/scripts/benchmark.sh ${V}
-    docker cp container-gf-v${V}:/app/benchmark "${OUTPUT_FOLDER}"
+    docker run --name container-gf-v${V} graphflow:v${V} bash /graph-flow/scripts/benchmark.sh ${V}
+    docker cp container-gf-v${V}:/graph-flow/benchmark "${OUTPUT_FOLDER}"
     docker rm container-gf-v${V}
   done
 fi

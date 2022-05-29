@@ -2,7 +2,7 @@ SCRIPT_PATH="$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)"
 PROJECT_PATH="$(cd ${SCRIPT_PATH} && cd ../.. && pwd)"
 
 usage(){
-  echo "Run benchmark tests across versions of gf-contour-correction."
+  echo "Run benchmark tests across versions of gf-segmentation."
   echo "Usage: $0 "
   echo "[-c Current version only]"
 }
@@ -49,8 +49,8 @@ then
   #Run benchmarks in container
   for V in ${VERSIONS}
   do
-    docker run --name container-gf-v${V} graphflow:v${V} bash /app/scripts/benchmark-contour-correction.sh ${V}
-    docker cp container-gf-v${V}:/app/benchmark-contour-correction "${OUTPUT_FOLDER}"
+    docker run --name container-gf-v${V} graphflow:v${V} bash /graph-flow/scripts/benchmark-contour-correction.sh ${V}
+    docker cp container-gf-v${V}:/graph-flow/benchmark-contour-correction "${OUTPUT_FOLDER}"
     docker rm container-gf-v${V}
   done
 fi

@@ -5,6 +5,6 @@ PROJECT_FOLDER = SCRIPT_FOLDER
 for i in range(5):
     PROJECT_FOLDER = os.path.dirname(PROJECT_FOLDER)
 
-REPORT_GENERATOR_FOLDER="%s/%s" % (PROJECT_FOLDER,"repGen")
+REPORT_GENERATOR_FOLDER="%s/%s" % (PROJECT_FOLDER,"app/report-generator")
 print("Including directory: %s in Python search path" % (REPORT_GENERATOR_FOLDER,))
 sys.path.append(REPORT_GENERATOR_FOLDER)

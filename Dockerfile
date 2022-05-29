@@ -1,16 +1,15 @@
-#Use an official Python runtime as a parent image
 FROM danoan/graphflow:dgtal1.1
 
-# Set the working directory to /app
-WORKDIR /app
+# Set the working directory to /graph-flow
+WORKDIR /graph-flow
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+# Copy the current directory contents into the container at /graph-flow
+COPY . /graph-flow
 
-RUN chmod +x /app/scripts/*
+RUN chmod +x /graph-flow/scripts/*
 
 #Install lcov
-
 RUN apt-get update && apt-get install -y lcov curl --fix-missing
 
-RUN /app/scripts/build-graph-flow.sh
+#Build and Install graph-flow
+RUN /graph-flow/build-tools/scripts/build-graph-flow.sh

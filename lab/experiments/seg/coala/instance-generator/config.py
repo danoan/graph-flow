@@ -5,12 +5,12 @@ class Param:
         self.type=type
         self.items=[ {'path':resolver(prefix,v),'value':v} for v in items]
 
-RADIUS=[5,9,16]
-LENGTH_PENALIZATION=[0,10,100]
+RADIUS=[5,9]
+LENGTH_PENALIZATION=[0,1,10]
 DATA_TERM=[0,1,2,5]
 CURVATURE_TERM=[0,1,2,5]
 ITERATIONS=30
-OPT_BAND=[5]
+OPT_BAND=[1,2,5]
 NEIGH_SIZE=[0,2,4]
 NUM_THREADS=8
 
@@ -27,7 +27,7 @@ def resolve_std(prefix,s):
 
 def valid_combination(c):
     radius,opt_band,neigh_size,length_pen,data_regional,curvature_term = c
-    
+
     flag=True
     if (data_regional["value"]==0 and curvature_term["value"]==0):
         flag = False

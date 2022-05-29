@@ -10,8 +10,8 @@ services:
 
 before_install:
   - docker pull danoan/graphflow:dgtal1.1
-  - docker build . -t graphflow:build
-  
+  - docker build . -t graphflow:build -f Dockerfile
+
 script:
   - ci_env=$(bash <(curl -s https://codecov.io/env))
-  - docker run $ci_env graphflow:build /bin/sh -c /app/scripts/generate-coverage.sh  
+  - docker run $ci_env graphflow:build /bin/sh -c /graph-flow/build-tools/scripts/generate-coverage.sh

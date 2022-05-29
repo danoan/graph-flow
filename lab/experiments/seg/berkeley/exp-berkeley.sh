@@ -14,7 +14,7 @@ IMAGES_FOLDER=${DATA_FOLDER}/seg-bench/images
 GS_SEEDS_FOLDER=${DATA_FOLDER}/seg-bench/graph-seg/seeds
 
 GRAB_CUT_APP=${PROJECT_FOLDER}/cmake-build-release/app/grabcut/grabcut
-GRAPH_SEG_APP=${PROJECT_FOLDER}/cmake-build-release/app/gf-contour-correction/gf-contour-correction
+GRAPH_SEG_APP=${PROJECT_FOLDER}/cmake-build-release/app/gf-segmentation/gf-segmentation
 
 replace_line()
 {

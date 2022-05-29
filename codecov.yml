@@ -26,15 +26,15 @@ comment:
   require_changes: no
 
 ignore:
-  - lab/.*  # ignore folders and all its contents
+  - app/report-generator/*.
+  - build-tools/.*
+  - catch/.*
   - deps/.*
-  - ext-projects/.*
+  - ext/.*
+  - lab/.*  # ignore folders and all its contents
   - modules/contour-correction/test/.*
   - modules/core/test/.*
   - modules/io/seed/test/.*
   - modules/shape-evolution/test/.*
   - modules/utils/test/.*
-  - scripts/.*
-  - repGen/*.
-  - catch/.*
   - modules/contour-correction/src/model/image.GMM.cpp
