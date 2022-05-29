@@ -2,7 +2,7 @@
 
 SCRIPT_PATH="$(cd $(dirname ${BASH_SOURCE[0]}) && pwd)"
 PROJECT_ROOT="${SCRIPT_PATH%graph-flow/*}graph-flow"
-BUILD_FOLDER="${PROJECT_ROOT}/cmake-build-release"
+BUILD_FOLDER="${PROJECT_ROOT}/cmake-build-debug"
 
 GCOV_FILES="${BUILD_FOLDER}/lab/test/coverage/CMakeFiles/test-coverage.dir"
 COVERAGE_OUTPUT_FOLDER="${PROJECT_ROOT}/lab/test/coverage/output"
