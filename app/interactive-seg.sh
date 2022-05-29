@@ -6,11 +6,11 @@ GRAPH_SEG_BIN="${PROJECT_FOLDER}/install/bin"
 INPUT_IMAGE="${PROJECT_FOLDER}/input/images/coala.jpg"
 
 usage(){ echo "Usage: $0 "
-echo "[-R Balance coefficient radius (default: 7)]"
-echo "[-r Validation disk radius (default: 16)]"
+echo "[-R Balance coefficient radius (default: 6)]"
+echo "[-r Validation disk radius (default: 6)]"
 echo "[-G Data term penalization at candidate selection (default: 0.5) ]"
 echo "[-K Curvature term penalization at candidate selection (default: 1.0) ]"
-echo "[-g Data term penalization at validation (default: 2.0) ]"
+echo "[-g Data term penalization at validation (default: 0.5) ]"
 echo "[-k Curvature term penalization at validation (default: 1.0) ]"
 echo "[-a Length term penalization at validation (default:0.01) ]"
 echo "[-O Optimization band (default:2)]"
@@ -26,11 +26,11 @@ echo "[-s Save all figures ]"
 echo "[-I INPUT_IMAGE_PATH (default:$INPUT_IMAGE) ]"
 echo " OUTPUT_FOLDER" 1>&2; exit 1;}
 
-R="7"
-r="16"
+R="6"
+r="6"
 G="0.5"
 K="1.0"
-g="2.0"
+g="0.5"
 k="1.0"
 a="0.01"
 O="2"
@@ -50,7 +50,7 @@ while getopts ":R:r:G:K:g:k:a:O:N:H:j:i:t:n:v:I:ws" o; do
             ;;
         r)
             r=$OPTARG
-            ;;            
+            ;;
         G)
             G=$OPTARG
             ;;
@@ -59,7 +59,7 @@ while getopts ":R:r:G:K:g:k:a:O:N:H:j:i:t:n:v:I:ws" o; do
 	        ;;
         g)
             g=$OPTARG
-            ;;            
+            ;;
 	    k)
 	        k=$OPTARG
 	        ;;
@@ -83,7 +83,7 @@ while getopts ":R:r:G:K:g:k:a:O:N:H:j:i:t:n:v:I:ws" o; do
 	        ;;
 	    t)
 	        t=$OPTARG
-	        ;;            
+	        ;;
 	    n)
 	        n=$OPTARG
 	        ;;
@@ -92,7 +92,7 @@ while getopts ":R:r:G:K:g:k:a:O:N:H:j:i:t:n:v:I:ws" o; do
 	        ;;
 	    I)
 	        INPUT_IMAGE=$OPTARG
-	        ;;            
+	        ;;
 	    w)
 	        w="-w"
 	        ;;

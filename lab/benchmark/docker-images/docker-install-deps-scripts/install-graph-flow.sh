@@ -27,7 +27,7 @@ make install
 if [ ${VERSION_SUFFIX} -le 5 ]
 then
   cd "${TEMP_DIR}/graph-flow"
-  cp ext-projects/cmake-build-release/lib/*.* "${SRC_DIR}/install/lib"  
+  cp ext/magLac/cmake-build-release/lib/*.* "${SRC_DIR}/install/lib"
 fi
 
 mkdir -p "${SRC_DIR}/input/pre-processed"
