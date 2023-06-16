@@ -57,12 +57,12 @@ void setGraphSegInput(const App::InputData& id,
       GraphFlow::Utils::Energy::perimeter(gsi.inputDS, belMask, 1);
   double automaticAlpha = (4 * M_PI * M_PI) / pow(perimeter, 2);
 
-  double elastica = GraphFlow::Utils::Energy::elastica(
-      gsi.inputDS, id.radius, 1, automaticAlpha, 1, belMask);
+  double canonical_elastica = GraphFlow::Utils::Energy::elastica(
+      gsi.inputDS, id.radius, 1, 1, 1, belMask);
 
-  double dataValue =
-      GraphFlow::ContourCorrection::Graph::evaluateData(gsi, gsi.inputDS);
-  double automaticGamma = elastica / dataValue;
+  double canonical_dataValue =
+      GraphFlow::ContourCorrection::Graph::evaluateData(1, gsi.dataDistribution, gsi.inputDS);
+  double automaticGamma = canonical_elastica / canonical_dataValue;
 
   gsi.alpha = id.alpha;
   gsi.dataWeightValidation = id.dataWeightValidation;

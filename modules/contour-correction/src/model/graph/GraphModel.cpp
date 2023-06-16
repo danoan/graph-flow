@@ -81,11 +81,11 @@ double regionValue(double& fgv, double& bgv, const DigitalSet& ds,
   return (fgv + bgv);
 }
 
-double evaluateData(const GraphSegInput& gfi, const DigitalSet& ds) {
+double evaluateData(double weight_coefficient, const Image::DataDistribution& data_distribution, const DigitalSet& ds) {
   double fgv, bgv;
-  double rv = gfi.dataWeightValidation *
-              regionValue(fgv, bgv, ds, *gfi.dataDistribution.fgDistr,
-                          *gfi.dataDistribution.bgDistr);
+  double rv = weight_coefficient *
+              regionValue(fgv, bgv, ds, *data_distribution.fgDistr,
+                          *data_distribution.bgDistr);
   return rv;
 }
 

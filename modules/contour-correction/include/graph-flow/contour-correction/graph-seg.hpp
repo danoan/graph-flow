@@ -33,7 +33,7 @@ DigitalSet graphSeg(const GraphSegInput &gfi, TNeighborhood &&neighborhood,
 
   int itNumber = 0;
   double lastEnergyValue =
-      Graph::evaluateData(gfi, ds) + Graph::evaluateRegularization(gfi, ds);
+      Graph::evaluateData(gfi.dataWeightValidation, gfi.dataDistribution, ds) + Graph::evaluateRegularization(gfi, ds);
   icb(GraphSegIteration(itNumber++, lastEnergyValue, ds,
                         GraphSegIteration::Init));
 

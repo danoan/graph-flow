@@ -46,7 +46,7 @@ double regionValue(double& fgv, double& bgv, const DigitalSet& ds,
                    const Image::CVMatDistribution& fgDistr,
                    const Image::CVMatDistribution& bgDistr);
 
-double evaluateData(const GraphSegInput& gfi, const DigitalSet& ds);
+double evaluateData(double weight_coefficient, const Image::DataDistribution& data_distribution, const DigitalSet& ds);
 double evaluateRegularization(const GraphSegInput& gfi, const DigitalSet& ds);
 double evaluateRegularization(const GraphSegInput& gfi, const DigitalSet& ds,
                               const DigitalSet& belMask);

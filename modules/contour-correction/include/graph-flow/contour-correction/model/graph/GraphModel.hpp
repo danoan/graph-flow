@@ -29,7 +29,7 @@ typename TNeighborhoodExplorer::VisitNeighborFunction visitNeighbor(
       return;
     }
 
-    double dataFidelityValue = evaluateData(gfi, ds);
+    double dataFidelityValue = evaluateData(gfi.dataWeightValidation, gfi.dataDistribution, ds);
     double elasticaValue = evaluateRegularization(gfi, *optimalSet,belMask);
     double energyValue = dataFidelityValue + elasticaValue;
 
