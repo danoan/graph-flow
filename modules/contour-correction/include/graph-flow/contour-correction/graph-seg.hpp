@@ -42,6 +42,7 @@ DigitalSet graphSeg(const GraphSegInput &gfi, TNeighborhood &&neighborhood,
 
   bool executing = true;
   while (executing) {
+    DigitalSet previous_solution = ds;
     Graph::Context context(gfi, ds, neighborhood);
 
     auto neighExplorer = createNeighborExplorer<MyThreadData>(*range, context);
@@ -52,10 +53,15 @@ DigitalSet graphSeg(const GraphSegInput &gfi, TNeighborhood &&neighborhood,
     double energyValue = buildBestSolution(ds, neighExplorer);
 
     // Stop conditions
+    bool update_solution = true;
     if (gfi.iterations == -1) {
       // For unlimited iterations, stop if the current best solution is worst
       // than previous best solution
-      if (energyValue >= lastEnergyValue) executing = false;
+      if (energyValue >= lastEnergyValue){
+        executing = false;
+        update_solution = false;
+        ds = previous_solution;
+      }
     } else {
       if (gfi.tolerance >= 0) {
         if (fabs(lastEnergyValue - energyValue) <= gfi.tolerance) {
@@ -65,7 +71,10 @@ DigitalSet graphSeg(const GraphSegInput &gfi, TNeighborhood &&neighborhood,
       if (itNumber >= gfi.iterations) executing = false;
     }
 
-    lastEnergyValue = energyValue;
+    if (update_solution){
+      lastEnergyValue = energyValue;
+    }
+
     icb(GraphSegIteration(itNumber, lastEnergyValue, ds,
                           GraphSegIteration::Running));
 
