@@ -1,8 +1,12 @@
-from __init__ import *
-import subprocess,sys,os,time
+import os
+import shutil
+import subprocess
+import sys
+import time
 
-from param_combinator import *
+from __init__ import *
 from config import *
+from param_combinator import *
 from template_render import *
 
 APP_CONTOUR_CORRECTION="set in read  input"
@@ -95,6 +99,10 @@ def main():
         if(valid_combination(c)):
             exhaustive_gc_flow(c)
             # summary_flow(c)
+
+    outputFolder = resolve_output_folder(combinations[0])
+    shutil.copy(f"{outputFolder}/seeds.png",f"{SCRIPT_FOLDER}/seeds.png")
+    shutil.copy(f"{outputFolder}/gc-seg.png",f"{SCRIPT_FOLDER}/gc-seg.png")
 
     render_template("seg",CONFIG_LIST,OUTPUT_FOLDER)
 
