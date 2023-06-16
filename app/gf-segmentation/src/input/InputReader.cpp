@@ -107,6 +107,7 @@ InputData readInput(int argc, char *argv[]) {
         else if( strcmp(optarg,"manual")==0 )
           id.validationWeightMode = InputData::Manual;
         else throw std::runtime_error("Validation weight setting type not recognized.\n");
+        break;
       }
       case 'w': {
         id.printEnergyValue = true;
