@@ -24,22 +24,22 @@ def resolve_output_folder(c):
 def exhaustive_gc_flow(c):
 
     outputFolder = resolve_output_folder(c)
-    radius,opt_band,neigh_size,length_pen,data_regional,curvature_term = c
+    radius,opt_band,neigh_size,length_pen,data_graph,data_validation,curvature_graph,curvature_validation = c
 
     gcoFilepath="{}/input/gc-object.xml".format(SCRIPT_FOLDER)
 
     s=" ".join( ["%s%d" % ("-i",ITERATIONS),
                  "%s%d" % ("-R",radius['value']),
                  "%s%d" % ("-r",radius['value']),
-                 "%s%f" % ("-G",data_regional['value']),
-                 "%s%f" % ("-K",curvature_term['value']),
-                 "%s%f" % ("-g",data_regional['value']),
-                 "%s%f" % ("-k",curvature_term['value']),                 
+                 "%s%f" % ("-G",data_graph['value']),
+                 "%s%f" % ("-K",curvature_graph['value']),
+                 "%s%f" % ("-g",data_validation['value']),
+                 "%s%f" % ("-k",curvature_validation['value']),
                  "%s%f" % ("-a",length_pen['value']),
                  "%s%f" % ("-O",opt_band['value']),
                  "%s%d" % ("-n", NUM_THREADS),
                  "%s%s" % ("-N",neigh_size['value']),
-
+                 "%s%s" % ("-v","automatic-correction-data"),
                  ])
 
     print("\n*****Running: ", s,"\n")
@@ -49,14 +49,16 @@ def exhaustive_gc_flow(c):
                  "%s%d" % ("-i",ITERATIONS),
                  "%s%d" % ("-R",radius['value']),
                  "%s%d" % ("-r",radius['value']),
-                 "%s%f" % ("-G",data_regional['value']),
-                 "%s%f" % ("-K",curvature_term['value']),
-                 "%s%f" % ("-g",data_regional['value']),
-                 "%s%f" % ("-k",curvature_term['value']),                 
+                 "%s%f" % ("-G",data_graph['value']),
+                 "%s%f" % ("-K",curvature_graph['value']),
+                 "%s%f" % ("-g",data_validation['value']),
+                 "%s%f" % ("-k",curvature_validation['value']),
                  "%s%f" % ("-a",length_pen['value']),
                  "%s%f" % ("-O",opt_band['value']),
                  "%s%d" % ("-n", NUM_THREADS),
                  "%s%s" % ("-N",neigh_size['value']),
+                 "%s%s" % ("-v","automatic-correction-data"),
+                 "%s" % ("-w"),
                       gcoFilepath,
                       outputFolder
                       ] )
@@ -97,10 +99,10 @@ def main():
     print("Total combinations: ",total_combinations())
     for c in combinations(CONFIG_LIST):
         if(valid_combination(c)):
+            outputFolder = resolve_output_folder(c)
             exhaustive_gc_flow(c)
             # summary_flow(c)
 
-    outputFolder = resolve_output_folder(combinations[0])
     shutil.copy(f"{outputFolder}/seeds.png",f"{SCRIPT_FOLDER}/seeds.png")
     shutil.copy(f"{outputFolder}/gc-seg.png",f"{SCRIPT_FOLDER}/gc-seg.png")
 
