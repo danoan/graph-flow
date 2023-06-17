@@ -27,7 +27,7 @@ GrabCutOutput GrabCutApplication::run(const int iterations) {
   GrabCutOutput gco;
   gco.grabCutMask = cv::Mat::zeros(cvImg.size(), CV_8UC1);
 
-  if (unknownMask.size > 0) {
+  if (unknownMask.size.dims() > 0 && unknownMask.size[0] > 0) {
     cv::Mat sureBGMask = cv::Mat::zeros(cvImg.size(), CV_8UC1);
     cv::bitwise_not(unknownMask, sureBGMask);
 
